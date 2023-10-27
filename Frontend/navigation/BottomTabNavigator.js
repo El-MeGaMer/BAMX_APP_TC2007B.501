@@ -1,13 +1,18 @@
 // Learn more about createBottomTabNavigator:
 // https://reactnavigation.org/docs/bottom-tab-navigator
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+
+
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useColorScheme } from "react-native";
 
 import Colors from "../constants/Colors";
-import TabOneScreen from "../screens/TabOneScreen";
-import TabTwoScreen from "../screens/TabTwoScreen";
+import HomeScreen from "../screens/HomeScreen";
+import CalendarScreen from "../screens/CalendarScreen";
+import IncidentScreen from "../screens/IncidentScreen";
+import LogsScreen from "../screens/LogsScreen";
+import UserScreen from "../screens/UserScreen";
 
 const BottomTab = createBottomTabNavigator();
 
@@ -16,26 +21,56 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="Home"
       screenOptions={{ tabBarActiveTintColor: Colors[colorScheme].tint }}
     >
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneNavigator}
+        name="Home"
+        component={HomeNavigator}
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="ios-code" color={color} />
+            <TabBarIcon name="home-outline" color={color} />
           ),
         }}
       />
       <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoNavigator}
+        name="Calendar"
+        component={CalendarNavigator}
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="ios-code" color={color} />
+            <TabBarIcon name="calendar-month-outline" color={color} />
+          ),
+        }}
+      />
+      <BottomTab.Screen 
+        name="Incident"
+        component={IncidentNavigator}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name ="alert-octagon-outline" color={ color } />
+          ),
+        }}
+      />
+      <BottomTab.Screen 
+        name="Logs"
+        component={LogsNavigator}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({color}) => (
+            <TabBarIcon name="format-list-bulleted-type" color={ color}/>
+          ),
+        }}
+      />
+      <BottomTab.Screen 
+        name="User"
+        component={UserNavigator}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({color}) => (
+            <TabBarIcon name="account-circle-outline" color={ color}/>
           ),
         }}
       />
@@ -46,35 +81,77 @@ export default function BottomTabNavigator() {
 // You can explore the built-in icon families and icons on the web at:
 // https://icons.expo.fyi/
 function TabBarIcon(props) {
-  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
+  return <MaterialCommunityIcons size={30} style={{ marginBottom: -3 }} {...props} />;
 }
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator();
+const HomeStack = createStackNavigator();
 
-function TabOneNavigator() {
+function HomeNavigator() {
   return (
-    <TabOneStack.Navigator>
-      <TabOneStack.Screen
-        name="TabOneScreen"
-        component={TabOneScreen}
-        options={{ headerTitle: "Tab One Title" }}
+    <HomeStack.Navigator>
+      <HomeStack.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{headerTitle : "Home Title"}}
       />
-    </TabOneStack.Navigator>
-  );
+    </HomeStack.Navigator>
+  )
 }
 
-const TabTwoStack = createStackNavigator();
+const CalendarStack = createStackNavigator();
 
-function TabTwoNavigator() {
+function CalendarNavigator() {
   return (
-    <TabTwoStack.Navigator>
-      <TabTwoStack.Screen
-        name="TabTwoScreen"
-        component={TabTwoScreen}
-        options={{ headerTitle: "Tab Two Title" }}
+    <CalendarStack.Navigator>
+      <CalendarStack.Screen 
+        name = "CalendarScreen"
+        component = {CalendarScreen}
+        options = {{headerTitle : "Calendario"}}
       />
-    </TabTwoStack.Navigator>
-  );
+    </CalendarStack.Navigator>
+  )
+}
+
+const IncidentStack = createStackNavigator();
+
+function IncidentNavigator () {
+  return (
+    <IncidentStack.Navigator>
+      <IncidentStack.Screen 
+        name = "IncidentScreen"
+        component = {IncidentScreen}
+        options = {{headerTitle : "Incidentes"}}
+      />
+    </IncidentStack.Navigator>
+  )
+}
+
+const LogsStack = createStackNavigator();
+
+function LogsNavigator () {
+  return (
+    <LogsStack.Navigator>
+      <LogsStack.Screen 
+        name = "LogsScreen"
+        component = {LogsScreen}
+        options = {{headerTitle : "Bitácoras"}}
+      />
+    </LogsStack.Navigator>
+  )
+}
+
+const UserStack = createStackNavigator();
+
+function UserNavigator () {
+  return (
+    <UserStack.Navigator>
+      <UserStack.Screen 
+        name = "UserScreen"
+        component = {UserScreen}
+        options = {{headerTitle : "Usuario"}}
+      />
+    </UserStack.Navigator>
+  )
 }
