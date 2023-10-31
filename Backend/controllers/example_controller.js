@@ -23,6 +23,7 @@ export const postExample = async (req, res) => {
     }
 }
 
+
 export const getExample = async (req, res) => {
     try {
         const result = await prisma.example.findMany()
@@ -34,6 +35,19 @@ export const getExample = async (req, res) => {
     }
 }
 
+export const getExampleById = async (req, res) => {
+    try {
+        const {id} =req.params
+        const result = await prisma.example.findUnique({
+            where :{id: Number(id)}
+        })
+        res.json(result)
+    } catch (error) {
+        if (process.env.NODE_ENV !== 'test') {
+            console.log('Error! Could not add the entry:', error)
+        }
+    }
+}
 export const updateExample = async (req, res) => {
     try {
         const {id}= req.params
