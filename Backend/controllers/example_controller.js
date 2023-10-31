@@ -48,6 +48,7 @@ export const getExampleById = async (req, res) => {
         }
     }
 }
+
 export const updateExample = async (req, res) => {
     try {
         const {id}= req.params
