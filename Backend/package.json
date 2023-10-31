@@ -8,6 +8,9 @@
     "test": "cross-env NODE_ENV=test mocha",
     "start": "nodemon app"
   },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

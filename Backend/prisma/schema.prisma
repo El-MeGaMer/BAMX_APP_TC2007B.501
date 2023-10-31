@@ -11,9 +11,9 @@ datasource db {
 }
 
 model Example {
-  id Int @id @default(autoincrement())
-  title String? 
+  id      Int     @id @default(autoincrement())
+  title   String?
   content String?
-  name String?
+  name    String?
   // img Bytes?
 }
