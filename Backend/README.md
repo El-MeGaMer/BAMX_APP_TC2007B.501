@@ -5,4 +5,4 @@ npm start
 npm test
 
 ### SEEDING: 
-mpx prisma db seed
+npx prisma db seed
