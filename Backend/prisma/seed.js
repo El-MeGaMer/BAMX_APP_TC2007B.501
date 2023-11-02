@@ -1,16 +1,23 @@
 import { PrismaClient } from "@prisma/client";
+import { seedData } from "./seeders/seedData.js";
 
 const prisma = new PrismaClient
 
-async function main() {
-  const seedExample = await prisma.example.create({
-    data: {
-      title: "Prisma",
-      content: "Seed",
-      name: "Hola"
+async function seedExampleDB() {
+  for (const data of seedData) {
+    try {
+      const seedExample = await prisma.example.create ({
+        data, 
+      })
+      console.log("Seed Successful: ", seedExample)
+    } catch (error) {
+      console.log ("Error sending data: ", error)
     }
-  })
-  console.log({seedExample})
+  } 
+}
+
+async function main() {
+  await seedExampleDB()
 }
 
 main()
