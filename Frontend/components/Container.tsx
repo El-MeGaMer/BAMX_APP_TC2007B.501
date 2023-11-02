@@ -1,30 +1,46 @@
 import { StyleSheet } from "react-native";
-import Colors from "../constants/Colors";
 
-import { View } from "./Themed";
+import { View, Text } from "./Themed";
 
-import { ImageBackground } from "react-native";
+import { ImageBackground, SafeAreaView, StatusBar } from "react-native";
 const background = "../assets/images/background_rectangle.png";
+
+import { styled } from "nativewind";
+import { ScrollView } from "react-native-gesture-handler";
+
+const StyledView = styled(View);
+const StyledScrollView = styled(ScrollView);
 
 const Container = (props) => {
   return (
     <ImageBackground source={require(background)} style={styles.background}>
-      <View
-        style={styles.card_container}
-        lightColor={Colors.light.background}
-        darkColor={Colors.dark.background}
-      >
-        {props.children}
-      </View>
+      <SafeAreaView style={styles.container}>
+        <ScrollView >
+          <StyledView className="flex-1 items-center justify-center m-6 mb-0 shadow">
+            {props.children}
+          </StyledView>
+        </ScrollView>
+      </SafeAreaView>
     </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  contentContainer: {},
+  container: {
+    flex: 1,
+    paddingTop: StatusBar.currentHeight,
+  },
   background: {
     flex: 1,
     resizeMode: "fill",
     height: "40%",
+  },
+  scroll_view: {
+    flex: 1,
+    width: "100%",
+    padding: 20,
+    paddingTop: 0,
   },
   card_container: {
     flex: 1,
