@@ -15,6 +15,9 @@ export default function HomeScreen() {
             darkColor="rgba(255,255,255,0.1)"
           />
           <EditScreenInfo path="/screens/TabOneScreen.tsx" />
+          <EditScreenInfo path="/screens/TabOneScreen.tsx" />
+          <EditScreenInfo path="/screens/TabOneScreen.tsx" />
+          <EditScreenInfo path="/screens/TabOneScreen.tsx" />
       </Container>
       </View>
   );
