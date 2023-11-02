@@ -11,11 +11,15 @@ import { ScrollView } from "react-native-gesture-handler";
 const StyledView = styled(View);
 const StyledScrollView = styled(ScrollView);
 
-const Container = (props) => {
+const Background = (props) => {
   return (
-          <StyledView className="flex-1 items-center justify-center m-6 mb-0 shadow">
+    <ImageBackground source={require(background)} style={styles.background}>
+      <SafeAreaView style={styles.container}>
+        <ScrollView >
             {props.children}
-          </StyledView>
+        </ScrollView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 
@@ -47,4 +51,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Container;
+export default Background;
