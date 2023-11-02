@@ -3,12 +3,18 @@ import { StyleSheet } from "react-native";
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
 import Container from "../components/Container";
+import Background from "../components/Background";
+
+import { styled } from "nativewind";
+
+const StyledView = styled(View);
 
 export default function HomeScreen() {
   return (
-    <View style={styles.container}>
-      <Container>
-      <Text style={styles.title}>Home Page</Text>
+    <StyledView className="flex-1">
+      <Background>
+        <Container>
+          <Text style={styles.title}>Home Page</Text>
           <View
             style={styles.separator}
             lightColor="#eee"
@@ -18,8 +24,9 @@ export default function HomeScreen() {
           <EditScreenInfo path="/screens/TabOneScreen.tsx" />
           <EditScreenInfo path="/screens/TabOneScreen.tsx" />
           <EditScreenInfo path="/screens/TabOneScreen.tsx" />
-      </Container>
-      </View>
+        </Container>
+      </Background>
+    </StyledView>
   );
 }
 

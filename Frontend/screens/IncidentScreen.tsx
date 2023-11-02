@@ -6,14 +6,17 @@ import Container from "../components/Container";
 
 import { styled } from 'nativewind';
 
+import Background from "../components/Background";
+
 const StyledView = styled(View)
 const StyledText = styled(Text)
 
 export default function IncidentScreen() {
   return (
-    <View style={styles.container}>
-      <Container>
-        <StyledText className="text-black text-xl font-bold">Incidentes</StyledText>
+    <StyledView className="flex-1">
+      <Background>
+              <Container>
+        <StyledText className="text-black  text-xl font-bold">Incidentes</StyledText>
         <View
           style={styles.separator}
           lightColor="#eee"
@@ -21,7 +24,9 @@ export default function IncidentScreen() {
         />
         <EditScreenInfo path="/screens/TabOneScreen.tsx" />
       </Container>
-    </View>
+      </Background>
+
+    </StyledView>
   );
 }
 
