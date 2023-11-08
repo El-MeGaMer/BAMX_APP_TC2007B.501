@@ -113,6 +113,7 @@ model bitacoraExtintores{
   idUsuarioEmisor Int
   idArea Int
   idRecordatorio Int @unique
+  nombre String @db.VarChar(40)
   capacidad Boolean
   manometro Boolean
   estadoFisico Boolean
@@ -135,6 +136,7 @@ model bitacoraIncidentes{
   idUsuarioEmisor Int
   idUsuarioSupervisor Int
   idArea Int
+  nombre String @db.VarChar(40)
   fechaHora DateTime @default(now())
   descripcion String @db.MediumText
   imagen Bytes @db.LongBlob
@@ -148,6 +150,7 @@ model bitacoraTemperaturas{
   id Int @id @default(autoincrement())
   idUsuarioEmisor Int
   idRecordatorio Int @unique
+  nombre String @db.VarChar(40)
   fechaHora DateTime @default(now())
   cuartoFrio1 Int
   cuartoFrio2 Int
@@ -166,6 +169,7 @@ model bitacoraLimpiezaAlimentoCompartidos{
   idUsuarioSupervisor Int 
   idArea Int
   idRecordatorio Int @unique
+  nombre String @db.VarChar(40)
   dia Int
   fechaHora DateTime @default(now())
   pisos Boolean
@@ -191,6 +195,7 @@ model bitacoraLimpiezaRecibos{
   idUsuarioSupervisor Int
   idArea Int
   idRecordatorio Int @unique
+  nombre String @db.VarChar(40)
   dia Int
   fechaHora DateTime 
   areaArmado Boolean
@@ -216,6 +221,7 @@ model bitacoraLimpiezaEmpaques{
   idUsuarioSupervisor Int
   idArea Int
   idRecordatorio Int @unique
+  nombre String @db.VarChar(40)
   dia Int
   fechaHora DateTime @default(now())
   pisos Boolean
@@ -242,6 +248,7 @@ model bitacoraLimpiezaCribasFV{
   idUsuarioSupervisor Int
   idArea Int
   idRecordatorio Int @unique
+  nombre String @db.VarChar(40)
   dia Int
   fechaHora DateTime @default(now())
   pisos Boolean
@@ -267,6 +274,7 @@ model bitacoraLimpiezaAlmacenes{
   idUsuarioSupervisor Int
   idArea Int
   idRecordatorio Int @unique
+  nombre String @db.VarChar(40)
   dia Int
   fechaHora DateTime @default(now())
   pisos Boolean
@@ -297,6 +305,7 @@ model bitacoraLimpiezaEntregas{
   idUsuarioSupervisor Int
   idArea Int
   idRecordatorio Int @unique
+  nombre String @db.VarChar(40)
   dia Int
   fechaHora DateTime @default(now())
   pisos Boolean
