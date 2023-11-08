@@ -1,0 +1,9 @@
+[{
+  "bitacora_FyV" : {
+    "id" : "int",
+    "fecha" : "date",
+    "hora" : "time",
+    "tipo" : "string",
+    "descripcion" : "string"
+  } 
+}]

@@ -5,26 +5,16 @@ import { Text, View } from "../components/Themed";
 import Container from "../components/Container";
 import Background from "../components/Background";
 
+import Table from "../components/TableComponent";
 import { styled } from "nativewind";
 
 const StyledView = styled(View);
-
+// Home screen function
 export default function HomeScreen() {
   return (
     <StyledView className="flex-1">
       <Background>
-        <Container>
-          <Text style={styles.title}>Home Page</Text>
-          <View
-            style={styles.separator}
-            lightColor="#eee"
-            darkColor="rgba(255,255,255,0.1)"
-          />
-          <EditScreenInfo path="/screens/TabOneScreen.tsx" />
-          <EditScreenInfo path="/screens/TabOneScreen.tsx" />
-          <EditScreenInfo path="/screens/TabOneScreen.tsx" />
-          <EditScreenInfo path="/screens/TabOneScreen.tsx" />
-        </Container>
+          <Table />
       </Background>
     </StyledView>
   );
