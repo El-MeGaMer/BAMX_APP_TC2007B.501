@@ -11,7 +11,9 @@ import Table from "../components/TableComponent";
 
 import NotFoundScreen from "../screens/NotFoundScreen";
 import BottomTabNavigator from "./BottomTabNavigator";
+import { LogsScreen} from "./BottomTabNavigator"
 import LinkingConfiguration from "./LinkingConfiguration";
+import DisplayLogs from "../screens/DisplayLogs";
 
 export default function Navigation({ colorScheme }) {
   return (
@@ -37,6 +39,7 @@ function RootNavigator() {
         component={NotFoundScreen}
         options={{ title: "Oops!" }}
       />
+      <Stack.Screen name="DisplayLogs" component={DisplayLogs} />
     </Stack.Navigator>
   );
 }
