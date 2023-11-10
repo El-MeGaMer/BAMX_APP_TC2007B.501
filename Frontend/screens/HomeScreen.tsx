@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
 import Container from "../components/Container";
+import TwoColLog from "../components/TwoColLog";
 import Background from "../components/Background";
 
 import Table from "../components/TableComponent";
@@ -14,7 +15,7 @@ export default function HomeScreen() {
   return (
     <StyledView className="flex-1">
       <Background>
-          <Table />
+          <TwoColLog type = "bitacora_x"/>
       </Background>
     </StyledView>
   );
