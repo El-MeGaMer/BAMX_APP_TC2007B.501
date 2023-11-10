@@ -8,19 +8,21 @@ const background = "../assets/images/background_rectangle.svg";
 
 const Background = (props) => {
   return (
-    <ImageBackground source={require(background)} style={styles.background}>
+    
+    <View style={styles.background}>
       <View style={styles.box}>
-         <Svg width="393" height="349" viewBox="0 100 393 349" fill="none" >
-           <Path d="M0 0H393V255.622L0 349V0Z" fill="#FF8001"/>
-          </Svg>
-       </View>
-       
+        <Svg width="721" height="488" viewBox="0 175 721 488">
+          <Path d="M0 0h721v357.431L0 488V0Z" fill="#FF8001" />
+        </Svg>
+      </View>
+
       <SafeAreaView style={styles.container}>
-        <ScrollView >
+        <ScrollView style={styles.scroll_view}>
           {props.children}
         </ScrollView>
       </SafeAreaView>
-    </ImageBackground>
+    </View>
+  
   );
 };
 
@@ -32,27 +34,29 @@ const styles = StyleSheet.create({
   },
   background: {
     flex: 1,
-    resizeMode: "fill",
+    width: "100%",
   },
   scroll_view: {
     flex: 1,
     width: "100%",
-    padding: 20,
+    padding: 0,
     paddingTop: 0,
   },
   card_container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    margin: 20,
+    margin: 0,
     marginBottom: 0,
     shadowColor: "black",
     shadowOpacity: 0.25,
   },
   box: {
-    backgroundColor: '#FF8001',
-    height: "0%",
-  },
+    flex: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+  }
 });
 
 export default Background;
