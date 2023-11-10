@@ -6,7 +6,6 @@ import Container from "../components/Container";
 import TwoColLog from "../components/TwoColLog";
 import Background from "../components/Background";
 
-import Table from "../components/TableComponent";
 import { styled } from "nativewind";
 
 const StyledView = styled(View);
@@ -15,7 +14,7 @@ export default function HomeScreen() {
   return (
     <StyledView className="flex-1">
       <Background>
-          <TwoColLog type = "bitacora_x"/>
+          <TwoColLog type = "bitacora_limpieza"/>
       </Background>
     </StyledView>
   );
