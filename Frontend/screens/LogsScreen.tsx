@@ -3,35 +3,25 @@ import { StyleSheet } from "react-native";
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
 import Container from "../components/Container";
-import Background from "../components/Background";
 
 import { styled } from "nativewind";
 
+import Background from "../components/Background";
+import SelectLogButton from "../components/SelectLogButton";
+
 const StyledView = styled(View);
+const StyledText = styled(Text);
 
 export default function LogsScreen() {
   return (
     <StyledView className="flex-1">
-    <Background>
-      <Container>
-        <Text style={styles.title}>Bitácoras</Text>
-        <View
-          style={styles.separator}
-          lightColor="#eee"
-          darkColor="rgba(255,255,255,0.1)"
-        />
-        <EditScreenInfo path="/screens/TabOneScreen.tsx" />
-      </Container>
-      <Container>
-        <Text style={styles.title}>Bitácoras</Text>
-        <View
-          style={styles.separator}
-          lightColor="#eee"
-          darkColor="rgba(255,255,255,0.1)"
-        />
-        <EditScreenInfo path="/screens/TabOneScreen.tsx" />
-      </Container>
-    </Background></StyledView>
+      <Background>
+        <Container>
+          <SelectLogButton text = "Bitacora X" desiredLog = "bitacora_x"/>
+          <SelectLogButton text = "Bitacora Limpieza" desiredLog = "bitacora_limpieza"/>
+        </Container>
+      </Background>
+    </StyledView>
   );
 }
 
