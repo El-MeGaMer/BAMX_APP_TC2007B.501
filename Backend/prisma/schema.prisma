@@ -14,8 +14,8 @@ model recordatorios{
   id Int @id @default(autoincrement())
   nombre String @db.VarChar(20)
   descripcion String @db.MediumText
-  horaInicial DateTime @db.Time
-  horaFinal  DateTime @db.Time
+  horaInicial DateTime @db.DateTime
+  horaFinal  DateTime @db.DateTime
 
   usuarios usuarios[]
   recordatorioBitacoraExtintor bitacoraExtintores?
