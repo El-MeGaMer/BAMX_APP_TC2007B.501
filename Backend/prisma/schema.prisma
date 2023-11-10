@@ -137,7 +137,7 @@ model bitacoraIncidentes {
   idArea              Int
   fechaHora           DateTime @default(now())
   descripcion         String   @db.MediumText
-  imagen              Bytes    @db.LongBlob
+  imagen              Bytes?   @db.LongBlob
 
   usuarioEmisor     usuarios @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
   usuarioSupervisor usuarios @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
