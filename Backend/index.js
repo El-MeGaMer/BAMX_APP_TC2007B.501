@@ -3,6 +3,7 @@ import bodyParser from 'body-parser'
 import router from "./routes/index.js"
 
 const app = express()
+const PORT = 3000
 
 app.use(bodyParser.json())
 app.use(
@@ -12,6 +13,6 @@ app.use(
 )
 app.use(router)
 
-app.listen(3000, ()=>{
-    console.log('Server ready at: http://localhost:3000')
+app.listen(PORT, ()=>{
+    console.log(`Server ready at port ${PORT}`)
 })
