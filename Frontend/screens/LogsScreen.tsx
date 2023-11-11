@@ -14,11 +14,11 @@ const StyledText = styled(Text);
 
 export default function LogsScreen() {
   return (
-    <StyledView className="flex-1">
+    <StyledView className="flex-1 ">
       <Background>
-        <Container>
-          <SelectLogButton text = "Bitacora X" desiredLog = "bitacora_x"/>
-          <SelectLogButton text = "Bitacora Limpieza" desiredLog = "bitacora_limpieza"/>
+        <Container className>
+          <SelectLogButton text = "Bitacora Limpieza Recibo" destinatedLog = "bitacora_limpiezaRecibo"/>
+          <SelectLogButton text = "Bitacora Limpieza" destinatedLog = "bitacora_limpieza"/>
         </Container>
       </Background>
     </StyledView>
