@@ -4,6 +4,7 @@ import router from "./routes/index.js"
 import initScheduledJobs from "./middlewares/scheduledFunctions.js"
 
 const app = express()
+const PORT = 3000
 
 app.use(bodyParser.json())
 app.use(
@@ -14,6 +15,6 @@ app.use(
 app.use(router)
 initScheduledJobs()
 
-app.listen(3000, ()=>{
-    console.log('Server ready at: http://localhost:3000')
+app.listen(PORT, ()=>{
+    console.log(`Server ready at port ${PORT}`)
 })
