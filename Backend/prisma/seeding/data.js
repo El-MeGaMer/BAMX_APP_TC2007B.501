@@ -40,7 +40,7 @@ for (let i = 0; i < 5; i++) {
 // Areas
 for (let i = 0; i < 5; i++) {
     seedAreas.push({
-        nombreArea: faker.helpers.arrayElement(['alimento', 'limpieza', 'empaque', 'criba']),
+        nombreArea: faker.helpers.arrayElement(['alimento', 'limpieza', 'empaque', 'criba', 'almacen', 'entregas']),
     })
 }
 
@@ -78,6 +78,7 @@ for (let i = 0; i < 5; i++) {
         idUsuarioEmisor: i + 1,
         idArea: i + 1,
         idRecordatorio: i + 1,
+        nombre: 'Bitácora de Extintonres',
         capacidad: faker.helpers.arrayElement([true, false]),
         manometro: faker.helpers.arrayElement([true, false]),
         estadoFisico: faker.helpers.arrayElement([true, false]),
@@ -98,6 +99,7 @@ for (let i = 0; i < 5; i++) {
         idUsuarioEmisor: i + 1,
         idUsuarioSupervisor: i + 1,
         idArea: i + 1,
+        nombre: 'Bitácora de Incidentes',
         fechaHora: faker.date.recent(),
         descripcion: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal']),
         imagen: faker.helpers.arrayElement([null])
@@ -109,6 +111,7 @@ for (let i = 0; i < 5; i++) {
     seedBitacoraTemperatura.push({
         idUsuarioEmisor: i + 1,
         idRecordatorio: i + 1,
+        nombre: 'Bitácora de Temperatura',
         fechaHora: faker.date.recent(),
         cuartoFrio1: faker.number.int({min: -15, max: 50}),
         cuartoFrio2:faker.number.int({min: -15, max: 50}),
@@ -126,6 +129,7 @@ for (let i = 0; i < 5; i++) {
         idUsuarioSupervisor: i + 1,
         idArea: i + 1,
         idRecordatorio: i + 1,
+        nombre: 'Bitácora de Alimentos Compartidos',
         dia: faker.number.int({ min: 1, max: 31 }),
         fechaHora: faker.date.recent(),
         pisos: faker.helpers.arrayElement([true, false]),
@@ -148,6 +152,7 @@ for (let i = 0; i < 5; i++) {
         idUsuarioSupervisor: i + 1,
         idArea: i + 1,
         idRecordatorio: i + 1,
+        nombre: 'Bitácora de Limpieza Recibos',
         dia: faker.number.int({min: 1, max: 31}),
         fechaHora: faker.date.recent(),
         areaArmado: faker.helpers.arrayElement([true, false]),
@@ -169,6 +174,7 @@ for (let i = 0; i < 5; i++) {
         idUsuarioSupervisor: i + 1,
         idArea: i + 1,
         idRecordatorio: i + 1,
+        nombre: 'Bitácora de Limpieza Empaques',
         dia: faker.number.int({min: 1, max: 31}),
         fechaHora: faker.date.recent(),
         pisos: faker.helpers.arrayElement([true, false]),
@@ -191,6 +197,7 @@ for (let i = 0; i < 5; i++) {
         idUsuarioSupervisor: i + 1,
         idArea: i + 1,
         idRecordatorio: i + 1,
+        nombre: 'Bitácora de Limpieza CribasFV',
         dia: faker.number.int({min: 1, max:31}),
         fechaHora: faker.date.recent(),
         pisos: faker.helpers.arrayElement([true, false]),
@@ -212,6 +219,7 @@ for (let i = 0; i < 5; i++) {
         idUsuarioSupervisor: i + 1,
         idArea: i + 1,
         idRecordatorio: i + 1,
+        nombre: 'Bitácora de Limpieza Almacenes',
         dia: faker.number.int({min: 1, max: 31}),
         fechaHora: faker.date.recent(),
         pisos: faker.helpers.arrayElement([true, false]),
@@ -239,6 +247,7 @@ for (let i = 0; i < 5; i++) {
         idUsuarioSupervisor: i + 1,
         idArea: i + 1,
         idRecordatorio: i + 1,
+        nombre: 'Bitácora de Limpieza Entregas',
         dia: faker.number.int({min: 1, max: 31}),
         fechaHora: faker.date.recent(),
         pisos: faker.helpers.arrayElement([true, false]),
