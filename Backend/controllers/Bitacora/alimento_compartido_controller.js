@@ -92,11 +92,26 @@ export const fillAlimentoCompartido = async (req, res) => {
 
     try {
         
-        
+        const utctime = new Date().toISOString();
+
+        // Convert to local time using toLocaleString
+        const localDate = new Date(utctime);
+
+        // Get the day of the week (0-6, where 0 is Sunday and 6 is Saturday)
+        const year = localDate.getFullYear();
+        const month = localDate.getMonth() + 1;
+        const dayOfWeek = localDate.getDate();
+
+        //console.log(`Day of the week: ${dayOfWeek}`);
+        const nombre = "Bitacora de AC " + dayOfWeek + "/" + month + "/" + year
+
         //Actualizar bitacora
         const result = await prisma.bitacoraLimpiezaAlimentoCompartidos.update({
             where: {id: id},
             data: {
+                dia: dayOfWeek,
+                fechaHora: utctime,
+                nombre: nombre,
                 pisos,
                 cuartosFrios, 
                 refrigeradores, 
