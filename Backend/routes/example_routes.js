@@ -1,6 +1,6 @@
 import express from 'express'
 //import multer from 'multer'
-import { postExample, getExample, updateExample, deleteExample } from "../controllers/example_controller.js"
+import { postExample, getExample, updateExample, deleteExample, getExampleById } from "../controllers/example_controller.js"
 
 //multer is for the Image uploader
 // const upload = multer()
@@ -9,6 +9,7 @@ const router = express.Router()
 
 router.post("/", postExample)
 router.get("/", getExample)
+router.get("/:id", getExampleById)
 router.put("/:id", updateExample)
 router.delete("/:id", deleteExample)
 
