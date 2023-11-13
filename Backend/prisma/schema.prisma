@@ -15,7 +15,7 @@ model recordatorios {
   nombre      String   @db.VarChar(20)
   descripcion String   @db.MediumText
   horaInicial DateTime @db.DateTime
-  horaFinal   DateTime @db.Time
+  horaFinal   DateTime @db.DateTime
 
   usuarios                                       usuarios[]
   recordatorioBitacoraExtintor                   bitacoraExtintores?
