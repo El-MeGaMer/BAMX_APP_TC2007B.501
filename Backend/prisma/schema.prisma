@@ -116,6 +116,7 @@ model bitacoraExtintores {
   idArea          Int
   idRecordatorio  Int      @unique
   nombre          String   @db.VarChar(40)
+  fechaHora       DateTime @default(now())
   capacidad       Boolean
   manometro       Boolean
   estadoFisico    Boolean
