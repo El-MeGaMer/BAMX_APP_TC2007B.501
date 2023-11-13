@@ -14,7 +14,7 @@ model recordatorios {
   id          Int      @id @default(autoincrement())
   nombre      String   @db.VarChar(20)
   descripcion String   @db.MediumText
-  horaInicial DateTime @db.Time
+  horaInicial DateTime @db.DateTime
   horaFinal   DateTime @db.Time
 
   usuarios                                       usuarios[]
@@ -140,6 +140,7 @@ model bitacoraIncidentes {
   fechaHora           DateTime @default(now())
   descripcion         String   @db.MediumText
   imagen              Bytes?   @db.LongBlob
+  estado              String   @db.VarChar(10)
 
   usuarioEmisor     usuarios @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
   usuarioSupervisor usuarios @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")

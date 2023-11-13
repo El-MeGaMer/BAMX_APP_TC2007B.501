@@ -1,9 +1,10 @@
 import express from 'express'
 
 import {
-    getBitacorasRevisadas,
-    getBitacorasNoRevisadas,
-    getBitacorasEnRevision,
+    // getBitacorasRevisadas,
+    // getBitacorasNoRevisadas,
+    // getBitacorasEnRevision,
+    getBitacorasEstado,
 } from '../controllers/visualizacion_bitacoras_controller.js'
 
 import {
@@ -18,9 +19,9 @@ import {
 
 const router = express.Router()
 
-router.get("/revisadas", getBitacorasRevisadas)
-router.get("/no_revisadas", getBitacorasNoRevisadas)
-router.get("/en_revision", getBitacorasEnRevision)
+router.get("/:estado", getBitacorasEstado)
+// router.get("/no_revisadas", getBitacorasNoRevisadas)
+// router.get("/en_revision", getBitacorasEnRevision)
 
 router.put("/temperatura/:id", updateBitacoraTemperatura)
 router.put("/extintores/:id", updateBitacoraExtintores)

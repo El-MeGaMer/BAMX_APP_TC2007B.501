@@ -102,7 +102,8 @@ for (let i = 0; i < 5; i++) {
         nombre: 'Bitácora de Incidentes',
         fechaHora: faker.date.recent(),
         descripcion: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal']),
-        imagen: faker.helpers.arrayElement([null])
+        imagen: faker.helpers.arrayElement([null]),
+        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision'])
     })
 }
 
