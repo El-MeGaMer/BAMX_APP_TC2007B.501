@@ -36,9 +36,11 @@ model roles {
 }
 
 model notificaciones {
-  id          Int    @id @default(autoincrement())
-  titulo      String @db.VarChar(20)
-  descripcion String @db.MediumText
+  id          Int      @id @default(autoincrement())
+  titulo      String   @db.VarChar(20)
+  descripcion String   @db.MediumText
+  fechaHora   DateTime @db.DateTime()
+  estado      String   @db.VarChar(10)
 
   usuarios notificacionesUsuarios[]
 }
