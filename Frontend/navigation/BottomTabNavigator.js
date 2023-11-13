@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useColorScheme } from "react-native";
+import { useColorScheme, TouchableOpacity } from "react-native";
 
 import Colors from "../constants/Colors";
 import HomeScreen from "../screens/HomeScreen";
@@ -12,6 +12,9 @@ import CalendarScreen from "../screens/CalendarScreen";
 import IncidentScreen from "../screens/IncidentScreen";
 import LogsScreen from "../screens/LogsScreen";
 import UserScreen from "../screens/UserScreen";
+import NotificationScreen from "../screens/NotificationScreen";
+
+import { useNavigation } from '@react-navigation/native';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -81,6 +84,7 @@ function TabBarIcon(props) {
 const HomeStack = createStackNavigator();
 
 function HomeNavigator() {
+  const navigation = useNavigation();
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
@@ -88,6 +92,33 @@ function HomeNavigator() {
         component={HomeScreen}
         options={{
           headerTitle: "Home Title",
+          headerStyle: {
+            backgroundColor: "#FF8000",
+            elevation: 0,
+            shadowOpacity: 0,
+            borderBottomWidth: 0,
+          },
+          headerTitleStyle: {
+            fontWeight: "bold",
+            color: "white",
+          },
+          headerRight: () => (
+            <TouchableOpacity
+              style={{ marginRight: 15 }}
+              onPress={() => {
+                navigation.navigate("NotificationScreen")
+              }}
+            >
+              <TabBarIcon name="bell-outline" color="white" />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <HomeStack.Screen
+        name="NotificationScreen"
+        component={NotificationScreen}
+        options={{
+          headerTitle: "Notificaciones",
           headerStyle: {
             backgroundColor: "#FF8000",
             elevation: 0,
