@@ -5,8 +5,8 @@ const prisma = new PrismaClient
 //-----------------------------------------------------
 //CRUD Basico
 
-//Crear bitacora de Extinctor
-export const postExtintor = async (req, res) => {
+//Crear bitacora de Entrega
+export const postEntrega = async (req, res) => {
     const { idUsuarioEmisor, idArea, nombre, capacidad,
         manometro, estadoFisico, mangueras, seguro, etiquetas, holograma,
         ultimaRevision, proximaRecarga, observaciones } = req.body
@@ -45,23 +45,23 @@ export const postExtintor = async (req, res) => {
     }
 }
 
-//Actualizar bitacora de Extinctor
-export const updateExtintor = async (req, res) => {
+//Actualizar bitacora de Entrega
+export const updateEntrega = async (req, res) => {
 
 }
 
-//obtener todas las bitacoras de Extinctor
-export const getAllExtinctor = async (req, res) => {
+//obtener todas las bitacoras de Entrega
+export const getAllEntrega = async (req, res) => {
 
 }
 
-//obtener bitacora de Extinctor por su ID
-export const getExtinctorByID = async (req, res) => {
+//obtener bitacora de Entrega por su ID
+export const getEntregaByID = async (req, res) => {
 
 }
 
-//borrar entrada de bitacora de Extinctor
-export const delExtinctor = async (req, res) => {
+//borrar entrada de bitacora de Entrega
+export const delEntrega = async (req, res) => {
 
 }
 
@@ -70,20 +70,18 @@ export const delExtinctor = async (req, res) => {
 //Funciones Especificas
 
 
-//Llenar bitacora rutinaria de extinctor (Actualizarla)
-export const fillExtinctor = async (req, res) => {
+//Llenar bitacora rutinaria de Entrega (Actualizarla)
+export const fillEntrega = async (req, res) => {
 
     const {
         id,
-        capacidad,
-        manometro, 
-        estadoFisico, 
-        mangueras, 
-        seguro, 
-        etiquetas, 
-        holograma,
-        ultimaRevision, 
-        proximaRecarga, 
+        pisos,
+        cuartosFrios, 
+        basculas, 
+        racks, 
+        cortinas,  
+        rampas,
+        patines,  
         observaciones,
     } = req.body;
     console.log("hola")
@@ -95,19 +93,18 @@ export const fillExtinctor = async (req, res) => {
         
         
         //Actualizar bitacora
-        const result = await prisma.bitacoraExtintores.update({
+        const result = await prisma.bitacoraLimpiezaEntregas.update({
             where: {id: id},
             data: {
-                capacidad,
-                manometro, 
-                estadoFisico, 
-                mangueras, 
-                seguro, 
-                etiquetas, 
-                holograma,
-                ultimaRevision, 
-                proximaRecarga, 
-                observaciones, 
+                id,
+                pisos,
+                cuartosFrios, 
+                basculas, 
+                racks, 
+                cortinas,  
+                rampas,
+                patines,  
+                observaciones,
                 estado: "send"
             }
 

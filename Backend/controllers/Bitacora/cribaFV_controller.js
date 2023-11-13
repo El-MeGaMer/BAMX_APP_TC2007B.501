@@ -5,8 +5,8 @@ const prisma = new PrismaClient
 //-----------------------------------------------------
 //CRUD Basico
 
-//Crear bitacora de Extinctor
-export const postExtintor = async (req, res) => {
+//Crear bitacora de criba frutas y verduras
+export const postCribaFV = async (req, res) => {
     const { idUsuarioEmisor, idArea, nombre, capacidad,
         manometro, estadoFisico, mangueras, seguro, etiquetas, holograma,
         ultimaRevision, proximaRecarga, observaciones } = req.body
@@ -45,23 +45,23 @@ export const postExtintor = async (req, res) => {
     }
 }
 
-//Actualizar bitacora de Extinctor
-export const updateExtintor = async (req, res) => {
+//Actualizar bitacora de criba frutas y verduras
+export const updateCribaFV = async (req, res) => {
 
 }
 
-//obtener todas las bitacoras de Extinctor
-export const getAllExtinctor = async (req, res) => {
+//obtener todas las bitacoras de criba frutas y verduras
+export const getAllCribaFV = async (req, res) => {
 
 }
 
-//obtener bitacora de Extinctor por su ID
-export const getExtinctorByID = async (req, res) => {
+//obtener bitacora de criba frutas y verduras por su ID
+export const getCribaFVByID = async (req, res) => {
 
 }
 
-//borrar entrada de bitacora de Extinctor
-export const delExtinctor = async (req, res) => {
+//borrar entrada de bitacora de criba frutas y verduras
+export const delCribaFV = async (req, res) => {
 
 }
 
@@ -70,20 +70,18 @@ export const delExtinctor = async (req, res) => {
 //Funciones Especificas
 
 
-//Llenar bitacora rutinaria de extinctor (Actualizarla)
-export const fillExtinctor = async (req, res) => {
+//Llenar bitacora rutinaria de criba frutas y verduras (Actualizarla)
+export const fillCribaFV = async (req, res) => {
 
     const {
         id,
-        capacidad,
-        manometro, 
-        estadoFisico, 
-        mangueras, 
-        seguro, 
-        etiquetas, 
-        holograma,
-        ultimaRevision, 
-        proximaRecarga, 
+        pisos,
+        mesas, 
+        patio, 
+        basculas, 
+        rampas,  
+        rejillas,
+        patines,  
         observaciones,
     } = req.body;
     console.log("hola")
@@ -95,19 +93,18 @@ export const fillExtinctor = async (req, res) => {
         
         
         //Actualizar bitacora
-        const result = await prisma.bitacoraExtintores.update({
+        const result = await prisma.bitacoraLimpiezaCribasFV.update({
             where: {id: id},
             data: {
-                capacidad,
-                manometro, 
-                estadoFisico, 
-                mangueras, 
-                seguro, 
-                etiquetas, 
-                holograma,
-                ultimaRevision, 
-                proximaRecarga, 
-                observaciones, 
+                id,
+                pisos,
+                mesas, 
+                patio, 
+                basculas, 
+                rampas,  
+                rejillas,
+                patines,  
+                observaciones,
                 estado: "send"
             }
 
