@@ -26,12 +26,12 @@ function Login() {
   const [email, setEmail] = useState("");
   const [verified, setVerified] = useState(false);
 
-	const url = Linking.useURL();
+  const url = Linking.useURL();
 
 	// put your ip here if testing
   const serverIP = "" 
 
-	const onPress = () => {
+  const onPress = () => {
 		// do authentication
 		fetch(`http://${serverIP}:3000/login/gen_otp`, {
 		  method: "POST",
@@ -43,7 +43,7 @@ function Login() {
 			.then((res) => console.log("OTP Sent"));
 	};
 
-	const verifyOTP = (data) => {
+  const verifyOTP = (data) => {
 			fetch(`http://${serverIP}:3000/login/verify_otp`, {
 				method: "POST",
 				headers: { 
