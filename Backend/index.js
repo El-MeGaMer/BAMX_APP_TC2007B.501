@@ -16,3 +16,5 @@ app.use(router)
 app.listen(PORT, ()=>{
     console.log(`Server ready at port ${PORT}`)
 })
+
+export default app;
