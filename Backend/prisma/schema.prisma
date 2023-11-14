@@ -50,7 +50,9 @@ model usuarios {
   idArea         Int
   nombre         String @db.VarChar(20)
   apellido       String @db.VarChar(20)
-  correo         String @db.VarChar(40)
+  correo         String @unique @db.VarChar(40)
+	otp						 Int
+	expiracion		 DateTime @db.DateTime
 
   notificaciones notificacionesUsuarios[]
   recordatorio   recordatorios            @relation(fields: [idRecordatorio], references: [id])

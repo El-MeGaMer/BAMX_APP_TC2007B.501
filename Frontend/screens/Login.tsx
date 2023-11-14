@@ -1,3 +1,4 @@
+import * as Linking from "expo-linking";
 import React, { useState } from "react";
 
 import {
@@ -20,17 +21,52 @@ const StyledTouchableOpacity = styled(TouchableOpacity);
 const backgroundlogo = "../assets/images/Logo.png";
 const footer = "../assets/images/footer.png";
 
+
 function Login() {
-  const onPress = () => {
-    // do authentication
-    console.log("Login Pressed!");
-  };
+  const [email, setEmail] = useState("");
+  const [verified, setVerified] = useState(false);
+
+	const url = Linking.useURL();
+  const serverIP = "192.168.1.130" 
+
+	const onPress = () => {
+		// do authentication
+		fetch(`http://${serverIP}:3000/login/gen_otp`, {
+		  method: "POST",
+		  headers: { 
+					"Content-Type": "application/json" 
+			},
+		  body: JSON.stringify({email})
+		})
+			.then((res) => console.log("OTP Sent"));
+	};
+
+	const verifyOTP = (data) => {
+			fetch(`http://${serverIP}:3000/login/verify_otp`, {
+				method: "POST",
+				headers: { 
+					"Content-Type": "application/json" 
+				},
+        body: JSON.stringify({email: data.email, otp: data.otp})
+			})
+				.then((res) => {
+				if (res.status == 200)
+					setVerified(true);
+			})
+  }
+  
+  if (url)  {
+    const { queryParams } = Linking.parse(url);
+
+	  if (queryParams.otp && queryParams.email) {
+		  verifyOTP(queryParams);
+	  }
+
+  }
 
   const forgotEmail = () =>{
     console.log("Forgot Email Pressed!");
   }
-
-  const [email, setEmail] = useState("");
 
   return (
     <StyledView className="flex-1" style={{width: "100%",height:"100%", backgroundColor: '#FF9122'}}>
@@ -42,6 +78,10 @@ function Login() {
         <StyledText className="my-6 font-bold text-2xl text-white mb-12">
           Iniciar Sesión
         </StyledText>
+
+				{verified && <StyledText className="my-6 font-bold text-2xl text-white mb-12">
+					Verificado 
+        </StyledText>}
           
           <StyledTextInput
             className="bg-white p-3 rounded-xl shadow px-8 pt-4 pb-4 mb-4 w-full max-w-xs mt-3"

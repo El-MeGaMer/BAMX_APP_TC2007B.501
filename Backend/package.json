@@ -26,7 +26,9 @@
     "@prisma/client": "^5.4.2",
     "body-parser": "^1.20.2",
     "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.7",
     "nodemon": "^3.0.1",
+    "otp-generator": "^4.0.1",
     "sinon": "^17.0.0"
   }
 }
