@@ -1,3 +1,7 @@
+// TableData
+// this file contains the data for the tables in the app
+// this file is imported in the screens that use tables
+
 import { Text, View , TextInput} from 'react-native'
 import React, { Component } from 'react'
 import { CheckBox } from "react-native-elements";
