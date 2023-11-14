@@ -12,7 +12,7 @@ import NotFoundScreen from "../screens/NotFoundScreen";
 import BottomTabNavigator from "./BottomTabNavigator";
 import { LogsScreen} from "./BottomTabNavigator"
 import LinkingConfiguration from "./LinkingConfiguration";
-import DisplayLogs from "../screens/DisplayLogs";
+import DisplayLogs from "../components/DisplayLogs";
 
 export default function Navigation({ colorScheme }) {
   return (
