@@ -23,35 +23,49 @@ export const postBitacorasMadrugada = async () => {
         //La de incidentes no cuenta
 
         //TODO:
-        //CREAR RECORDATORIOS
         //VERIFICACION DE USUARIOS
 
         // MAKE DATESTRING FOR NAMES
         // Convert to local time using toLocaleString
+        const localDate = new Date(utctime);
         // Get the day of the week (0-6, where 0 is Sunday and 6 is Saturday)
         const year = localDate.getFullYear();
         const month = localDate.getMonth() + 1;
         const dayOfWeek = localDate.getDate();
         const dateString = dayOfWeek + "/" + month + "/" + year
 
+        initTime = localDate.replace(hour=4, minute=0, second=0, microsecond=0)
+        endTime = localDate.replace(hour=16, minute=0, second=0, microsecond=0)
+
+        
         //MAKE 4 BITACORAS DE TEMPERATURA
-        for(i = 0; i < 4; i++){
-            const horaString = "";
-            if(i==0){ hora = "7am" }
-            if(i==1){ hora = "11am" }
-            if(i==2){ hora = "3pm" }
-            if(i==3){ hora = "6pm" }
+        const horas = [7,11,15,18] //Horas para cada bitacora
+        const tempInitTime = localDate
+        const tempEndTime = localDate
+        const horaString = ""
+        for(const i in horas){
+            tempInitTime = localDate.replace(hour=horas[i], minute=0, second=0, microsecond=0)
+            tempEndTime = localDate.replace(hour=horas[i]+1, minute=0, second=0, microsecond=0)
+            horaString = "" + horas[i]
+            
             const bitacoraTemperatura = await prisma.bitacoraTemperaturas.create({
                 data: {
                     idUsuarioEmisor: 0,
-                    idUsuarioSupervisor: 1,
-                    nombre: "Bitacora de temperatura " + horaString + " " + dateString,
-                     cuartoFrio1: 0,
-                     cuartoFrio2: 0,
-                     camaraConservacionB: 0,
-                     camaraConservacionC: 0,
-                     observaciones: "",
-                     estado: "en revision"
+                    recordatorioBitacoraTemperatura: {
+                        create: {
+                            nombre: "Llenar bitacora de temperatura",
+                            descripcion: "Se debe de llenar esta bitacora",
+                            horaInicial: tempInitTime,
+                            horaFinal: tempEndTime
+                        },
+                    },
+                    nombre: "Bitacora de temperatura " + horaString + " horas " + dateString,
+                    cuartoFrio1: 0,
+                    cuartoFrio2: 0,
+                    camaraConservacionB: 0,
+                    camaraConservacionC: 0,
+                    observaciones: "",
+                    estado: "en revision"
                 }
             })
         }
@@ -63,7 +77,14 @@ export const postBitacorasMadrugada = async () => {
                 idUsuarioEmisor: 0,
                 idUsuarioSupervisor: 1,
                 idArea: 1,
-                idRecordatorio: 1,
+                recordatorioBitacoraLimpiezaAlimentoCompartido: {
+                    create:{
+                        nombre: "Llenar bitacora de limpieza alimento compartido",
+                        descripcion: "Se debe de llenar esta bitacora",
+                        horaInicial: initTime,
+                        horaFinal: endTime
+                    },
+                },
                 dia: 0,
                 pisos: null,
                 cuartosFrios: null,
@@ -83,7 +104,14 @@ export const postBitacorasMadrugada = async () => {
                 idUsuarioEmisor: 0,
                 idUsuarioSupervisor: 1,
                 idArea: 1,
-                idRecordatorio: 1,
+                recordatorioBitacoraLimpiezaAlimentoCompartido: {
+                    create: {
+                        nombre: "Llenar bitacora de limpieza recibos",
+                        descripcion: "Se debe de llenar esta bitacora",
+                        horaInicial: initTime,
+                        horaFinal: endTime
+                    },
+                },
                 nombre: "Bitacora de limpieza recibos " + dateString,
                 dia: 0,
                 areaArmado: null,
@@ -103,7 +131,14 @@ export const postBitacorasMadrugada = async () => {
                 idUsuarioEmisor: 0,
                 idUsuarioSupervisor: 1,
                 idArea: 1,
-                idRecordatorio: 1,
+                recordatorioBitacoraLimpiezaEmpaques: {
+                    create: {
+                        nombre: "Llenar bitacora de limpieza empaques",
+                        descripcion: "Se debe de llenar esta bitacora",
+                        horaInicial: initTime,
+                        horaFinal: endTime
+                    },
+                },
                 nombre: "Bitacora limpieza empaques " + dateString,
                 dia: 0,
                 pisos: null,
@@ -124,8 +159,15 @@ export const postBitacorasMadrugada = async () => {
                 idUsuarioEmisor: 0,
                 idUsuarioSupervisor: 1,
                 idArea: 1,
-                idRecordatorio: 1,
-                nombre: "Bitacora limpieza cribas FV " + dateString,
+                recordatorioBitacoraLimpiezaCribasFV: {
+                    create: {
+                        nombre: "Llenar bitacora de limpieza cribas frutas y verduras",
+                        descripcion: "Se debe de llenar esta bitacora",
+                        horaInicial: initTime,
+                        horaFinal: endTime
+                    },
+                },
+                nombre: "Bitacora limpieza cribas frutas y verduras " + dateString,
                 dia: 0,
                 pisos: null,
                 mesas: null,
@@ -144,7 +186,14 @@ export const postBitacorasMadrugada = async () => {
                 idUsuarioEmisor: 0,
                 idUsuarioSupervisor: 1,
                 idArea: 1,
-                idRecordatorio: 1,
+                recordatorioBitacoraLimpiezaAlmacenes: {
+                    create: {
+                        nombre: "Llenar bitacora de limpieza almacenes",
+                        descripcion: "Se debe de llenar esta bitacora",
+                        horaInicial: initTime,
+                        horaFinal: endTime
+                    },
+                },
                 nombre: "Bitacora limpieza almacenes " + dateString,
                 dia: 0,
                 pisos: null,
@@ -169,7 +218,14 @@ export const postBitacorasMadrugada = async () => {
                 idUsuarioEmisor: 0,
                 idUsuarioSupervisor: 1,
                 idArea: 1,
-                idRecordatorio: 1,
+                recordatorioBitacoraLimpiezaEntregas: {
+                    create: {
+                        nombre: "Llenar bitacora de limpieza entregas",
+                        descripcion: "Se debe de llenar esta bitacora",
+                        horaInicial: initTime,
+                        horaFinal: endTime
+                    },
+                },
                 nombre: "Bitacora de limpieza entregas " + dateString,
                 dia: 0,
                 pisos: null,
