@@ -19,11 +19,11 @@ export const createIncidente = async (req, res) => {
             imagen } = req.body
         const result = await prisma.bitacoraIncidentes.create({
             data: {
-                idUsuarioEmisor: Number(idUsuarioEmisor), 
-                idUsuarioSupervisor: Number(idUsuarioSupervisor), 
-                idArea: Number(idArea), 
+                idUsuarioEmisor, 
+                idUsuarioSupervisor, 
+                idArea, 
                 nombre, 
-                fechaHora: new Date(fechaHora).toISOString(),
+                fechaHora,
                 descripcion,
                 imagen
             }
