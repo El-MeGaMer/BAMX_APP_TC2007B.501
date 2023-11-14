@@ -14,8 +14,8 @@ model recordatorios {
   id          Int      @id @default(autoincrement())
   nombre      String   @db.VarChar(20)
   descripcion String   @db.MediumText
-  horaInicial DateTime @db.Time
-  horaFinal   DateTime @db.Time
+  horaInicial DateTime @db.DateTime
+  horaFinal   DateTime @db.DateTime
 
   usuarios                                       usuarios[]
   recordatorioBitacoraExtintor                   bitacoraExtintores?
@@ -36,9 +36,11 @@ model roles {
 }
 
 model notificaciones {
-  id          Int    @id @default(autoincrement())
-  titulo      String @db.VarChar(20)
-  descripcion String @db.MediumText
+  id          Int      @id @default(autoincrement())
+  titulo      String   @db.VarChar(20)
+  descripcion String   @db.MediumText
+  fechaHora   DateTime @db.DateTime()
+  estado      String   @db.VarChar(10)
 
   usuarios notificacionesUsuarios[]
 }
@@ -114,6 +116,7 @@ model bitacoraExtintores {
   idArea          Int
   idRecordatorio  Int      @unique
   nombre          String   @db.VarChar(40)
+  fechaHora       DateTime @default(now())
   capacidad       Boolean
   manometro       Boolean
   estadoFisico    Boolean
@@ -140,6 +143,7 @@ model bitacoraIncidentes {
   fechaHora           DateTime @default(now())
   descripcion         String   @db.MediumText
   imagen              Bytes?   @db.LongBlob
+  estado              String   @db.VarChar(10)
 
   usuarioEmisor     usuarios @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
   usuarioSupervisor usuarios @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
