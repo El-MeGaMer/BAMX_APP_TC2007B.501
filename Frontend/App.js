@@ -18,8 +18,8 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        {/* <Navigation colorScheme={colorScheme} /> */}
-		  <Login />
+        <Navigation colorScheme={colorScheme} />
+		  {/* <Login /> */}
         <StatusBar />
       </SafeAreaProvider>
     );

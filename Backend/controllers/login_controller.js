@@ -39,7 +39,7 @@ export const genOTP =  async (req, res) => {
     // Send email
 
     // put your ip here if you wish to test
-    const expoIP = "192.168.1.130:8081";
+    const expoIP = "";
     const emailMessage = `<a href='exp://${expoIP}/?otp=${OTP}&email=${req.body.email}'> Click para login </a>` ;
 
     const transporter = nodemailer.createTransport({
