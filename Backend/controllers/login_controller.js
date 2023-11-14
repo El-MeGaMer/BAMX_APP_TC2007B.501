@@ -10,7 +10,7 @@ export const genOTP =  async (req, res) => {
       upperCaseAlphabets: false, 
       specialChars: false});
 
-    // Store in database under email and add expiration date of 60s
+    // Store in database under email and add expiration date of 120s
     const prisma = new PrismaClient();
 
     const user = await prisma.usuarios.findUnique({
