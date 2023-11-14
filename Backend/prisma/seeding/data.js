@@ -19,6 +19,8 @@ const seedBitacoraLimpiezaCribasFV = [];
 const seedBitacoraLimpiezaAlmacenes = [];
 const seedBitacoraLimpiezaEntregas = [];
 
+const Estado = ['revisado', 'noRevisado', 'enRevision', 'creado'];
+
 
 // Recordatorio
 for (let i = 0; i < 5; i++) {
@@ -89,7 +91,7 @@ for (let i = 0; i < 5; i++) {
         ultimaRevision: faker.date.past(),
         proximaRecarga: faker.date.soon(),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision', 'creado'])
+        estado: faker.helpers.arrayElement(Estado)
     })
 }
 
@@ -103,7 +105,7 @@ for (let i = 0; i < 5; i++) {
         fechaHora: faker.date.recent(),
         descripcion: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal']),
         imagen: faker.helpers.arrayElement([null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision', 'creado'])
+        estado: faker.helpers.arrayElement(Estado)
     })
 }
 
@@ -119,7 +121,7 @@ for (let i = 0; i < 5; i++) {
         camaraConservacionB: faker.number.int({min: -15, max: 50}),
         camaraConservacionC: faker.number.int({min: -15, max: 50}),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision', 'creado'])
+        estado: faker.helpers.arrayElement(Estado)
     })
 }
 
@@ -142,7 +144,7 @@ for (let i = 0; i < 5; i++) {
         patines: faker.helpers.arrayElement([true, false]),
         basculas: faker.helpers.arrayElement([true, false]),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision', 'creado'])
+        estado: faker.helpers.arrayElement(Estado)
     })
 }
 
@@ -164,7 +166,7 @@ for (let i = 0; i < 5; i++) {
         congelador: faker.helpers.arrayElement([true, false]),
         transporte: faker.helpers.arrayElement([true, false]),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision', 'creado'])
+        estado: faker.helpers.arrayElement(Estado)
     })
 }
 
