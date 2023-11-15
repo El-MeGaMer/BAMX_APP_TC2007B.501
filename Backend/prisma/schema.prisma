@@ -12,7 +12,7 @@ datasource db {
 
 model recordatorios {
   id          Int      @id @default(autoincrement())
-  nombre      String   @db.VarChar(20)
+  nombre      String   @db.VarChar(100)
   descripcion String   @db.MediumText
   horaInicial DateTime @db.DateTime
   horaFinal   DateTime @db.DateTime
@@ -176,14 +176,14 @@ model bitacoraLimpiezaAlimentoCompartidos {
   nombre              String   @db.VarChar(100)
   dia                 Int
   fechaHora           DateTime @default(now())
-  pisos               Boolean
-  cuartosFrios        Boolean
-  refrigeradores      Boolean
-  congeladores        Boolean
-  racks               Boolean
-  cortinas            Boolean
-  patines             Boolean
-  basculas            Boolean
+  pisos               Boolean?
+  cuartosFrios        Boolean?
+  refrigeradores      Boolean?
+  congeladores        Boolean?
+  racks               Boolean?
+  cortinas            Boolean?
+  patines             Boolean?
+  basculas            Boolean?
   observaciones       String?  @db.MediumText
   estado              String   @db.VarChar(10)
 
@@ -201,14 +201,14 @@ model bitacoraLimpiezaRecibos {
   idRecordatorio      Int      @unique
   nombre              String   @db.VarChar(100)
   dia                 Int
-  fechaHora           DateTime
-  areaArmado          Boolean
-  areaRecibo          Boolean
-  patio               Boolean
-  rampas              Boolean
-  cuartosFrios        Boolean
-  congelador          Boolean
-  transporte          Boolean
+  fechaHora           DateTime @default(now())
+  areaArmado          Boolean?
+  areaRecibo          Boolean?
+  patio               Boolean?
+  rampas              Boolean?
+  cuartosFrios        Boolean?
+  congelador          Boolean?
+  transporte          Boolean?
   observaciones       String?  @db.MediumText
   estado              String   @db.VarChar(10)
 
@@ -227,14 +227,14 @@ model bitacoraLimpiezaEmpaques {
   nombre              String   @db.VarChar(100)
   dia                 Int
   fechaHora           DateTime @default(now())
-  pisos               Boolean
-  mesas               Boolean
-  selladores          Boolean
-  basculas            Boolean
-  rampas              Boolean
-  estantes            Boolean
-  bandejas            Boolean
-  patines             Boolean
+  pisos               Boolean?
+  mesas               Boolean?
+  selladores          Boolean?
+  basculas            Boolean?
+  rampas              Boolean?
+  estantes            Boolean?
+  bandejas            Boolean?
+  patines             Boolean?
   observaciones       String?  @db.MediumText
   estado              String   @db.VarChar(10)
 
@@ -253,13 +253,13 @@ model bitacoraLimpiezaCribasFV {
   nombre              String   @db.VarChar(100)
   dia                 Int
   fechaHora           DateTime @default(now())
-  pisos               Boolean
-  mesas               Boolean
-  patio               Boolean
-  basculas            Boolean
-  rampas              Boolean
-  rejillas            Boolean
-  patines             Boolean
+  pisos               Boolean?
+  mesas               Boolean?
+  patio               Boolean?
+  basculas            Boolean?
+  rampas              Boolean?
+  rejillas            Boolean?
+  patines             Boolean?
   observaciones       String?  @db.MediumText
   estado              String   @db.VarChar(10)
 
@@ -278,18 +278,18 @@ model bitacoraLimpiezaAlmacenes {
   nombre              String   @db.VarChar(100)
   dia                 Int
   fechaHora           DateTime @default(now())
-  pisos               Boolean
-  pasillos            Boolean
-  extintores          Boolean
-  cuartosFrios        Boolean
-  puertas             Boolean
-  muros               Boolean
-  racks               Boolean
-  cortinas            Boolean
-  coladeras           Boolean
-  rejillas            Boolean
-  montacargas         Boolean
-  patines             Boolean
+  pisos               Boolean?
+  pasillos            Boolean?
+  extintores          Boolean?
+  cuartosFrios        Boolean?
+  puertas             Boolean?
+  muros               Boolean?
+  racks               Boolean?
+  cortinas            Boolean?
+  coladeras           Boolean?
+  rejillas            Boolean?
+  montacargas         Boolean?
+  patines             Boolean?
   observaciones       String?  @db.MediumText
   estado              String   @db.VarChar(10)
 
@@ -308,13 +308,13 @@ model bitacoraLimpiezaEntregas {
   nombre              String   @db.VarChar(100)
   dia                 Int
   fechaHora           DateTime @default(now())
-  pisos               Boolean
-  cuartosFrios        Boolean
-  basculas            Boolean
-  racks               Boolean
-  cortinas            Boolean
-  rampas              Boolean
-  patines             Boolean
+  pisos               Boolean?
+  cuartosFrios        Boolean?
+  basculas            Boolean?
+  racks               Boolean?
+  cortinas            Boolean?
+  rampas              Boolean?
+  patines             Boolean?
   observaciones       String?  @db.MediumText
   estado              String   @db.VarChar(10)
 
