@@ -1,12 +1,12 @@
 import express from 'express'
 import exampleRoutes from "./example_routes.js"
-import bitacorasRoutes from "./bitacoras_routes.js"
+import bitacoraRoutes from "./Bitacora_routes.js"
 import recordatorioRoutes from "./recordatorio_routes.js"
 
 const router = express.Router()
 
 router.use("/example", exampleRoutes)
-router.use("/bitacoras", bitacorasRoutes)
+router.use("/bitacoras", bitacoraRoutes)
 router.use("/recordatorio", recordatorioRoutes)
 
 router.all('*', (req, res) => {
