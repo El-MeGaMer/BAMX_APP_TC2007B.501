@@ -25,6 +25,11 @@ export const postBitacorasMadrugada = async () => {
         //TODO:
         //VERIFICACION DE USUARIOS
 
+        //CAMBIOS EN EL SCHEMA
+        // VARCHAR 100 PARA BITACORAS (MENOS EXTINTORES) Y RECORDATORIOS
+        // ? A LOS VALORES BOOLEAN DE LAS BITACORAS
+        // DATETIME EN BIRACORA RECIBOS
+
         // MAKE DATESTRING FOR NAMES
         // Use local time
         const utctime = new Date().toISOString();
@@ -68,7 +73,7 @@ export const postBitacorasMadrugada = async () => {
                     camaraConservacionB: 0,
                     camaraConservacionC: 0,
                     observaciones: "",
-                    estado: "en revision"
+                    estado: "noRevisado"
                 }
             })
         }
@@ -80,7 +85,7 @@ export const postBitacorasMadrugada = async () => {
                 usuarioEmisor: {
                     connect: {id: 1}
                 },
-                idUsuarioSupervisor: {
+                usuarioSupervisor: {
                     connect: {id: 2}
                 },
                 areaBitacoraLimpiezaAlimentoCompartido: {
@@ -95,16 +100,7 @@ export const postBitacorasMadrugada = async () => {
                     },
                 },
                 dia: dayOfWeek,
-                pisos: null,
-                cuartosFrios: null,
-                refrigeradores: null,
-                congeladores: null,
-                racks: null,
-                cortinas: null,
-                patines: null,
-                basculas: null,
-                observaciones: "",
-                estado: "en revision"
+                estado: "noRevisado"
             }
         })
         console.log("CB Limpieza Alimento Compartido")
@@ -113,13 +109,13 @@ export const postBitacorasMadrugada = async () => {
                 usuarioEmisor: {
                     connect: {id: 1}
                 },
-                idUsuarioSupervisor: {
+                usuarioSupervisor: {
                     connect: {id: 2}
                 },
                 areaBitacoraLimpiezaRecibos: {
                     connect: {id: 1}
                 },
-                recordatorioBitacoraLimpiezaAlimentoCompartido: {
+                recordatorioBitacoraLimpiezaRecibos: {
                     create: {
                         nombre: "Llenar bitacora de limpieza recibos",
                         descripcion: "Se debe de llenar esta bitacora",
@@ -129,15 +125,7 @@ export const postBitacorasMadrugada = async () => {
                 },
                 nombre: "Bitacora de limpieza recibos " + dateString,
                 dia: dayOfWeek,
-                areaArmado: null,
-                areaRecibo: null,
-                patio: null,
-                rampas: null,
-                cuartosFrios: null,
-                congelador: null,
-                transporte: null,
-                observaciones: "",
-                estado: "en revision"
+                estado: "noRevisado"
             }
         })
         console.log("CB Limpieza Recibos")
@@ -146,7 +134,7 @@ export const postBitacorasMadrugada = async () => {
                 usuarioEmisor: {
                     connect: {id: 1}
                 },
-                idUsuarioSupervisor: {
+                usuarioSupervisor: {
                     connect: {id: 2}
                 },
                 areaBitacoraLimpiezaEmpaques: {
@@ -162,16 +150,7 @@ export const postBitacorasMadrugada = async () => {
                 },
                 nombre: "Bitacora limpieza empaques " + dateString,
                 dia: dayOfWeek,
-                pisos: null,
-                mesas: null,
-                selladores: null,
-                basculas: null,
-                rampas: null,
-                estantes: null,
-                bandejas: null,
-                patines: null,
-                observaciones: "",
-                estado: "en revision"
+                estado: "noRevisado"
             }
         })
         console.log("CB Limpieza Empaques")
@@ -180,7 +159,7 @@ export const postBitacorasMadrugada = async () => {
                 usuarioEmisor: {
                     connect: {id: 1}
                 },
-                idUsuarioSupervisor: {
+                usuarioSupervisor: {
                     connect: {id: 2}
                 },
                 areaBitacoraLimpiezaCribasFVs: {
@@ -196,15 +175,7 @@ export const postBitacorasMadrugada = async () => {
                 },
                 nombre: "Bitacora limpieza cribas frutas y verduras " + dateString,
                 dia: dayOfWeek,
-                pisos: null,
-                mesas: null,
-                patio: null,
-                basculas: null,
-                rampas: null,
-                rejillas: null,
-                patines: null,
-                observaciones: "",
-                estado: "en revision"
+                estado: "noRevisado"
             }
         })
         console.log("CB Limpieza Cribas FV")
@@ -213,7 +184,7 @@ export const postBitacorasMadrugada = async () => {
                 usuarioEmisor: {
                     connect: {id: 1}
                 },
-                idUsuarioSupervisor: {
+                usuarioSupervisor: {
                     connect: {id: 2}
                 },
                 areaBitacoraLimpiezaAlmacenes: {
@@ -229,20 +200,7 @@ export const postBitacorasMadrugada = async () => {
                 },
                 nombre: "Bitacora limpieza almacenes " + dateString,
                 dia: dayOfWeek,
-                pisos: null,
-                pasillos: null,
-                extintores: null,
-                cuartosFrios: null,
-                puertas: null,
-                muros: null,
-                racks: null,
-                cortinas: null,
-                coladeras: null,
-                rejillas: null,
-                montacargas: null,
-                patines: null,
-                observaciones: "",
-                estado: "en revision"
+                estado: "noRevisado"
             }
         })
         console.log("CB Limpieza Almacenes")
@@ -251,7 +209,7 @@ export const postBitacorasMadrugada = async () => {
                 usuarioEmisor: {
                     connect: {id: 1}
                 },
-                idUsuarioSupervisor: {
+                usuarioSupervisor: {
                     connect: {id: 2}
                 },
                 areaBitacoraLimpiezaEntregas: {
@@ -267,15 +225,7 @@ export const postBitacorasMadrugada = async () => {
                 },
                 nombre: "Bitacora de limpieza entregas " + dateString,
                 dia: dayOfWeek,
-                pisos: null,
-                cuartosFrios: null,
-                basculas: null,
-                racks: null,
-                cortinas: null,
-                rampas: null,
-                patines: null,
-                observaciones: "",
-                estado: "en revision"
+                estado: "noRevisado"
             }
         })
         console.log("CB Limpieza Entregas")

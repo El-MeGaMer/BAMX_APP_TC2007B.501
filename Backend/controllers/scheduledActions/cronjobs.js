@@ -9,7 +9,7 @@ function initScheduledJobs(){
     //Strings de cada horario
     //Sec,Min,Hora,Dia,Mes,Dia de la semana
     //Doc: https://www.npmjs.com/package/node-cron
-    const horaCrearBitacorasMadrugada = "3 18 * * *"
+    const horaCrearBitacorasMadrugada = "0 4 * * *"
 
     const crearBitacorasMadrugada = cron.schedule(horaCrearBitacorasMadrugada,postBitacorasMadrugada)
 
