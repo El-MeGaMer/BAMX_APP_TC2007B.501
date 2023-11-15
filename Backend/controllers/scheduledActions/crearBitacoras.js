@@ -26,7 +26,8 @@ export const postBitacorasMadrugada = async () => {
         //VERIFICACION DE USUARIOS
 
         // MAKE DATESTRING FOR NAMES
-        // Convert to local time using toLocaleString
+        // Use local time
+        const utctime = new Date().toISOString();
         const localDate = new Date(utctime);
         // Get the day of the week (0-6, where 0 is Sunday and 6 is Saturday)
         const year = localDate.getFullYear();
@@ -34,23 +35,25 @@ export const postBitacorasMadrugada = async () => {
         const dayOfWeek = localDate.getDate();
         const dateString = dayOfWeek + "/" + month + "/" + year
 
-        initTime = localDate.replace(hour=4, minute=0, second=0, microsecond=0)
-        endTime = localDate.replace(hour=16, minute=0, second=0, microsecond=0)
-
+        // Set beginning and end times for the bitacoras
+        const initTime = new Date(utctime)
+        const endTime = new Date(utctime)
+        initTime.setHours(4,0,0,0)
+        endTime.setHours(16,0,0,0)
         
         //MAKE 4 BITACORAS DE TEMPERATURA
         const horas = [7,11,15,18] //Horas para cada bitacora
-        const tempInitTime = localDate
-        const tempEndTime = localDate
-        const horaString = ""
-        for(const i in horas){
-            tempInitTime = localDate.replace(hour=horas[i], minute=0, second=0, microsecond=0)
-            tempEndTime = localDate.replace(hour=horas[i]+1, minute=0, second=0, microsecond=0)
-            horaString = "" + horas[i]
-            
+        let tempInitTime = new Date(utctime)
+        let tempEndTime = new Date(utctime)
+        for(let i in horas){
+            tempInitTime.setHours(horas[i],0,0,0)
+            tempEndTime.setHours(horas[i] + 1,0,0,0)
+            console.log("Bitacora de temperatura " + horas[i] + " horas " + dateString)
             const bitacoraTemperatura = await prisma.bitacoraTemperaturas.create({
                 data: {
-                    idUsuarioEmisor: 0,
+                    usuarioEmisor: {
+                        connect: {id: 1}
+                    },
                     recordatorioBitacoraTemperatura: {
                         create: {
                             nombre: "Llenar bitacora de temperatura",
@@ -59,7 +62,7 @@ export const postBitacorasMadrugada = async () => {
                             horaFinal: tempEndTime
                         },
                     },
-                    nombre: "Bitacora de temperatura " + horaString + " horas " + dateString,
+                    nombre: "Bitacora de temperatura " + horas[i] + " horas " + dateString,
                     cuartoFrio1: 0,
                     cuartoFrio2: 0,
                     camaraConservacionB: 0,
@@ -74,9 +77,15 @@ export const postBitacorasMadrugada = async () => {
         const bitacoraLimpiezaAlimentoCompartido = await prisma.bitacoraLimpiezaAlimentoCompartidos.create({
             data: {
                 nombre: "Bitacora de limpieza alimento compartido " + dateString,
-                idUsuarioEmisor: 0,
-                idUsuarioSupervisor: 1,
-                idArea: 1,
+                usuarioEmisor: {
+                    connect: {id: 1}
+                },
+                idUsuarioSupervisor: {
+                    connect: {id: 2}
+                },
+                areaBitacoraLimpiezaAlimentoCompartido: {
+                    connect: {id: 1}
+                },
                 recordatorioBitacoraLimpiezaAlimentoCompartido: {
                     create:{
                         nombre: "Llenar bitacora de limpieza alimento compartido",
@@ -85,7 +94,7 @@ export const postBitacorasMadrugada = async () => {
                         horaFinal: endTime
                     },
                 },
-                dia: 0,
+                dia: dayOfWeek,
                 pisos: null,
                 cuartosFrios: null,
                 refrigeradores: null,
@@ -101,9 +110,15 @@ export const postBitacorasMadrugada = async () => {
         console.log("CB Limpieza Alimento Compartido")
         const bitacoraLimpiezaRecibos = await prisma.bitacoraLimpiezaRecibos.create({
             data: {
-                idUsuarioEmisor: 0,
-                idUsuarioSupervisor: 1,
-                idArea: 1,
+                usuarioEmisor: {
+                    connect: {id: 1}
+                },
+                idUsuarioSupervisor: {
+                    connect: {id: 2}
+                },
+                areaBitacoraLimpiezaRecibos: {
+                    connect: {id: 1}
+                },
                 recordatorioBitacoraLimpiezaAlimentoCompartido: {
                     create: {
                         nombre: "Llenar bitacora de limpieza recibos",
@@ -113,7 +128,7 @@ export const postBitacorasMadrugada = async () => {
                     },
                 },
                 nombre: "Bitacora de limpieza recibos " + dateString,
-                dia: 0,
+                dia: dayOfWeek,
                 areaArmado: null,
                 areaRecibo: null,
                 patio: null,
@@ -128,9 +143,15 @@ export const postBitacorasMadrugada = async () => {
         console.log("CB Limpieza Recibos")
         const bitacoraLimpiezaEmpaques = await prisma.bitacoraLimpiezaEmpaques.create({
             data: {
-                idUsuarioEmisor: 0,
-                idUsuarioSupervisor: 1,
-                idArea: 1,
+                usuarioEmisor: {
+                    connect: {id: 1}
+                },
+                idUsuarioSupervisor: {
+                    connect: {id: 2}
+                },
+                areaBitacoraLimpiezaEmpaques: {
+                    connect: {id: 1}
+                },
                 recordatorioBitacoraLimpiezaEmpaques: {
                     create: {
                         nombre: "Llenar bitacora de limpieza empaques",
@@ -140,7 +161,7 @@ export const postBitacorasMadrugada = async () => {
                     },
                 },
                 nombre: "Bitacora limpieza empaques " + dateString,
-                dia: 0,
+                dia: dayOfWeek,
                 pisos: null,
                 mesas: null,
                 selladores: null,
@@ -156,9 +177,15 @@ export const postBitacorasMadrugada = async () => {
         console.log("CB Limpieza Empaques")
         const bitacoraLimpiezaCribasFV = await prisma.bitacoraLimpiezaCribasFV.create({
             data: {
-                idUsuarioEmisor: 0,
-                idUsuarioSupervisor: 1,
-                idArea: 1,
+                usuarioEmisor: {
+                    connect: {id: 1}
+                },
+                idUsuarioSupervisor: {
+                    connect: {id: 2}
+                },
+                areaBitacoraLimpiezaCribasFVs: {
+                    connect: {id: 1}
+                },
                 recordatorioBitacoraLimpiezaCribasFV: {
                     create: {
                         nombre: "Llenar bitacora de limpieza cribas frutas y verduras",
@@ -168,7 +195,7 @@ export const postBitacorasMadrugada = async () => {
                     },
                 },
                 nombre: "Bitacora limpieza cribas frutas y verduras " + dateString,
-                dia: 0,
+                dia: dayOfWeek,
                 pisos: null,
                 mesas: null,
                 patio: null,
@@ -183,9 +210,15 @@ export const postBitacorasMadrugada = async () => {
         console.log("CB Limpieza Cribas FV")
         const bitacoraLimpiezaAlmacenes = await prisma.bitacoraLimpiezaAlmacenes.create({
             data: {
-                idUsuarioEmisor: 0,
-                idUsuarioSupervisor: 1,
-                idArea: 1,
+                usuarioEmisor: {
+                    connect: {id: 1}
+                },
+                idUsuarioSupervisor: {
+                    connect: {id: 2}
+                },
+                areaBitacoraLimpiezaAlmacenes: {
+                    connect: {id: 1}
+                },
                 recordatorioBitacoraLimpiezaAlmacenes: {
                     create: {
                         nombre: "Llenar bitacora de limpieza almacenes",
@@ -195,7 +228,7 @@ export const postBitacorasMadrugada = async () => {
                     },
                 },
                 nombre: "Bitacora limpieza almacenes " + dateString,
-                dia: 0,
+                dia: dayOfWeek,
                 pisos: null,
                 pasillos: null,
                 extintores: null,
@@ -215,9 +248,15 @@ export const postBitacorasMadrugada = async () => {
         console.log("CB Limpieza Almacenes")
         const bitacoraLimpiezaEntregas = await prisma.bitacoraLimpiezaEntregas.create({
             data: {
-                idUsuarioEmisor: 0,
-                idUsuarioSupervisor: 1,
-                idArea: 1,
+                usuarioEmisor: {
+                    connect: {id: 1}
+                },
+                idUsuarioSupervisor: {
+                    connect: {id: 2}
+                },
+                areaBitacoraLimpiezaEntregas: {
+                    connect: {id: 1}
+                },
                 recordatorioBitacoraLimpiezaEntregas: {
                     create: {
                         nombre: "Llenar bitacora de limpieza entregas",
@@ -227,7 +266,7 @@ export const postBitacorasMadrugada = async () => {
                     },
                 },
                 nombre: "Bitacora de limpieza entregas " + dateString,
-                dia: 0,
+                dia: dayOfWeek,
                 pisos: null,
                 cuartosFrios: null,
                 basculas: null,
