@@ -22,9 +22,6 @@ export const postBitacorasMadrugada = async () => {
         })*/
         //La de incidentes no cuenta
 
-        //TODO:
-        //VERIFICACION DE USUARIOS
-
         //CAMBIOS EN EL SCHEMA
         // VARCHAR 100 PARA BITACORAS (MENOS EXTINTORES) Y RECORDATORIOS
         // ? A LOS VALORES BOOLEAN DE LAS BITACORAS
