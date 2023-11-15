@@ -81,7 +81,7 @@ for (let i = 0; i < 7; i++) {
 for (let i = 0; i < 7; i++) {
     seedBitacorasExtintores.push({
         idUsuarioEmisor: i + 1,
-        idArea: i + 1,
+        idArea: i + 1,                      // cualquier area 
         idRecordatorio: i + 1,
         nombre: 'Bitácora de Extintonres',
         capacidad: faker.helpers.arrayElement([true, false]),
@@ -103,7 +103,7 @@ for (let i = 0; i < 7; i++) {
     seedBitacoraIncidentes.push({
         idUsuarioEmisor: i + 1,
         idUsuarioSupervisor: i + 1,
-        idArea: i + 1,
+        idArea: i + 1,                      // cualquier area
         nombre: 'Bitácora de Incidentes',
         fechaHora: faker.date.recent(),
         descripcion: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal']),
@@ -112,12 +112,13 @@ for (let i = 0; i < 7; i++) {
     })
 }
 
+
 // Bitacora Temperatura
 for (let i = 0; i < 7; i++) {
     seedBitacoraTemperatura.push({
         idUsuarioEmisor: i + 1,
         idRecordatorio: i + 1,
-        idArea: i + 1,
+        idArea: 7,                      // cuertos_frios
         nombre: 'Bitácora de Temperatura',
         fechaHora: faker.date.recent(),
         cuartoFrio1: faker.number.int({min: -15, max: 50}),
@@ -134,7 +135,7 @@ for (let i = 0; i < 7; i++) {
     seedBitacoraLimpiezaAlimentoCompartidos.push({
         idUsuarioEmisor: i + 1,
         idUsuarioSupervisor: i + 1,
-        idArea: i + 1,
+        idArea: 4,                          // almacen_comp
         idRecordatorio: i + 1,
         nombre: 'Bitácora de Alimentos Compartidos',
         dia: faker.number.int({ min: 1, max: 31 }),
@@ -157,7 +158,7 @@ for (let i = 0; i < 7; i++) {
     seedBitacoraLimpiezaRecibos.push({
         idUsuarioEmisor: i + 1,
         idUsuarioSupervisor: i + 1,
-        idArea: i + 1,
+        idArea: 1,                          // recibo
         idRecordatorio: i + 1,
         nombre: 'Bitácora de Limpieza Recibos',
         dia: faker.number.int({min: 1, max: 31}),
@@ -179,7 +180,7 @@ for (let i = 0; i < 7; i++) {
     seedBitacoraLimpiezaEmpaques.push({
         idUsuarioEmisor: i + 1,
         idUsuarioSupervisor: i + 1,
-        idArea: i + 1,
+        idArea: 3,                      // empaque
         idRecordatorio: i + 1,
         nombre: 'Bitácora de Limpieza Empaques',
         dia: faker.number.int({min: 1, max: 31}),
@@ -202,7 +203,7 @@ for (let i = 0; i < 7; i++) {
     seedBitacoraLimpiezaCribasFV.push({
         idUsuarioEmisor: i + 1,
         idUsuarioSupervisor: i + 1,
-        idArea: i + 1,
+        idArea: 2,                      // cribas
         idRecordatorio: i + 1,
         nombre: 'Bitácora de Limpieza CribasFV',
         dia: faker.number.int({min: 1, max:31}),
@@ -224,7 +225,7 @@ for (let i = 0; i < 7; i++) {
     seedBitacoraLimpiezaAlmacenes.push({
         idUsuarioEmisor: i + 1,
         idUsuarioSupervisor: i + 1,
-        idArea: i + 1,
+        idArea: 5,                      // almacen
         idRecordatorio: i + 1,
         nombre: 'Bitácora de Limpieza Almacenes',
         dia: faker.number.int({min: 1, max: 31}),
@@ -252,7 +253,7 @@ for (let i = 0; i < 7; i++) {
     seedBitacoraLimpiezaEntregas.push({
         idUsuarioEmisor: i + 1,
         idUsuarioSupervisor: i + 1,
-        idArea: i + 1,
+        idArea: 6,                  // entrega
         idRecordatorio: i + 1,
         nombre: 'Bitácora de Limpieza Entregas',
         dia: faker.number.int({min: 1, max: 31}),
