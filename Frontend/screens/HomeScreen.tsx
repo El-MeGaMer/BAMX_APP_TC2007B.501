@@ -13,9 +13,7 @@ const StyledView = styled(View);
 export default function HomeScreen() {
   return (
     <StyledView className="flex-1">
-      <Background>
           <TwoColLog type = "bitacora_limpieza"/>
-      </Background>
     </StyledView>
   );
 }
