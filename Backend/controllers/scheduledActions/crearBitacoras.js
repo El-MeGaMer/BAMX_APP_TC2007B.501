@@ -67,6 +67,9 @@ export const postBitacorasMadrugada = async () => {
                             horaFinal: tempEndTime
                         },
                     },
+                    areaBitacoraTemperatura: {
+                        connect: {id: 1}
+                    },
                     nombre: "Bitacora de temperatura " + horas[i] + " horas " + dateString,
                     cuartoFrio1: 0,
                     cuartoFrio2: 0,
