@@ -30,7 +30,7 @@ export const updateEmpaque = async (req, res) => {
         let result
         if (nameRole === "coordinador") {
             result = await prisma.bitacoraLimpiezaEmpaques.update({
-                where: {id: id},
+                where: {id: parseInt(id)},
                 data: {
                     estado: "revisado"
                 } 

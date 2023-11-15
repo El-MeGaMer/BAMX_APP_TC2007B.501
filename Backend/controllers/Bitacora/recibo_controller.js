@@ -7,50 +7,37 @@ const prisma = new PrismaClient
 
 //main controllers ----------------------
 
-export const getReciboPending = async (req, res) => {
+export const updateRecibo = async (req, res) => {
     try {
-        const {id} = req.params
-        console.log(id)
-        const result = await prisma.bitacoraLimpiezaRecibos.findMany({
-            where :{idUsuarioEmisor: Number(id)},
+        const {idUser, id}= req.params
+
+        const seeIdUser = await prisma.usuarios.findUnique({
+            where: {id: parseInt(idUser)},
             select: {
-                id: true,
-                nombre: true,
-                dia: true,
-                fechaHora: true
+                idRol: true
             }
         })
-        res.json(result)
-    } catch (error) {
-        if (process.env.NODE_ENV !== 'test') {
-            console.log('Error! Could not add the entry:', error)
+
+        let nameRole = ""
+        if(seeIdUser && seeIdUser.idRol) {
+            const role = await prisma.roles.findUnique({
+                where: { id: parseInt(seeIdUser.idRol) },
+                select: { nombreRol: true }
+            })
+            nameRole = role ? role.nombreRol : ""
         }
-    }
-}
 
-export const fillRecibo = async (req, res) => {
-    try {
-        const {id}= req.params
-        const {
-            nombre,
-            dia,
-            fechaHora,
-            areaArmado,
-            areaRecibo,
-            patio,
-            rampas,
-            cuartosFrios,
-            congelador,
-            transporte,
-            observaciones,
-            estado} = req.body
+        let result
+        if (nameRole === "coordinador") {
+            result = await prisma.bitacoraLimpiezaRecibos.update({
+                where: {id: parseInt(id)},
+                data: {
+                    estado: "revisado"
+                } 
+            })
 
-        const result = await prisma.bitacoraLimpiezaRecibos.update({
-            where: {id: Number(id)},
-            data: {
-                nombre,
-                dia,
-                fechaHora,
+        } else {
+            const {
                 areaArmado,
                 areaRecibo,
                 patio,
@@ -58,11 +45,19 @@ export const fillRecibo = async (req, res) => {
                 cuartosFrios,
                 congelador,
                 transporte,
-                observaciones,
-                estado
-            }
-        })
+                observaciones
+            } = req.body
+
+            const newData = { ...req.body, estado: "enRevision" }
+
+            result = await prisma.bitacoraLimpiezaRecibos.update({
+                where: {id: parseInt(id)},
+                data: newData
+            })
+        }  
+
         res.json(result)
+
     } catch (error) {
         if (process.env.NODE_ENV !== 'test') {
             console.log('Error! Entry not found')

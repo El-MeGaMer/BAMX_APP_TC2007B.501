@@ -1,6 +1,6 @@
 import express from 'express'
 import exampleRoutes from "./example_routes.js"
-import bitacoraRoutes from "./Bitacora_routes.js"
+import bitacoraRoutes from "./bitacora_routes.js"
 import recordatorioRoutes from "./recordatorio_routes.js"
 
 const router = express.Router()
