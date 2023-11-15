@@ -4,7 +4,7 @@ import { CheckBox } from "react-native-elements";
 import { Table, Row, Rows } from "react-native-table-component";
 import { TableData } from "../constants/TableData";
 import Container from "./Container";
-import Background from "./Background";  
+import Background from "./Background";
 
 const TwoColLog = (props) => {
   const tableHead = ["Concepto", "Hecho (s / N)"];
@@ -32,16 +32,16 @@ const TwoColLog = (props) => {
             />
             <Rows
               data={TableData[props.type]}
-              style={{ height: 80,}}
+              style={{ height: 80, }}
               textStyle={{ textAlign: "center", alignItems: "center" }}
             />
           </Table>
-        <CheckBox /><Text>Confirmo que los datos de la bitacora son correctos</Text>
-        <TouchableOpacity onPress={enviarFormulario}>
-        <View>
-          <Text>Enviar Formulario</Text>
-        </View>
-      </TouchableOpacity>
+          <CheckBox /><Text>Confirmo que los datos de la bitacora son correctos</Text>
+          <TouchableOpacity onPress={enviarFormulario}>
+            <View>
+              <Text>Enviar Formulario</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </Container>
     </Background>
