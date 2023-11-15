@@ -108,6 +108,7 @@ model areas {
   areaBitacoraLimpiezaEmpaques           bitacoraLimpiezaEmpaques[]
   areaBitacoraLimpiezaCribasFV           bitacoraLimpiezaCribasFV[]
   areaBitacoraLimpiezaAlmacenes          bitacoraLimpiezaAlmacenes[]
+  bitacoraTemperaturas                   bitacoraTemperaturas[]
 }
 
 model bitacoraExtintores {
@@ -154,6 +155,7 @@ model bitacoraTemperaturas {
   id                  Int      @id @default(autoincrement())
   idUsuarioEmisor     Int
   idRecordatorio      Int      @unique
+  idArea              Int
   nombre              String   @db.VarChar(40)
   fechaHora           DateTime @default(now())
   cuartoFrio1         Int
@@ -164,6 +166,7 @@ model bitacoraTemperaturas {
   estado              Estado   @default(creado)
 
   usuarioEmisor                   usuarios      @relation(fields: [idUsuarioEmisor], references: [id])
+  areaBitacoraTemperatura         areas         @relation(fields: [idArea], references: [id])
   recordatorioBitacoraTemperatura recordatorios @relation(fields: [idRecordatorio], references: [id])
 }
 
