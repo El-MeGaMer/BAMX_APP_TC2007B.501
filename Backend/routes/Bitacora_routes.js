@@ -1,5 +1,5 @@
 import express from 'express'
-import { createIncidente, getIncidentes, deleteIncidenteById } from "../controllers/Bitacora/incidentes_controller.js"
+import { createIncidente, getIncidentes } from "../controllers/Bitacora/incidentes_controller.js"
 import { updateRecibo } from "../controllers/Bitacora/recibo_controller.js"
 import { updateEmpaque } from "../controllers/Bitacora/empaque_controller.js"
 import { updateAlmacen} from "../controllers/Bitacora/almacen_controller.js"

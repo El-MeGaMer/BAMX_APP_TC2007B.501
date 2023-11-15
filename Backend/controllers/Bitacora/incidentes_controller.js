@@ -29,7 +29,7 @@ export const createIncidente = async (req, res) => {
         })
 
         const usuariosConMismoId = await prisma.usuarios.findMany({
-            where: { idRol: 4 }
+            where: { idRol: 2 }
         })
 
         const usuarioConMismoId = await prisma.usuarios.findFirst({
