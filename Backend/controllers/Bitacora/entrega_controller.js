@@ -72,57 +72,16 @@ export const delEntrega = async (req, res) => {
 
 //Llenar bitacora rutinaria de Entrega (Actualizarla)
 export const fillEntrega = async (req, res) => {
-
-    const {
-        id,
-        pisos,
-        cuartosFrios, 
-        basculas, 
-        racks, 
-        cortinas,  
-        rampas,
-        patines,  
-        observaciones,
-    } = req.body;
-    console.log("hola")
-    console.log(req.body)
+    const {id} = req.params;
+    const data = req.body;
         
-
-
     try {
         
-        const utctime = new Date().toISOString();
-
-        // Convert to local time using toLocaleString
-        const localDate = new Date(utctime);
-
-        // Get the day of the week (0-6, where 0 is Sunday and 6 is Saturday)
-        const year = localDate.getFullYear();
-        const month = localDate.getMonth() + 1;
-        const dayOfWeek = localDate.getDate();
-
-        //console.log(`Day of the week: ${dayOfWeek}`);
-        const nombre = "Bitacora de Entregas " + dayOfWeek + "/" + month + "/" + year
-
         
         //Actualizar bitacora
         const result = await prisma.bitacoraLimpiezaEntregas.update({
-            where: {id: id},
-            data: {
-                id,
-                nombre: nombre ,
-                dia: dayOfWeek,
-                fechaHora: utctime,
-                pisos,
-                cuartosFrios, 
-                basculas, 
-                racks, 
-                cortinas,  
-                rampas,
-                patines,  
-                observaciones,
-                estado: "send"
-            }
+            where: {id: Number(id)},
+            data: data
 
 
         })

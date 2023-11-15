@@ -72,60 +72,31 @@ export const delAlimentoCompartido = async (req, res) => {
 
 //Llenar bitacora rutinaria de Alimento Compartido (Actualizarla)
 export const fillAlimentoCompartido = async (req, res) => {
-
-    const {
-        id,
-        pisos,
-        cuartosFrios, 
-        refrigeradores, 
-        congeladores, 
-        racks,  
-        cortinas,
-        patines, 
-        basculas, 
-        observaciones,
-    } = req.body;
-    console.log("hola")
-    console.log(req.body)
-        
-
+    const {id} = req.params;
+    const data = req.body;
 
     try {
         
-        const utctime = new Date().toISOString();
-
-        // Convert to local time using toLocaleString
-        const localDate = new Date(utctime);
-
-        // Get the day of the week (0-6, where 0 is Sunday and 6 is Saturday)
-        const year = localDate.getFullYear();
-        const month = localDate.getMonth() + 1;
-        const dayOfWeek = localDate.getDate();
-
-        //console.log(`Day of the week: ${dayOfWeek}`);
-        const nombre = "Bitacora de AC " + dayOfWeek + "/" + month + "/" + year
-
         //Actualizar bitacora
         const result = await prisma.bitacoraLimpiezaAlimentoCompartidos.update({
-            where: {id: id},
-            data: {
-                dia: dayOfWeek,
-                fechaHora: utctime,
-                nombre: nombre,
-                pisos,
-                cuartosFrios, 
-                refrigeradores, 
-                congeladores, 
-                racks,  
-                cortinas,
-                patines, 
-                basculas, 
-                observaciones,
-                estado: "send"
-            }
-
-
+            where: {id: Number(id)},
+            data: data
         })
+
+        if (result.estado == "hola"){
+
+            const notificacion = await prisma.notificaciones.create({
+
+                data: {
+
+                    titulo: "Bitacora LLenada" ,
+                    descripcion: "Bitacora lista para revision por Supervisor",
+
+                }
+
+            })
+        }
+
         res.json(result)
     } catch (error) {
         if (process.env.NODE_ENV !== 'test') {
