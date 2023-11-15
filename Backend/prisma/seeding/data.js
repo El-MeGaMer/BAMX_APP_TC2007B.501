@@ -21,7 +21,7 @@ const seedBitacoraLimpiezaEntregas = [];
 
 let estados = ['revisado', 'noRevisado', 'enRevision'] 
 let areas = ['alimento', 'limpieza', 'empaque', 'criba', 'almacen', 'entregas']
-let rol = ['administrador', 'supervisor de área', 'operador', 'usuario', 'administrador']
+let rol = ['administrador', 'encargado', 'operador', 'usuario', 'administrador']
 
 // Recordatorio
 for (let i = 0; i < 5; i++) {
@@ -36,7 +36,7 @@ for (let i = 0; i < 5; i++) {
 // Roles
 for (let i = 0; i < 5; i++) {
     seedRoles.push({
-        nombreRol: faker.helpers.arrayElement([rol[i]]),
+        nombreRol: faker.helpers.arrayElement(['administrador', 'encargado', 'operador', 'usuario']),
     })
 }
 
