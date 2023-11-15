@@ -204,7 +204,7 @@ model bitacoraLimpiezaRecibos {
   idRecordatorio      Int      @unique
   nombre              String   @db.VarChar(40)
   dia                 Int
-  fechaHora           DateTime
+  fechaHora           DateTime @default(now())
   areaArmado          Boolean
   areaRecibo          Boolean
   patio               Boolean
