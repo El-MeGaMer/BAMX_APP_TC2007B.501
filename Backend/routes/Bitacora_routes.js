@@ -3,6 +3,11 @@ import { createIncidente, getIncidentes, deleteIncidenteById } from "../controll
 import { fillRecibo, getReciboPending } from "../controllers/Bitacora/recibo_controller.js"
 import { getEmpaquePending, fillEmpaque } from "../controllers/Bitacora/empaque_controller.js"
 import { getAlmacenPending, fillAlmacen} from "../controllers/Bitacora/almacen_controller.js"
+import { fillExtinctor } from '../controllers/Bitacora/extintor_controller.js'
+import { fillEntrega } from '../controllers/Bitacora/entrega_controller.js'
+import { fillAlimentoCompartido } from '../controllers/Bitacora/alimento_compartido_controller.js'
+import { fillTemperaturas } from '../controllers/Bitacora/temperatura_controller.js'
+import { fillCribaFV } from '../controllers/Bitacora/cribaFV_controller.js'
 
 const router = express.Router()
 
@@ -23,5 +28,19 @@ router.put("/Empaque/fill/:id", fillEmpaque)
 router.get("/Almacen/getPending/:id", getAlmacenPending)
 router.put("/Almacen/fill/:id", fillAlmacen)
 
+// Extintor Bitacoras
+router.put("/Extintor/fill/:id", fillExtinctor)
+
+// Entregas Bitacora
+router.put("/Entregas/fill/:id", fillEntrega)
+
+// Alimento Compartido Bitacora
+router.put("/AlimentoCompartido/fill/:id", fillAlimentoCompartido)
+
+// Temperaturas Bitacora
+router.put("/Temperatura/fill/:id", fillTemperaturas)
+
+// Criba FV Bitacora
+router.put("/CribaFV/fill/:id", fillCribaFV)
 
 export default router

@@ -73,50 +73,15 @@ export const delTemperaturas = async (req, res) => {
 //Llenar bitacora rutinaria de Temperaturas (Actualizarla)
 export const fillTemperaturas = async (req, res) => {
 
-    const {
-        id,
-        cuartoFrio1,
-        cuartoFrio2, 
-        camaraConservacionB, 
-        camaraConservacionC, 
-        observaciones,
-    } = req.body;
-    console.log("hola")
-    console.log(req.body)
-        
-
+    const {id} = req.params;
+    const data = req.body;
 
     try {
         
-        const utctime = new Date().toISOString();
-
-        // Convert to local time using toLocaleString
-        const localDate = new Date(utctime);
-
-        // Get the day of the week (0-6, where 0 is Sunday and 6 is Saturday)
-        const year = localDate.getFullYear();
-        const month = localDate.getMonth() + 1;
-        const dayOfWeek = localDate.getDate();
-        const hour = localDate.getHours();
-        const min = localDate.getMinutes();
-
-        //console.log(`Day of the week: ${dayOfWeek}`);
-        const nombre = "Bitacora de Temperaturas " + dayOfWeek + "/" + month + "/" + year + " " + hour + ":" + min
-
         //Actualizar bitacora
         const result = await prisma.bitacoraTemperaturas.update({
-            where: {id: id},
-            data: {
-                id,
-                nombre: nombre,
-                cuartoFrio1,
-                cuartoFrio2, 
-                camaraConservacionB, 
-                camaraConservacionC, 
-                observaciones,
-                estado: "send"
-            }
-
+            where: {id: Number(id)},
+            data: data
 
         })
         res.json(result)

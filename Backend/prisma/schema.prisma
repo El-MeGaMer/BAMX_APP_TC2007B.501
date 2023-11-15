@@ -184,11 +184,11 @@ model bitacoraLimpiezaAlimentoCompartidos {
   cortinas            Boolean
   patines             Boolean
   basculas            Boolean
-  observaciones       String?  @db.MediumText
+  observaciones       String   @db.MediumText
   estado              Estado   @default(creado)
 
   usuarioEmisor                                  usuarios      @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
-  usuarioSupervisor                              usuarios      @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
+  usuarioSupervisor                              usuarios?     @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
   areaBitacoraLimpiezaAlimentoCompartido         areas         @relation(fields: [idArea], references: [id])
   recordatorioBitacoraLimpiezaAlimentoCompartido recordatorios @relation(fields: [idRecordatorio], references: [id])
 }

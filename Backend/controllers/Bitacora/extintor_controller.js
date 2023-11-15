@@ -73,56 +73,15 @@ export const delExtinctor = async (req, res) => {
 //Llenar bitacora rutinaria de extinctor (Actualizarla)
 export const fillExtinctor = async (req, res) => {
 
-    const {
-        id,
-        capacidad,
-        manometro, 
-        estadoFisico, 
-        mangueras, 
-        seguro, 
-        etiquetas, 
-        holograma,
-        ultimaRevision, 
-        proximaRecarga, 
-        observaciones,
-    } = req.body;
-    console.log("hola")
-    console.log(req.body)
-        
-
-
+    const {id} = req.params;
+    const data = req.body;
+    
     try {
-        
-        const utctime = new Date().toISOString();
-
-        // Convert to local time using toLocaleString
-        const localDate = new Date(utctime);
-
-        // Get the day of the week (0-6, where 0 is Sunday and 6 is Saturday)
-        const year = localDate.getFullYear();
-        const month = localDate.getMonth() + 1;
-        const dayOfWeek = localDate.getDate();
-
-        //console.log(`Day of the week: ${dayOfWeek}`);
-        const nombre = "Bitacora de Extintores " + dayOfWeek + "/" + month + "/" + year
         
         //Actualizar bitacora
         const result = await prisma.bitacoraExtintores.update({
-            where: {id: id},
-            data: {
-                nombre: nombre,
-                capacidad,
-                manometro, 
-                estadoFisico, 
-                mangueras, 
-                seguro, 
-                etiquetas, 
-                holograma,
-                ultimaRevision, 
-                proximaRecarga, 
-                observaciones, 
-                estado: "send"
-            }
+            where: {id: Number(id)},
+            data: data
 
 
         })
