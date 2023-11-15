@@ -10,7 +10,7 @@ export const getBitacorasEstado = async (req, res) => {
         const condition = {
             estado: String(estado),
         };
-    
+
         if (nombreArea) {
             condition[areaFieldName] = {
                 nombreArea: String(nombreArea)
@@ -26,40 +26,96 @@ export const getBitacorasEstado = async (req, res) => {
         const limpiezaRecibos = createCondition('areaBitacoraLimpiezaRecibos', nombreArea)
         const limpiezaEmpaques = createCondition('areaBitacoraLimpiezaEmpaques', nombreArea)
         const limpiezaCribas = createCondition('areaBitacoraLimpiezaCribasFVs', nombreArea)
-        const limpiezaAlmacenes = createCondition('areaBitacoraLimpiezaAlmacenes', nombreArea) 
+        const limpiezaAlmacenes = createCondition('areaBitacoraLimpiezaAlmacenes', nombreArea)
         const limpiezaEntregas = createCondition('areaBitacoraLimpiezaEntregas', nombreArea)
 
         const bitacoraExt = await prisma.bitacoraExtintores.findMany({
             where: extintores,
-            include: { areaBitacoraExtintor: true }
+            select: {
+                id: true,
+                idUsuarioEmisor: true,
+                idArea: true,
+                idRecordatorio: true,
+                areaBitacoraExtintor: true 
+            },
+            // include: { areaBitacoraExtintor: true }
         });
         const bitacoraAliCom = await prisma.bitacoraLimpiezaAlimentoCompartidos.findMany({
             where: alimentosCompartido,
-            include: { areaBitacoraLimpiezaAlimentoCompartido: true }
+            select: {
+                id: true,
+                idUsuarioEmisor: true,
+                idArea: true,
+                idRecordatorio: true,
+                areaBitacoraLimpiezaAlimentoCompartido: true
+            },
+            // include: { areaBitacoraLimpiezaAlimentoCompartido: true }
         });
         const bitacoraTem = await prisma.bitacoraTemperaturas.findMany({
             where: temperatura,
-            include: { areaBitacoraTemperatura: true }
+            select: {
+                id: true,
+                idUsuarioEmisor: true,
+                idArea: true,
+                idRecordatorio: true,
+                areaBitacoraTemperatura: true
+            },
+            // include: { areaBitacoraTemperatura: true }
         });
         const bitacoraLimRec = await prisma.bitacoraLimpiezaRecibos.findMany({
             where: limpiezaRecibos,
-            include: { areaBitacoraLimpiezaRecibos: true }
+            select: {
+                id: true,
+                idUsuarioEmisor: true,
+                idArea: true,
+                idRecordatorio: true,
+                areaBitacoraLimpiezaRecibos: true 
+            },
+            // include: { areaBitacoraLimpiezaRecibos: true }
         });
         const bitacoraLimEmp = await prisma.bitacoraLimpiezaEmpaques.findMany({
             where: limpiezaEmpaques,
-            include: { areaBitacoraLimpiezaEmpaques: true }
+            select: {
+                id: true,
+                idUsuarioEmisor: true,
+                idArea: true,
+                idRecordatorio: true,
+                areaBitacoraLimpiezaEmpaques: true
+            },
+            // include: { areaBitacoraLimpiezaEmpaques: true }
         });
         const bitacoraLimCFV = await prisma.bitacoraLimpiezaCribasFV.findMany({
             where: limpiezaCribas,
-            include: { areaBitacoraLimpiezaCribasFVs: true }
+            select: {
+                id: true,
+                idUsuarioEmisor: true,
+                idArea: true,
+                idRecordatorio: true,
+                areaBitacoraLimpiezaCribasFVs: true
+            },
+            // include: { areaBitacoraLimpiezaCribasFVs: true }
         });
         const bitacoraLimAl = await prisma.bitacoraLimpiezaAlmacenes.findMany({
             where: limpiezaAlmacenes,
-            include: { areaBitacoraLimpiezaAlmacenes: true }
+            select: {
+                id: true,
+                idUsuarioEmisor: true,
+                idArea: true,
+                idRecordatorio: true,
+                areaBitacoraLimpiezaAlmacenes: true
+            },
+            // include: { areaBitacoraLimpiezaAlmacenes: true }
         });
         const bitacoraLimEnt = await prisma.bitacoraLimpiezaEntregas.findMany({
             where: limpiezaEntregas,
-            include: { areaBitacoraLimpiezaEntregas: true }
+            select: {
+                id: true,
+                idUsuarioEmisor: true,
+                idArea: true,
+                idRecordatorio: true,
+                areaBitacoraLimpiezaEntregas: true
+            },
+            // include: { areaBitacoraLimpiezaEntregas: true }
         });
 
         const combinedResult = [

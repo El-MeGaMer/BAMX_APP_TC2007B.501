@@ -8,6 +8,7 @@ import { fillEntrega } from '../controllers/Bitacora/entrega_controller.js'
 import { fillAlimentoCompartido } from '../controllers/Bitacora/alimento_compartido_controller.js'
 import { fillTemperaturas } from '../controllers/Bitacora/temperatura_controller.js'
 import { fillCribaFV } from '../controllers/Bitacora/cribaFV_controller.js'
+import { getBitacorasEstado } from '../controllers/Bitacora/visualizacion_bitacoras_controller.js'
 
 const router = express.Router()
 
@@ -41,5 +42,8 @@ router.put("/Temperatura/fill/:id", fillTemperaturas)
 
 // Criba FV Bitacora
 router.put("/CribaFV/fill/:id", fillCribaFV)
+
+// Estado bitacoras
+router.get("/:estado", getBitacorasEstado)
 
 export default router

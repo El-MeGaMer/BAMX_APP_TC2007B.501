@@ -29,9 +29,8 @@ model recordatorios {
 }
 
 model roles {
-  id        Int @id @default(autoincrement())
-  nombreRol Rol
-
+  id         Int        @id @default(autoincrement())
+  nombreRol  Rol
   rolUsuario usuarios[]
 }
 
@@ -335,17 +334,17 @@ enum Estado {
 }
 
 enum Area {
-  alimento
-  limpieza
+  recido
+  cribaFV
   empaque
-  criba
+  almacen_comp
   almacen
-  entregas
+  entrega
+  cuartos_frios
 }
 
 enum Rol {
   administrador
-  encargado
-  operador
-  usuario
+  coordinador
+  supervisor
 }
