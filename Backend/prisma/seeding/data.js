@@ -20,11 +20,11 @@ const seedBitacoraLimpiezaAlmacenes = [];
 const seedBitacoraLimpiezaEntregas = [];
 
 let estados = ['revisado', 'noRevisado', 'enRevision'] 
-let areas = ['alimento', 'limpieza', 'empaque', 'criba', 'almacen', 'entregas']
-let rol = ['administrador', 'supervisor de área', 'operador', 'usuario', 'administrador']
+let areas = ['recido', 'cribaFV', 'empaque', 'almacen_comp', 'almacen', 'entrega', 'cuartos_frios']
+let rol = ['administrador', 'coordinador', 'supervisor']
 
 // Recordatorio
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedRecordatorio.push({
         nombre: faker.company.buzzNoun(),
         descripcion: faker.company.catchPhrase(),
@@ -34,21 +34,21 @@ for (let i = 0; i < 5; i++) {
 }
 
 // Roles
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 3; i++) {
     seedRoles.push({
         nombreRol: faker.helpers.arrayElement([rol[i]]),
     })
 }
 
 // Areas
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedAreas.push({
-        nombreArea: faker.helpers.arrayElement(areas),
+        nombreArea: faker.helpers.arrayElement([areas[i]]),
     })
 }
 
 // Notificaciones
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedNotificaciones.push({
         titulo: faker.company.buzzVerb(),
         descripcion: faker.company.buzzPhrase(),
@@ -58,10 +58,10 @@ for (let i = 0; i < 5; i++) {
 }
 
 // Usuarios
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedUsuarios.push({
         idRecordatorio: i + 1,
-        idRol: i + 1,
+        idRol: faker.number.int({min: 1, max: 3}),
         idArea: i + 1,
         nombre: faker.person.firstName(),
         apellido: faker.person.lastName(),
@@ -70,7 +70,7 @@ for (let i = 0; i < 5; i++) {
 }
 
 // Notificaciones Usuarios
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedNotificacionesUsuarios.push({
         idNotificacion: i + 1,
         idUsuario: i + 1,
@@ -78,7 +78,7 @@ for (let i = 0; i < 5; i++) {
 }
 
 // Bitacoras Extintores
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedBitacorasExtintores.push({
         idUsuarioEmisor: i + 1,
         idArea: i + 1,
@@ -99,7 +99,7 @@ for (let i = 0; i < 5; i++) {
 }
 
 // Bitacora Incidentes
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedBitacoraIncidentes.push({
         idUsuarioEmisor: i + 1,
         idUsuarioSupervisor: i + 1,
@@ -113,7 +113,7 @@ for (let i = 0; i < 5; i++) {
 }
 
 // Bitacora Temperatura
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedBitacoraTemperatura.push({
         idUsuarioEmisor: i + 1,
         idRecordatorio: i + 1,
@@ -130,7 +130,7 @@ for (let i = 0; i < 5; i++) {
 }
 
 // Bitacora Limpieza Alimento Compartidos
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedBitacoraLimpiezaAlimentoCompartidos.push({
         idUsuarioEmisor: i + 1,
         idUsuarioSupervisor: i + 1,
@@ -153,7 +153,7 @@ for (let i = 0; i < 5; i++) {
 }
 
 // Bitacora Limpieza Recibos
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedBitacoraLimpiezaRecibos.push({
         idUsuarioEmisor: i + 1,
         idUsuarioSupervisor: i + 1,
@@ -175,7 +175,7 @@ for (let i = 0; i < 5; i++) {
 }
 
 // Bitacora Limpieza Empaques
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedBitacoraLimpiezaEmpaques.push({
         idUsuarioEmisor: i + 1,
         idUsuarioSupervisor: i + 1,
@@ -198,7 +198,7 @@ for (let i = 0; i < 5; i++) {
 }
 
 // Bitacora Limpieza CribasFV
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedBitacoraLimpiezaCribasFV.push({
         idUsuarioEmisor: i + 1,
         idUsuarioSupervisor: i + 1,
@@ -220,7 +220,7 @@ for (let i = 0; i < 5; i++) {
 } 
 
 // Bitacora Limpieza Almacenes
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedBitacoraLimpiezaAlmacenes.push({
         idUsuarioEmisor: i + 1,
         idUsuarioSupervisor: i + 1,
@@ -248,7 +248,7 @@ for (let i = 0; i < 5; i++) {
 }
 
 // Bitacora Limpieza Entregas
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedBitacoraLimpiezaEntregas.push({
         idUsuarioEmisor: i + 1,
         idUsuarioSupervisor: i + 1,
