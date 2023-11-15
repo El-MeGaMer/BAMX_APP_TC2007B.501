@@ -1,7 +1,7 @@
 import express from 'express'
 import { createIncidente, getIncidentes, deleteIncidenteById } from "../controllers/Bitacora/incidentes_controller.js"
 import { fillRecibo, getReciboPending } from "../controllers/Bitacora/recibo_controller.js"
-import { getEmpaquePending, fillEmpaque } from "../controllers/Bitacora/empaque_controller.js"
+import { updateEmpaque } from "../controllers/Bitacora/empaque_controller.js"
 import { getAlmacenPending, fillAlmacen} from "../controllers/Bitacora/almacen_controller.js"
 import { fillExtinctor } from '../controllers/Bitacora/extintor_controller.js'
 import { fillEntrega } from '../controllers/Bitacora/entrega_controller.js'
@@ -21,8 +21,7 @@ router.get("/Recibo/getPending/:id", getReciboPending)
 router.put("/Recibo/fill/:id", fillRecibo)
 
 //Empaque Bitacoras
-router.get("/Empaque/getPending/:id", getEmpaquePending)
-router.put("/Empaque/fill/:id", fillEmpaque)
+router.put("/Empaque/user=:idUser/log=:id", updateEmpaque)
 
 // Almacen Bitacoras
 router.get("/Almacen/getPending/:id", getAlmacenPending)

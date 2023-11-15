@@ -11,8 +11,6 @@ export const createIncidente = async (req, res) => {
     try {
         const fechaActual = new Date().toISOString()
         const { 
-            idUsuarioEmisor,
-            nombre,
             area,
             descripcion,
             imagen } = req.body
