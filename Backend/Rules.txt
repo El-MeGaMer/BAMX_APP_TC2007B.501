@@ -1,1 +1,1 @@
-
+Por cada feature que se implemente tiene que haber 2 pruebas unitarias: una con informacion de prueba y otra vacia.
