@@ -23,7 +23,7 @@ export const genOTP =  async (req, res) => {
     date.setSeconds(date.getSeconds() + 120);
 
     if (user) {
-    await prisma.user.update({
+    await prisma.usuarios.update({
         where : {
             correo: req.body.email
         },
@@ -39,7 +39,7 @@ export const genOTP =  async (req, res) => {
     // Send email
 
     // put your ip here if you wish to test
-    const expoIP = "";
+	const expoIP = "";
     const emailMessage = `<a href='exp://${expoIP}/?otp=${OTP}&email=${req.body.email}'> Click para login </a>` ;
 
     const transporter = nodemailer.createTransport({
@@ -82,16 +82,18 @@ export const verifyOTP = async(req, res) => {
         }
     });
 
-    if (!user)
+    if (!user) {
         res.status(400).json({error: "User not even registered!"});
-    else {
-        OTP = user.otp;
-        expirationDate = user.expires;
-        currentDate = new Date();
+		console.log("invalid user");
+	} else {
+        const OTP = user.otp;
+        const expirationDate = user.expiracion;
+        const currentDate = new Date();
 
         // Check if OTP is equal to the one in database and has not expired
         if (inputOTP != OTP || expirationDate < currentDate) {
             res.status(400).json({error: "Invalid OTP"});
+			console.log("invalid otp");
         } else {
             res.status(200).json({message: "Success"});
         }

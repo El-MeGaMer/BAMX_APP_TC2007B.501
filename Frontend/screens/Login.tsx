@@ -52,8 +52,11 @@ function Login() {
         body: JSON.stringify({email: data.email, otp: data.otp})
 			})
 				.then((res) => {
-				if (res.status == 200)
+				if (res.status == 200) {
 					setVerified(true);
+				}
+				else
+					console.log(res);
 			})
   }
   
