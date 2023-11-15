@@ -2,139 +2,81 @@ import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient
 
-// const estados = ['revisado', 'noRevisado', 'enRevision']
-
 export const getBitacorasEstado = async (req, res) => {
-    const { estado } = req.params
-    // const { id } = req.body
-    // id = await prisma.usuarios.findUnique({
-    //     where { id: }
-    // })
+    const { estado } = req.params;
+    const { nombreArea } = req.query;
+
+    function createCondition(areaFieldName, nombreArea) {
+        const condition = {
+            estado: String(estado),
+        };
+    
+        if (nombreArea) {
+            condition[areaFieldName] = {
+                nombreArea: String(nombreArea)
+            };
+        }
+        return condition;
+    }
 
     try {
+        const extintores = createCondition('areaBitacoraExtintor', nombreArea);
+        const alimentosCompartido = createCondition('areaBitacoraLimpiezaAlimentoCompartido', nombreArea);
+        const temperatura = createCondition('areaBitacoraTemperatura', nombreArea)
+        const limpiezaRecibos = createCondition('areaBitacoraLimpiezaRecibos', nombreArea)
+        const limpiezaEmpaques = createCondition('areaBitacoraLimpiezaEmpaques', nombreArea)
+        const limpiezaCribas = createCondition('areaBitacoraLimpiezaCribasFVs', nombreArea)
+        const limpiezaAlmacenes = createCondition('areaBitacoraLimpiezaAlmacenes', nombreArea) 
+        const limpiezaEntregas = createCondition('areaBitacoraLimpiezaEntregas', nombreArea)
+
         const bitacoraExt = await prisma.bitacoraExtintores.findMany({
-            where: { estado: String(estado) }
+            where: extintores,
+            include: { areaBitacoraExtintor: true }
         });
         const bitacoraAliCom = await prisma.bitacoraLimpiezaAlimentoCompartidos.findMany({
-            where: { estado: String(estado) }
+            where: alimentosCompartido,
+            include: { areaBitacoraLimpiezaAlimentoCompartido: true }
         });
-        const bitacoraTemp = await prisma.bitacoraTemperaturas.findMany({
-            where: { estado: String(estado) }
+        const bitacoraTem = await prisma.bitacoraTemperaturas.findMany({
+            where: temperatura,
+            include: { areaBitacoraTemperatura: true }
         });
         const bitacoraLimRec = await prisma.bitacoraLimpiezaRecibos.findMany({
-            where: { estado: String(estado) }
+            where: limpiezaRecibos,
+            include: { areaBitacoraLimpiezaRecibos: true }
         });
         const bitacoraLimEmp = await prisma.bitacoraLimpiezaEmpaques.findMany({
-            where: { estado: String(estado) }
+            where: limpiezaEmpaques,
+            include: { areaBitacoraLimpiezaEmpaques: true }
         });
         const bitacoraLimCFV = await prisma.bitacoraLimpiezaCribasFV.findMany({
-            where: { estado: String(estado) }
+            where: limpiezaCribas,
+            include: { areaBitacoraLimpiezaCribasFVs: true }
         });
         const bitacoraLimAl = await prisma.bitacoraLimpiezaAlmacenes.findMany({
-            where: { estado: String(estado) }
+            where: limpiezaAlmacenes,
+            include: { areaBitacoraLimpiezaAlmacenes: true }
         });
         const bitacoraLimEnt = await prisma.bitacoraLimpiezaEntregas.findMany({
-            where: { estado: String(estado) }
+            where: limpiezaEntregas,
+            include: { areaBitacoraLimpiezaEntregas: true }
         });
+
         const combinedResult = [
             ...bitacoraExt,
             ...bitacoraAliCom,
-            ...bitacoraTemp,
+            ...bitacoraTem,
             ...bitacoraLimRec,
             ...bitacoraLimEmp,
             ...bitacoraLimCFV,
             ...bitacoraLimAl,
-            ...bitacoraLimEnt];
-        res.json(combinedResult)
+            ...bitacoraLimEnt
+        ];
+
+        res.json(combinedResult);
     } catch (error) {
-        if (process.env.NODE_ENV !== 'test') {
-            console.log('Error! Entry not found:', error)
-        }
+        console.error('Error! Entry not found:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
-}
+};
 
-// export const getBitacorasNoRevisadas = async (req, res) => {
-//     try {
-//         const bitacoraExt = await prisma.bitacoraExtintores.findMany({
-//             where: { estado: String(estado) }
-//         });
-//         const bitacoraAliCom = await prisma.bitacoraLimpiezaAlimentoCompartidos.findMany({
-//             where: { estado: String(estado) }
-//         });
-//         const bitacoraTemp = await prisma.bitacoraTemperaturas.findMany({
-//             where: { estado: String(estado) }
-//         });
-//         const bitacoraLimRec = await prisma.bitacoraLimpiezaRecibos.findMany({
-//             where: { estado: String(estado) }
-//         });
-//         const bitacoraLimEmp = await prisma.bitacoraLimpiezaEmpaques.findMany({
-//             where: { estado: String(estado) }
-//         });
-//         const bitacoraLimCFV = await prisma.bitacoraLimpiezaCribasFV.findMany({
-//             where: { estado: String(estado) }
-//         });
-//         const bitacoraLimAl = await prisma.bitacoraLimpiezaAlmacenes.findMany({
-//             where: { estado: String(estado) }
-//         });
-//         const bitacoraLimEnt = await prisma.bitacoraLimpiezaEntregas.findMany({
-//             where: { estado: String(estado) }
-//         });
-//         const combinedResult = [
-//             ...bitacoraExt,
-//             ...bitacoraAliCom,
-//             ...bitacoraTemp,
-//             ...bitacoraLimRec,
-//             ...bitacoraLimEmp,
-//             ...bitacoraLimCFV,
-//             ...bitacoraLimAl,
-//             ...bitacoraLimEnt];
-//         res.json(combinedResult)
-//     } catch (error) {
-//         if (process.env.NODE_ENV !== 'test') {
-//             console.log('Error! Entry not found:', error)
-//         }
-//     }
-// }
-
-// export const getBitacorasEnRevision = async (req, res) => {
-//     try {
-//         const bitacoraExt = await prisma.bitacoraExtintores.findMany({
-//             where: { estado: String(estado) }
-//         });
-//         const bitacoraAliCom = await prisma.bitacoraLimpiezaAlimentoCompartidos.findMany({
-//             where: { estado: String(estado) }
-//         });
-//         const bitacoraTemp = await prisma.bitacoraTemperaturas.findMany({
-//             where: { estado: String(estado) }
-//         });
-//         const bitacoraLimRec = await prisma.bitacoraLimpiezaRecibos.findMany({
-//             where: { estado: String(estado) }
-//         });
-//         const bitacoraLimEmp = await prisma.bitacoraLimpiezaEmpaques.findMany({
-//             where: { estado: String(estado) }
-//         });
-//         const bitacoraLimCFV = await prisma.bitacoraLimpiezaCribasFV.findMany({
-//             where: { estado: String(estado) }
-//         });
-//         const bitacoraLimAl = await prisma.bitacoraLimpiezaAlmacenes.findMany({
-//             where: { estado: String(estado) }
-//         });
-//         const bitacoraLimEnt = await prisma.bitacoraLimpiezaEntregas.findMany({
-//             where: { estado: String(estado) }
-//         });
-//         const combinedResult = [
-//             ...bitacoraExt,
-//             ...bitacoraAliCom,
-//             ...bitacoraTemp,
-//             ...bitacoraLimRec,
-//             ...bitacoraLimEmp,
-//             ...bitacoraLimCFV,
-//             ...bitacoraLimAl,
-//             ...bitacoraLimEnt];
-//         res.json(combinedResult)
-//     } catch (error) {
-//         if (process.env.NODE_ENV !== 'test') {
-//             console.log('Error! Entry not found:', error)
-//         }
-//     }
-// }
