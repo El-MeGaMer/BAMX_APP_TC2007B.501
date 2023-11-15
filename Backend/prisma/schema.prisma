@@ -37,7 +37,7 @@ model roles {
 
 model notificaciones {
   id          Int      @id @default(autoincrement())
-  titulo      String   @db.VarChar(20)
+  titulo      String   @db.VarChar(100)
   descripcion String   @db.MediumText
   fechaHora   DateTime @db.DateTime()
   estado      String   @db.VarChar(10)
@@ -137,17 +137,17 @@ model bitacoraExtintores {
 model bitacoraIncidentes {
   id                  Int      @id @default(autoincrement())
   idUsuarioEmisor     Int
-  idUsuarioSupervisor Int
+  idUsuarioSupervisor Int?
   idArea              Int
-  nombre              String   @db.VarChar(40)
+  nombre              String   @db.VarChar(100)
   fechaHora           DateTime @default(now())
   descripcion         String   @db.MediumText
   imagen              Bytes?   @db.LongBlob
   estado              Estado   @default(creado)
 
-  usuarioEmisor     usuarios @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
-  usuarioSupervisor usuarios @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
-  area              areas    @relation(fields: [idArea], references: [id])
+  usuarioEmisor     usuarios  @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
+  usuarioSupervisor usuarios? @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
+  area              areas     @relation(fields: [idArea], references: [id])
 }
 
 model bitacoraTemperaturas {
@@ -170,7 +170,7 @@ model bitacoraTemperaturas {
 model bitacoraLimpiezaAlimentoCompartidos {
   id                  Int      @id @default(autoincrement())
   idUsuarioEmisor     Int
-  idUsuarioSupervisor Int
+  idUsuarioSupervisor Int?
   idArea              Int
   idRecordatorio      Int      @unique
   nombre              String   @db.VarChar(40)
@@ -196,7 +196,7 @@ model bitacoraLimpiezaAlimentoCompartidos {
 model bitacoraLimpiezaRecibos {
   id                  Int      @id @default(autoincrement())
   idUsuarioEmisor     Int
-  idUsuarioSupervisor Int
+  idUsuarioSupervisor Int?
   idArea              Int
   idRecordatorio      Int      @unique
   nombre              String   @db.VarChar(40)
@@ -213,7 +213,7 @@ model bitacoraLimpiezaRecibos {
   estado              Estado   @default(creado)
 
   usuarioEmisor                       usuarios      @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
-  usuarioSupervisor                   usuarios      @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
+  usuarioSupervisor                   usuarios?     @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
   areaBitacoraLimpiezaRecibos         areas         @relation(fields: [idArea], references: [id])
   recordatorioBitacoraLimpiezaRecibos recordatorios @relation(fields: [idRecordatorio], references: [id])
 }
@@ -221,7 +221,7 @@ model bitacoraLimpiezaRecibos {
 model bitacoraLimpiezaEmpaques {
   id                  Int      @id @default(autoincrement())
   idUsuarioEmisor     Int
-  idUsuarioSupervisor Int
+  idUsuarioSupervisor Int?
   idArea              Int
   idRecordatorio      Int      @unique
   nombre              String   @db.VarChar(40)
@@ -239,7 +239,7 @@ model bitacoraLimpiezaEmpaques {
   estado              Estado   @default(creado)
 
   usuarioEmisor                        usuarios      @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
-  usuarioSupervisor                    usuarios      @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
+  usuarioSupervisor                    usuarios?     @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
   areaBitacoraLimpiezaEmpaques         areas         @relation(fields: [idArea], references: [id])
   recordatorioBitacoraLimpiezaEmpaques recordatorios @relation(fields: [idRecordatorio], references: [id])
 }
@@ -247,7 +247,7 @@ model bitacoraLimpiezaEmpaques {
 model bitacoraLimpiezaCribasFV {
   id                  Int      @id @default(autoincrement())
   idUsuarioEmisor     Int
-  idUsuarioSupervisor Int
+  idUsuarioSupervisor Int?
   idArea              Int
   idRecordatorio      Int      @unique
   nombre              String   @db.VarChar(40)
@@ -264,7 +264,7 @@ model bitacoraLimpiezaCribasFV {
   estado              Estado   @default(creado)
 
   usuarioEmisor                        usuarios      @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
-  usuarioSupervisor                    usuarios      @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
+  usuarioSupervisor                    usuarios?     @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
   areaBitacoraLimpiezaCribasFVs        areas         @relation(fields: [idArea], references: [id])
   recordatorioBitacoraLimpiezaCribasFV recordatorios @relation(fields: [idRecordatorio], references: [id])
 }
@@ -272,7 +272,7 @@ model bitacoraLimpiezaCribasFV {
 model bitacoraLimpiezaAlmacenes {
   id                  Int      @id @default(autoincrement())
   idUsuarioEmisor     Int
-  idUsuarioSupervisor Int
+  idUsuarioSupervisor Int?
   idArea              Int
   idRecordatorio      Int      @unique
   nombre              String   @db.VarChar(40)
@@ -294,7 +294,7 @@ model bitacoraLimpiezaAlmacenes {
   estado              Estado   @default(creado)
 
   usuarioEmisor                         usuarios      @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
-  usuarioSupervisor                     usuarios      @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
+  usuarioSupervisor                     usuarios?     @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
   areaBitacoraLimpiezaAlmacenes         areas         @relation(fields: [idArea], references: [id])
   recordatorioBitacoraLimpiezaAlmacenes recordatorios @relation(fields: [idRecordatorio], references: [id])
 }
@@ -302,7 +302,7 @@ model bitacoraLimpiezaAlmacenes {
 model bitacoraLimpiezaEntregas {
   id                  Int      @id @default(autoincrement())
   idUsuarioEmisor     Int
-  idUsuarioSupervisor Int
+  idUsuarioSupervisor Int?
   idArea              Int
   idRecordatorio      Int      @unique
   nombre              String   @db.VarChar(40)
@@ -319,7 +319,7 @@ model bitacoraLimpiezaEntregas {
   estado              Estado   @default(creado)
 
   usuarioEmisor                        usuarios      @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
-  usuarioSupervisor                    usuarios      @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
+  usuarioSupervisor                    usuarios?     @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
   areaBitacoraLimpiezaEntregas         areas         @relation(fields: [idArea], references: [id])
   recordatorioBitacoraLimpiezaEntregas recordatorios @relation(fields: [idRecordatorio], references: [id])
 }

@@ -9,23 +9,62 @@ const prisma = new PrismaClient
 
 export const createIncidente = async (req, res) => {
     try {
+        const fechaActual = new Date().toISOString()
         const { 
-            idUsuarioEmisor, 
-            idUsuarioSupervisor, 
-            idArea, 
-            nombre, 
-            fechaHora,
+            idUsuarioEmisor,
+            nombre,
+            area,
             descripcion,
             imagen } = req.body
+        
+        const seeArea = await prisma.areas.findFirst({
+            where: { nombreArea: area }
+        })
+
+        const createNotificacion = await prisma.notificaciones.create({
+            data: {
+                titulo: "Incidente-" + area + "-" + fechaActual.slice(0, 10),
+                descripcion,
+                fechaHora: fechaActual,
+                estado: "NoVisto"
+            }
+        })
+
+        const usuariosConMismoId = await prisma.usuarios.findMany({
+            where: { idRol: 4 }
+        })
+
+        const usuarioConMismoId = await prisma.usuarios.findFirst({
+            where: { idRol: seeArea.id }
+        })
+
+        if (usuariosConMismoId.length > 0) {
+            usuariosConMismoId.forEach(async (usuario) => {
+                await prisma.notificacionesUsuarios.create({
+                data: {
+                    idNotificacion: createNotificacion.id,
+                    idUsuario: usuario.id
+                },
+                })
+            })
+        }
+
+        const areaResponsable = await prisma.notificacionesUsuarios.create({
+            data: {
+                idNotificacion: createNotificacion.id,
+                idUsuario: usuarioConMismoId.id
+            }
+        })
+
         const result = await prisma.bitacoraIncidentes.create({
             data: {
-                idUsuarioEmisor, 
-                idUsuarioSupervisor, 
-                idArea, 
-                nombre, 
-                fechaHora,
+                idUsuarioEmisor: usuarioConMismoId.id,
+                idArea: seeArea.id,
+                nombre: "Incidente-" + area + "-" + fechaActual.slice(0, 10),
+                fechaHora: new Date(),
                 descripcion,
-                imagen
+                imagen,
+                estado: "noRevisado"
             }
         })
         res.json(result)
