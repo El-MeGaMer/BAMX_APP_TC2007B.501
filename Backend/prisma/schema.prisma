@@ -115,7 +115,7 @@ model bitacoraExtintores {
   idUsuarioEmisor Int
   idArea          Int
   idRecordatorio  Int      @unique
-  nombre          String   @db.VarChar(40)
+  nombre          String   @db.VarChar(100)
   fechaHora       DateTime @default(now())
   capacidad       Boolean
   manometro       Boolean
@@ -154,7 +154,7 @@ model bitacoraTemperaturas {
   id                  Int      @id @default(autoincrement())
   idUsuarioEmisor     Int
   idRecordatorio      Int      @unique
-  nombre              String   @db.VarChar(40)
+  nombre              String   @db.VarChar(100)
   fechaHora           DateTime @default(now())
   cuartoFrio1         Int
   cuartoFrio2         Int
@@ -173,7 +173,7 @@ model bitacoraLimpiezaAlimentoCompartidos {
   idUsuarioSupervisor Int?
   idArea              Int
   idRecordatorio      Int      @unique
-  nombre              String   @db.VarChar(40)
+  nombre              String   @db.VarChar(100)
   dia                 Int
   fechaHora           DateTime @default(now())
   pisos               Boolean
@@ -199,7 +199,7 @@ model bitacoraLimpiezaRecibos {
   idUsuarioSupervisor Int?
   idArea              Int
   idRecordatorio      Int      @unique
-  nombre              String   @db.VarChar(40)
+  nombre              String   @db.VarChar(100)
   dia                 Int
   fechaHora           DateTime
   areaArmado          Boolean
@@ -224,7 +224,7 @@ model bitacoraLimpiezaEmpaques {
   idUsuarioSupervisor Int?
   idArea              Int
   idRecordatorio      Int      @unique
-  nombre              String   @db.VarChar(40)
+  nombre              String   @db.VarChar(100)
   dia                 Int
   fechaHora           DateTime @default(now())
   pisos               Boolean
@@ -250,7 +250,7 @@ model bitacoraLimpiezaCribasFV {
   idUsuarioSupervisor Int?
   idArea              Int
   idRecordatorio      Int      @unique
-  nombre              String   @db.VarChar(40)
+  nombre              String   @db.VarChar(100)
   dia                 Int
   fechaHora           DateTime @default(now())
   pisos               Boolean
@@ -275,7 +275,7 @@ model bitacoraLimpiezaAlmacenes {
   idUsuarioSupervisor Int?
   idArea              Int
   idRecordatorio      Int      @unique
-  nombre              String   @db.VarChar(40)
+  nombre              String   @db.VarChar(100)
   dia                 Int
   fechaHora           DateTime @default(now())
   pisos               Boolean
@@ -305,7 +305,7 @@ model bitacoraLimpiezaEntregas {
   idUsuarioSupervisor Int?
   idArea              Int
   idRecordatorio      Int      @unique
-  nombre              String   @db.VarChar(40)
+  nombre              String   @db.VarChar(100)
   dia                 Int
   fechaHora           DateTime @default(now())
   pisos               Boolean
