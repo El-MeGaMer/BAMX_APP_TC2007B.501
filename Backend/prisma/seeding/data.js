@@ -19,6 +19,9 @@ const seedBitacoraLimpiezaCribasFV = [];
 const seedBitacoraLimpiezaAlmacenes = [];
 const seedBitacoraLimpiezaEntregas = [];
 
+let estados = ['revisado', 'noRevisado', 'enRevision'] 
+let areas = ['alimento', 'limpieza', 'empaque', 'criba', 'almacen', 'entregas']
+let rol = ['administrador', 'supervisor de área', 'operador', 'usuario', 'administrador']
 
 // Recordatorio
 for (let i = 0; i < 5; i++) {
@@ -33,14 +36,14 @@ for (let i = 0; i < 5; i++) {
 // Roles
 for (let i = 0; i < 5; i++) {
     seedRoles.push({
-        nombreRol: faker.helpers.arrayElement(['administrador', 'supervisor de área', 'operador', 'usuario']),
+        nombreRol: faker.helpers.arrayElement([rol[i]]),
     })
 }
 
 // Areas
 for (let i = 0; i < 5; i++) {
     seedAreas.push({
-        nombreArea: faker.helpers.arrayElement(['alimento', 'limpieza', 'empaque', 'criba', 'almacen', 'entregas']),
+        nombreArea: faker.helpers.arrayElement(areas),
     })
 }
 
@@ -48,7 +51,9 @@ for (let i = 0; i < 5; i++) {
 for (let i = 0; i < 5; i++) {
     seedNotificaciones.push({
         titulo: faker.company.buzzVerb(),
-        descripcion: faker.company.buzzPhrase()
+        descripcion: faker.company.buzzPhrase(),
+        fechaHora: faker.date.recent(),
+        estado: faker.helpers.arrayElement([estados[0], estados[1]])
     })
 }
 
@@ -89,7 +94,7 @@ for (let i = 0; i < 5; i++) {
         ultimaRevision: faker.date.past(),
         proximaRecarga: faker.date.soon(),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision'])
+        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
     })
 }
 
@@ -103,7 +108,7 @@ for (let i = 0; i < 5; i++) {
         fechaHora: faker.date.recent(),
         descripcion: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal']),
         imagen: faker.helpers.arrayElement([null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision'])
+        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
     })
 }
 
@@ -112,6 +117,7 @@ for (let i = 0; i < 5; i++) {
     seedBitacoraTemperatura.push({
         idUsuarioEmisor: i + 1,
         idRecordatorio: i + 1,
+        idArea: i + 1,
         nombre: 'Bitácora de Temperatura',
         fechaHora: faker.date.recent(),
         cuartoFrio1: faker.number.int({min: -15, max: 50}),
@@ -119,7 +125,7 @@ for (let i = 0; i < 5; i++) {
         camaraConservacionB: faker.number.int({min: -15, max: 50}),
         camaraConservacionC: faker.number.int({min: -15, max: 50}),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision'])
+        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
     })
 }
 
@@ -142,7 +148,7 @@ for (let i = 0; i < 5; i++) {
         patines: faker.helpers.arrayElement([true, false]),
         basculas: faker.helpers.arrayElement([true, false]),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision'])
+        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
     })
 }
 
@@ -164,7 +170,7 @@ for (let i = 0; i < 5; i++) {
         congelador: faker.helpers.arrayElement([true, false]),
         transporte: faker.helpers.arrayElement([true, false]),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision'])
+        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
     })
 }
 
@@ -187,7 +193,7 @@ for (let i = 0; i < 5; i++) {
         bandejas: faker.helpers.arrayElement([true, false]),
         patines: faker.helpers.arrayElement([true, false]),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision'])
+        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
     })
 }
 
@@ -209,7 +215,7 @@ for (let i = 0; i < 5; i++) {
         rejillas: faker.helpers.arrayElement([true, false]),
         patines: faker.helpers.arrayElement([true, false]),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision'])
+        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
     })
 } 
 
@@ -236,7 +242,7 @@ for (let i = 0; i < 5; i++) {
         montacargas: faker.helpers.arrayElement([true, false]),
         patines: faker.helpers.arrayElement([true, false]),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision'])
+        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
       
     })
 }
@@ -259,7 +265,7 @@ for (let i = 0; i < 5; i++) {
         rampas: faker.helpers.arrayElement([true, false]),
         patines: faker.helpers.arrayElement([true, false]),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision'])
+        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
     })
 }
 
