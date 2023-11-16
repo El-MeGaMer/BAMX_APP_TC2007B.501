@@ -27,6 +27,7 @@
     "body-parser": "^1.20.2",
     "date-fns": "^2.30.0",
     "multer": "^1.4.5-lts.1",
+    "node-cron": "^3.0.3",
     "nodemon": "^3.0.1",
     "sinon": "^17.0.0"
   }
