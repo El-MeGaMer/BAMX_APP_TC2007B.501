@@ -2,6 +2,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import router from "./routes/index.js"
 import { sendNotifMail } from './controllers/mails_controller.js'
+import initScheduledJobs from "./controllers/scheduledActions/cronjobs.js"
 
 const app = express()
 const PORT = 3000
@@ -13,6 +14,7 @@ app.use(
     })
 )
 app.use(router)
+initScheduledJobs()
 
 sendNotifMail()
 
