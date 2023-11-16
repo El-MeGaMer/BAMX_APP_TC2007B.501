@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Button, Image } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
+import ImagePicker, { launchImageLibrary, ImageLibraryOptions, ImagePickerResponse } from 'react-native-image-picker';
 import { DB_FILTERS } from '../constants/DB_constants';
 
 const DropDown = () => {
     const [open1, setOpen1] = useState(false);
     const [value1, setValue1] = useState(null);
+    const [imageUri, setImageUri] = useState<string | null>(null);
     const [items1, setItems1] = useState([
         { label: 'Recibo', value: DB_FILTERS.AREA1 },
         { label: 'CribaFV', value: DB_FILTERS.AREA2 },
@@ -22,6 +24,22 @@ const DropDown = () => {
         { label: 'Opción2', value: 'opcion2' },
         { label: 'Opción3', value: 'opcion3' }
     ]);
+
+    const handleImagePicker = () => {
+        const options: ImageLibraryOptions = {
+            mediaType: 'photo',
+        };
+
+        launchImageLibrary(options, (response: ImagePickerResponse) => {
+            if (response.didCancel) {
+                console.log('La operación fue cancelada');
+            } else if (response.errorCode) {
+                console.error(`Error: ${response.errorCode}`);
+            } else if (response.assets && response.assets.length > 0) {
+                setImageUri(response.assets[0].uri);
+            }
+        });
+    };
 
     return (
         <View style={{
@@ -55,7 +73,12 @@ const DropDown = () => {
                 theme="LIGHT"
                 mode="SIMPLE"
             />
+
             <Text>Adjunta foto</Text>
+            <Button title="Adjuntar Foto" onPress={handleImagePicker} />
+            {imageUri && (
+                <Image source={{ uri: imageUri }} style={{ width: 200, height: 200 }} />
+            )}
         </View>
     );
 };
