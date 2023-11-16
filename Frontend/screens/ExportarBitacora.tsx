@@ -4,6 +4,8 @@ import Background from "../components/Background";
 import Container from "../components/Container";
 import { Text } from "react-native";
 import { styled } from "nativewind";
+import ExpBit from "../components/ExpBit";
+
 const StyledView = styled(View);
 
 export default function ExportarBitacoras() {
@@ -11,24 +13,12 @@ export default function ExportarBitacoras() {
     <StyledView className="flex-1">
       <Background>
         <Container>
-          <Text>Exportar Bitacoras</Text>
+          <Text style={{ fontSize: 20, fontWeight: "bold" ,}}>
+            2023
+          </Text>
+          <ExpBit />
         </Container>
       </Background>
     </StyledView>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});
+};
