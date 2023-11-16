@@ -334,7 +334,7 @@ enum Estado {
 }
 
 enum Area {
-  recido
+  recibo
   cribaFV
   empaque
   almacen_comp

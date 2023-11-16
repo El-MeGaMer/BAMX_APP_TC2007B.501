@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client"
+import multer from "multer"
 
 const prisma = new PrismaClient
 
@@ -7,13 +8,16 @@ const prisma = new PrismaClient
 
 //main controllers ----------------------
 
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage })
+
 export const createIncidente = async (req, res) => {
     try {
         const fechaActual = new Date().toISOString()
         const { 
             area,
-            descripcion,
-            imagen } = req.body
+            descripcion
+        } = req.body
         
         const seeArea = await prisma.areas.findFirst({
             where: { nombreArea: area }
@@ -61,11 +65,13 @@ export const createIncidente = async (req, res) => {
                 nombre: "Incidente-" + area + "-" + fechaActual.slice(0, 10),
                 fechaHora: new Date(),
                 descripcion,
-                imagen,
+                imagen: Buffer.from(req.file.buffer),
                 estado: "noRevisado"
             }
         })
+
         res.json(result)
+
     } catch (error) {
         if (process.env.NODE_ENV !== 'test') {
             console.log('Error! Could not add the entry:', error)

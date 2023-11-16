@@ -1,4 +1,5 @@
 import express from 'express'
+import multer from 'multer'
 import { createIncidente, getIncidentes } from "../controllers/Bitacora/incidentes_controller.js"
 import { updateRecibo } from "../controllers/Bitacora/recibo_controller.js"
 import { updateEmpaque } from "../controllers/Bitacora/empaque_controller.js"
@@ -10,10 +11,11 @@ import { fillTemperaturas } from '../controllers/Bitacora/temperatura_controller
 import { fillCribaFV } from '../controllers/Bitacora/cribaFV_controller.js'
 import { getBitacorasEstado } from '../controllers/Bitacora/visualizacion_bitacoras_controller.js'
 
+const upload = multer()
 const router = express.Router()
 
 //Incidentes Bitacoras
-router.post("/Incidente/create", createIncidente)
+router.post("/Incidente/create", upload.single('photo'), createIncidente)
 router.get("/Incidente/getBitacoras/:idArea", getIncidentes)
 
 //Recibo Bitacoras
