@@ -29,7 +29,7 @@ const DropDown = () => {
             setOpen={setOpen}
             setValue={setValue}
             setItems={setItems}
-            multiple={false}
+            multiple={true}
             theme="LIGHT"
             mode="SIMPLE"
         />
