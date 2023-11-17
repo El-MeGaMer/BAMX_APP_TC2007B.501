@@ -20,7 +20,7 @@ const seedBitacoraLimpiezaAlmacenes = [];
 const seedBitacoraLimpiezaEntregas = [];
 
 let estados = ['revisado', 'noRevisado', 'enRevision'] 
-let areas = ['recido', 'cribaFV', 'empaque', 'almacen_comp', 'almacen', 'entrega', 'cuartos_frios']
+let areas = ['recibo', 'cribaFV', 'empaque', 'almacen_comp', 'almacen', 'entrega', 'cuartos_frios']
 let rol = ['administrador', 'coordinador', 'supervisor']
 
 // Recordatorio
@@ -53,7 +53,6 @@ for (let i = 0; i < 7; i++) {
         titulo: faker.company.buzzVerb(),
         descripcion: faker.company.buzzPhrase(),
         fechaHora: faker.date.recent(),
-        estado: faker.helpers.arrayElement([estados[0], estados[1]])
     })
 }
 
@@ -74,6 +73,7 @@ for (let i = 0; i < 7; i++) {
     seedNotificacionesUsuarios.push({
         idNotificacion: i + 1,
         idUsuario: i + 1,
+        estado: faker.helpers.arrayElement([estados[0], estados[1]])
     })
 }
 
