@@ -1,25 +1,28 @@
 import { StyleSheet } from "react-native";
-
 import { View, Text } from "./Themed";
-
 import { ImageBackground, SafeAreaView, StatusBar } from "react-native";
-const background = "../assets/images/background_rectangle.png";
-
-import { styled } from "nativewind";
 import { ScrollView } from "react-native-gesture-handler";
+import Svg, { Path } from 'react-native-svg';
 
-const StyledView = styled(View);
-const StyledScrollView = styled(ScrollView);
+const background = "../assets/images/background_rectangle.svg";
 
 const Background = (props) => {
   return (
-    <ImageBackground source={require(background)} style={styles.background}>
+    
+    <View style={styles.background}>
+      <View style={styles.box}>
+        <Svg width="721" height="488" viewBox="0 175 721 488">
+          <Path d="M0 0h721v357.431L0 488V0Z" fill="#FF8001" />
+        </Svg>
+      </View>
+
       <SafeAreaView style={styles.container}>
-        <ScrollView >
-            {props.children}
+        <ScrollView style={styles.scroll_view}>
+          {props.children}
         </ScrollView>
       </SafeAreaView>
-    </ImageBackground>
+    </View>
+  
   );
 };
 
@@ -31,24 +34,29 @@ const styles = StyleSheet.create({
   },
   background: {
     flex: 1,
-    resizeMode: "fill",
-    height: "40%",
+    width: "100%",
   },
   scroll_view: {
     flex: 1,
     width: "100%",
-    padding: 20,
+    padding: 0,
     paddingTop: 0,
   },
   card_container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    margin: 20,
+    margin: 0,
     marginBottom: 0,
     shadowColor: "black",
     shadowOpacity: 0.25,
   },
+  box: {
+    flex: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+  }
 });
 
 export default Background;
