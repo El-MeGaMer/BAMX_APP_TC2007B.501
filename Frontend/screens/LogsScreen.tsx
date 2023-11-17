@@ -1,51 +1,88 @@
-import { StyleSheet } from "react-native";
+import React from "react";
+import { View, Text, FlatList, SectionList, StyleSheet } from "react-native";
 
-import EditScreenInfo from "../components/EditScreenInfo";
-import { Text, View } from "../components/Themed";
-import Container from "../components/Container";
-import Background from "../components/Background";
+const MIS_DATOS = [
+  {
+    title: "Bitácora de limpieza",
+    desc: "Se ha recibido una bitácora de limpieza del área 1",
+    time: "16 m",
+  },
+  {
+    title: "Bitácora de limpieza",
+    desc: "Se ha recibido una bitácora de limpieza del área 1",
+    time: "14 m",
+  },
+];
 
-import { styled } from "nativewind";
+const REVISADOS = [
+  {
+    title: "Bitácora de criba F y V",
+    desc: "Se ha recibido una bitácora de limpieza del área 1 F y V",
+    time: "5 m",
+  },
+  {
+    title: "Bitácora de criba F y V",
+    desc: "Se ha recibido una bitácora de limpieza del área 1 F y V",
+    time: "1 h",
+  },
+];
 
-const StyledView = styled(View);
+const LogsScreen = () => {
+  const data = [
+    { title: "Sin Revisar", data: MIS_DATOS },
+    { title: "Revisados", data: REVISADOS },
+  ];
 
-export default function LogsScreen() {
-  return (
-    <StyledView className="flex-1">
-    <Background>
-      <Container>
-        <Text style={styles.title}>Bitácoras</Text>
-        <View
-          style={styles.separator}
-          lightColor="#eee"
-          darkColor="rgba(255,255,255,0.1)"
-        />
-        <EditScreenInfo path="/screens/TabOneScreen.tsx" />
-      </Container>
-      <Container>
-        <Text style={styles.title}>Bitácoras</Text>
-        <View
-          style={styles.separator}
-          lightColor="#eee"
-          darkColor="rgba(255,255,255,0.1)"
-        />
-        <EditScreenInfo path="/screens/TabOneScreen.tsx" />
-      </Container>
-    </Background></StyledView>
+  const renderItem = ({ item }) => (
+    <View style={styles.itemContainer}>
+      <Text style={styles.title}>{item.title}</Text>
+      <Text style={styles.desc}>{item.desc}</Text>
+      <Text style={styles.time}>{item.time}</Text>
+    </View>
   );
-}
+
+  const renderSectionHeader = ({ section: { title } }) => (
+    <View style={styles.sectionHeader}>
+      <Text style={styles.sectionHeaderText}>{title}</Text>
+    </View>
+  );
+
+  return (
+    <SectionList
+      sections={data}
+      keyExtractor={(item, index) => index.toString()}
+      renderItem={renderItem}
+      renderSectionHeader={renderSectionHeader}
+    />
+  );
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  itemContainer: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
+  desc: {
+    fontSize: 16,
+    color: "#555",
+  },
+  time: {
+    fontSize: 14,
+    color: "#888",
+  },
+  sectionHeader: {
+    backgroundColor: "#f0f0f0",
+    padding: 8,
+  },
+  sectionHeaderText: {
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
+
+export default LogsScreen;
