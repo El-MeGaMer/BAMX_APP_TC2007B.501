@@ -39,7 +39,6 @@ model notificaciones {
   titulo      String   @db.VarChar(100)
   descripcion String   @db.MediumText
   fechaHora   DateTime @db.DateTime()
-  estado      String   @db.VarChar(10)
 
   usuarios notificacionesUsuarios[]
 }
@@ -90,6 +89,7 @@ model notificacionesUsuarios {
 
   notificacion notificaciones @relation(fields: [idNotificacion], references: [id])
   usuario      usuarios       @relation(fields: [idUsuario], references: [id])
+  estado       String         @db.VarChar(10)
 
   @@id([idNotificacion, idUsuario])
 }
@@ -334,7 +334,7 @@ enum Estado {
 }
 
 enum Area {
-  recido
+  recibo
   cribaFV
   empaque
   almacen_comp
