@@ -10,9 +10,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model recordatorios{
+model recordatorios {
   id          Int      @id @default(autoincrement())
-  nombre      String   @db.VarChar(20)
+  nombre      String   @db.VarChar(100)
   descripcion String   @db.MediumText
   horaInicial DateTime @db.DateTime
   horaFinal   DateTime @db.DateTime
@@ -29,16 +29,17 @@ model recordatorios{
 }
 
 model roles {
-  id        Int    @id @default(autoincrement())
-  nombreRol String @db.VarChar(20)
-
+  id         Int        @id @default(autoincrement())
+  nombreRol  Rol
   rolUsuario usuarios[]
 }
 
 model notificaciones {
-  id          Int    @id @default(autoincrement())
-  titulo      String @db.VarChar(20)
-  descripcion String @db.MediumText
+  id          Int      @id @default(autoincrement())
+  titulo      String   @db.VarChar(100)
+  descripcion String   @db.MediumText
+  fechaHora   DateTime @db.DateTime()
+  estado      String   @db.VarChar(10)
 
   usuarios notificacionesUsuarios[]
 }
@@ -94,8 +95,8 @@ model notificacionesUsuarios {
 }
 
 model areas {
-  id         Int    @id @default(autoincrement())
-  nombreArea String @db.VarChar(20)
+  id         Int  @id @default(autoincrement())
+  nombreArea Area
 
   areaUsuario                            usuarios[]
   areaBitacoraIncidentes                 bitacoraIncidentes[]
@@ -106,6 +107,7 @@ model areas {
   areaBitacoraLimpiezaEmpaques           bitacoraLimpiezaEmpaques[]
   areaBitacoraLimpiezaCribasFV           bitacoraLimpiezaCribasFV[]
   areaBitacoraLimpiezaAlmacenes          bitacoraLimpiezaAlmacenes[]
+  bitacoraTemperaturas                   bitacoraTemperaturas[]
 }
 
 model bitacoraExtintores {
@@ -113,7 +115,8 @@ model bitacoraExtintores {
   idUsuarioEmisor Int
   idArea          Int
   idRecordatorio  Int      @unique
-  nombre          String   @db.VarChar(40)
+  nombre          String   @db.VarChar(100)
+  fechaHora       DateTime @default(now())
   capacidad       Boolean
   manometro       Boolean
   estadoFisico    Boolean
@@ -124,7 +127,7 @@ model bitacoraExtintores {
   ultimaRevision  DateTime
   proximaRecarga  DateTime
   observaciones   String?  @db.MediumText
-  estado          String   @db.VarChar(10)
+  estado          Estado   @default(creado)
 
   usuarioEmisor                usuarios      @relation(fields: [idUsuarioEmisor], references: [id])
   areaBitacoraExtintor         areas         @relation(fields: [idArea], references: [id])
@@ -134,57 +137,60 @@ model bitacoraExtintores {
 model bitacoraIncidentes {
   id                  Int      @id @default(autoincrement())
   idUsuarioEmisor     Int
-  idUsuarioSupervisor Int
+  idUsuarioSupervisor Int?
   idArea              Int
-  nombre              String   @db.VarChar(40)
+  nombre              String   @db.VarChar(100)
   fechaHora           DateTime @default(now())
   descripcion         String   @db.MediumText
   imagen              Bytes?   @db.LongBlob
+  estado              Estado   @default(creado)
 
-  usuarioEmisor     usuarios @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
-  usuarioSupervisor usuarios @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
-  area              areas    @relation(fields: [idArea], references: [id])
+  usuarioEmisor     usuarios  @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
+  usuarioSupervisor usuarios? @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
+  area              areas     @relation(fields: [idArea], references: [id])
 }
 
 model bitacoraTemperaturas {
   id                  Int      @id @default(autoincrement())
   idUsuarioEmisor     Int
   idRecordatorio      Int      @unique
-  nombre              String   @db.VarChar(40)
+  idArea              Int
+  nombre              String   @db.VarChar(100)
   fechaHora           DateTime @default(now())
   cuartoFrio1         Int
   cuartoFrio2         Int
   camaraConservacionB Int
   camaraConservacionC Int
   observaciones       String?  @db.MediumText
-  estado              String   @db.VarChar(10)
+  estado              Estado   @default(creado)
 
   usuarioEmisor                   usuarios      @relation(fields: [idUsuarioEmisor], references: [id])
+  areaBitacoraTemperatura         areas         @relation(fields: [idArea], references: [id])
   recordatorioBitacoraTemperatura recordatorios @relation(fields: [idRecordatorio], references: [id])
 }
 
 model bitacoraLimpiezaAlimentoCompartidos {
   id                  Int      @id @default(autoincrement())
   idUsuarioEmisor     Int
-  idUsuarioSupervisor Int
+  idUsuarioSupervisor Int?
   idArea              Int
   idRecordatorio      Int      @unique
-  nombre              String   @db.VarChar(40)
+  nombre              String   @db.VarChar(100)
   dia                 Int
   fechaHora           DateTime @default(now())
-  pisos               Boolean
-  cuartosFrios        Boolean
-  refrigeradores      Boolean
-  congeladores        Boolean
-  racks               Boolean
-  cortinas            Boolean
-  patines             Boolean
-  basculas            Boolean
+  pisos               Boolean?
+  cuartosFrios        Boolean?
+  refrigeradores      Boolean?
+  congeladores        Boolean?
+  racks               Boolean?
+  cortinas            Boolean?
+  patines             Boolean?
+  basculas            Boolean?
   observaciones       String?  @db.MediumText
-  estado              String   @db.VarChar(10)
+  estado              Estado   @default(creado)
 
   usuarioEmisor                                  usuarios      @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
-  usuarioSupervisor                              usuarios      @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
+  usuarioSupervisor                              usuarios?     @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
   areaBitacoraLimpiezaAlimentoCompartido         areas         @relation(fields: [idArea], references: [id])
   recordatorioBitacoraLimpiezaAlimentoCompartido recordatorios @relation(fields: [idRecordatorio], references: [id])
 }
@@ -192,24 +198,24 @@ model bitacoraLimpiezaAlimentoCompartidos {
 model bitacoraLimpiezaRecibos {
   id                  Int      @id @default(autoincrement())
   idUsuarioEmisor     Int
-  idUsuarioSupervisor Int
+  idUsuarioSupervisor Int?
   idArea              Int
   idRecordatorio      Int      @unique
-  nombre              String   @db.VarChar(40)
+  nombre              String   @db.VarChar(100)
   dia                 Int
-  fechaHora           DateTime
-  areaArmado          Boolean
-  areaRecibo          Boolean
-  patio               Boolean
-  rampas              Boolean
-  cuartosFrios        Boolean
-  congelador          Boolean
-  transporte          Boolean
+  fechaHora           DateTime @default(now())
+  areaArmado          Boolean?
+  areaRecibo          Boolean?
+  patio               Boolean?
+  rampas              Boolean?
+  cuartosFrios        Boolean?
+  congelador          Boolean?
+  transporte          Boolean?
   observaciones       String?  @db.MediumText
-  estado              String   @db.VarChar(10)
+  estado              Estado   @default(creado)
 
   usuarioEmisor                       usuarios      @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
-  usuarioSupervisor                   usuarios      @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
+  usuarioSupervisor                   usuarios?     @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
   areaBitacoraLimpiezaRecibos         areas         @relation(fields: [idArea], references: [id])
   recordatorioBitacoraLimpiezaRecibos recordatorios @relation(fields: [idRecordatorio], references: [id])
 }
@@ -217,25 +223,25 @@ model bitacoraLimpiezaRecibos {
 model bitacoraLimpiezaEmpaques {
   id                  Int      @id @default(autoincrement())
   idUsuarioEmisor     Int
-  idUsuarioSupervisor Int
+  idUsuarioSupervisor Int?
   idArea              Int
   idRecordatorio      Int      @unique
-  nombre              String   @db.VarChar(40)
+  nombre              String   @db.VarChar(100)
   dia                 Int
   fechaHora           DateTime @default(now())
-  pisos               Boolean
-  mesas               Boolean
-  selladores          Boolean
-  basculas            Boolean
-  rampas              Boolean
-  estantes            Boolean
-  bandejas            Boolean
-  patines             Boolean
+  pisos               Boolean?
+  mesas               Boolean?
+  selladores          Boolean?
+  basculas            Boolean?
+  rampas              Boolean?
+  estantes            Boolean?
+  bandejas            Boolean?
+  patines             Boolean?
   observaciones       String?  @db.MediumText
-  estado              String   @db.VarChar(10)
+  estado              Estado   @default(creado)
 
   usuarioEmisor                        usuarios      @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
-  usuarioSupervisor                    usuarios      @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
+  usuarioSupervisor                    usuarios?     @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
   areaBitacoraLimpiezaEmpaques         areas         @relation(fields: [idArea], references: [id])
   recordatorioBitacoraLimpiezaEmpaques recordatorios @relation(fields: [idRecordatorio], references: [id])
 }
@@ -243,24 +249,24 @@ model bitacoraLimpiezaEmpaques {
 model bitacoraLimpiezaCribasFV {
   id                  Int      @id @default(autoincrement())
   idUsuarioEmisor     Int
-  idUsuarioSupervisor Int
+  idUsuarioSupervisor Int?
   idArea              Int
   idRecordatorio      Int      @unique
-  nombre              String   @db.VarChar(40)
+  nombre              String   @db.VarChar(100)
   dia                 Int
   fechaHora           DateTime @default(now())
-  pisos               Boolean
-  mesas               Boolean
-  patio               Boolean
-  basculas            Boolean
-  rampas              Boolean
-  rejillas            Boolean
-  patines             Boolean
+  pisos               Boolean?
+  mesas               Boolean?
+  patio               Boolean?
+  basculas            Boolean?
+  rampas              Boolean?
+  rejillas            Boolean?
+  patines             Boolean?
   observaciones       String?  @db.MediumText
-  estado              String   @db.VarChar(10)
+  estado              Estado   @default(creado)
 
   usuarioEmisor                        usuarios      @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
-  usuarioSupervisor                    usuarios      @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
+  usuarioSupervisor                    usuarios?     @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
   areaBitacoraLimpiezaCribasFVs        areas         @relation(fields: [idArea], references: [id])
   recordatorioBitacoraLimpiezaCribasFV recordatorios @relation(fields: [idRecordatorio], references: [id])
 }
@@ -268,29 +274,29 @@ model bitacoraLimpiezaCribasFV {
 model bitacoraLimpiezaAlmacenes {
   id                  Int      @id @default(autoincrement())
   idUsuarioEmisor     Int
-  idUsuarioSupervisor Int
+  idUsuarioSupervisor Int?
   idArea              Int
   idRecordatorio      Int      @unique
-  nombre              String   @db.VarChar(40)
+  nombre              String   @db.VarChar(100)
   dia                 Int
   fechaHora           DateTime @default(now())
-  pisos               Boolean
-  pasillos            Boolean
-  extintores          Boolean
-  cuartosFrios        Boolean
-  puertas             Boolean
-  muros               Boolean
-  racks               Boolean
-  cortinas            Boolean
-  coladeras           Boolean
-  rejillas            Boolean
-  montacargas         Boolean
-  patines             Boolean
+  pisos               Boolean?
+  pasillos            Boolean?
+  extintores          Boolean?
+  cuartosFrios        Boolean?
+  puertas             Boolean?
+  muros               Boolean?
+  racks               Boolean?
+  cortinas            Boolean?
+  coladeras           Boolean?
+  rejillas            Boolean?
+  montacargas         Boolean?
+  patines             Boolean?
   observaciones       String?  @db.MediumText
-  estado              String   @db.VarChar(10)
+  estado              Estado   @default(creado)
 
   usuarioEmisor                         usuarios      @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
-  usuarioSupervisor                     usuarios      @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
+  usuarioSupervisor                     usuarios?     @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
   areaBitacoraLimpiezaAlmacenes         areas         @relation(fields: [idArea], references: [id])
   recordatorioBitacoraLimpiezaAlmacenes recordatorios @relation(fields: [idRecordatorio], references: [id])
 }
@@ -298,24 +304,47 @@ model bitacoraLimpiezaAlmacenes {
 model bitacoraLimpiezaEntregas {
   id                  Int      @id @default(autoincrement())
   idUsuarioEmisor     Int
-  idUsuarioSupervisor Int
+  idUsuarioSupervisor Int?
   idArea              Int
   idRecordatorio      Int      @unique
-  nombre              String   @db.VarChar(40)
+  nombre              String   @db.VarChar(100)
   dia                 Int
   fechaHora           DateTime @default(now())
-  pisos               Boolean
-  cuartosFrios        Boolean
-  basculas            Boolean
-  racks               Boolean
-  cortinas            Boolean
-  rampas              Boolean
-  patines             Boolean
+  pisos               Boolean?
+  cuartosFrios        Boolean?
+  basculas            Boolean?
+  racks               Boolean?
+  cortinas            Boolean?
+  rampas              Boolean?
+  patines             Boolean?
   observaciones       String?  @db.MediumText
-  estado              String   @db.VarChar(10)
+  estado              Estado   @default(creado)
 
   usuarioEmisor                        usuarios      @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
-  usuarioSupervisor                    usuarios      @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
+  usuarioSupervisor                    usuarios?     @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
   areaBitacoraLimpiezaEntregas         areas         @relation(fields: [idArea], references: [id])
   recordatorioBitacoraLimpiezaEntregas recordatorios @relation(fields: [idRecordatorio], references: [id])
+}
+
+enum Estado {
+  creado
+  revisado
+  noRevisado
+  enRevision
+}
+
+enum Area {
+  recido
+  cribaFV
+  empaque
+  almacen_comp
+  almacen
+  entrega
+  cuartos_frios
+}
+
+enum Rol {
+  administrador
+  coordinador
+  supervisor
 }
