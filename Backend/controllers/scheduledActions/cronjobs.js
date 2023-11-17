@@ -20,14 +20,13 @@ function initScheduledJobs(){
     const EscanearPorNotifs = cron.schedule(horaEscanearPorNotifs, async () => {
         const currentTime = new Date();
         const lastMinute = new Date(currentTime);
-        lastMinute.setMinutes(currentTime.getMinutes() - 10000000);
+        lastMinute.setMinutes(currentTime.getMinutes() - 1);
       
         const notifications = await fetchNotifications(lastMinute, currentTime);
       
         //console.log('Notifications found:', notifications);
         
         for(const i in notifications){
-            console.log("aaaa")
             sendNotifMail(notifications[i])
         }
       })
