@@ -1,4 +1,5 @@
 import * as Linking from "expo-linking";
+import * as SecureStore from 'expo-secure-store';
 import React, { useState } from "react";
 
 import {
@@ -22,9 +23,8 @@ const backgroundlogo = "../assets/images/Logo.png";
 const footer = "../assets/images/footer.png";
 
 
-function Login() {
+function Login({ setVerified }) {
   const [email, setEmail] = useState("");
-  const [verified, setVerified] = useState(false);
 
   const url = Linking.useURL();
 
@@ -44,20 +44,24 @@ function Login() {
 	};
 
   const verifyOTP = (data) => {
-			fetch(`http://${serverIP}:3000/login/verify_otp`, {
-				method: "POST",
-				headers: { 
-					"Content-Type": "application/json" 
-				},
-        body: JSON.stringify({email: data.email, otp: data.otp})
-			})
-				.then((res) => {
-				if (res.status == 200) {
+		fetch(`http://${serverIP}:3000/login/verify_otp`, {
+			method: "POST",
+			headers: { 
+				"Content-Type": "application/json" 
+			},
+			body: JSON.stringify({email: data.email, otp: data.otp})
+		})
+			.then((res) => {
+			if (res.status == 200) {
+				res.json().then(async (body) => {
+					const token = body.token;
+					await SecureStore.setItemAsync("token", token);
 					setVerified(true);
-				}
-				else
-					console.log(res);
-			})
+				});
+			}
+			else
+				console.log("Invalid OTP");
+		})
   }
   
   if (url)  {
@@ -83,10 +87,6 @@ function Login() {
         <StyledText className="my-6 font-bold text-2xl text-white mb-12">
           Iniciar Sesión
         </StyledText>
-
-				{verified && <StyledText className="my-6 font-bold text-2xl text-white mb-12">
-					Verificado 
-        </StyledText>}
           
           <StyledTextInput
             className="bg-white p-3 rounded-xl shadow px-8 pt-4 pb-4 mb-4 w-full max-w-xs mt-3"

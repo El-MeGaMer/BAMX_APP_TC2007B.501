@@ -1,6 +1,20 @@
 import { PrismaClient } from "@prisma/client"
 import otpGenerator from "otp-generator"
 import nodemailer from "nodemailer"
+import jwt from "jsonwebtoken"
+import dotenv from "dotenv"
+
+export const auth = (req, res) => {
+	dotenv.config();
+
+	const token = req.body.token;
+	jwt.verify(token, process.env.SECRET, (err, decoded) => {
+		if (err)
+			res.status(400).json({ error: "Invalid token" });
+		else
+			res.status(200).json({ error: "Valid token" });
+	});
+}
 
 export const genOTP =  async (req, res) => {
 
@@ -39,7 +53,7 @@ export const genOTP =  async (req, res) => {
     // Send email
 
     // put your ip here if you wish to test
-    const expoIP = "";
+	const expoIP = "";
     const emailMessage = `<a href='exp://${expoIP}/?otp=${OTP}&email=${req.body.email}'> Click para login </a>` ;
 
     const transporter = nodemailer.createTransport({
@@ -70,6 +84,7 @@ export const genOTP =  async (req, res) => {
 }
 
 export const verifyOTP = async(req, res) => {
+	dotenv.config();
     const userEmail = req.body.email;
     const inputOTP = req.body.otp;
 
@@ -95,7 +110,8 @@ export const verifyOTP = async(req, res) => {
 	        res.status(400).json({error: "Invalid OTP"});
 		console.log("invalid otp");
 	    } else {
-	        res.status(200).json({message: "Success"});
+			const token = jwt.sign({ email: userEmail }, process.env.SECRET, { expiresIn: 100000 }); 
+	        res.status(200).json({ token });
         }
     }
 }
