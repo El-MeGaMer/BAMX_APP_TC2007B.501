@@ -9,8 +9,8 @@ import { fillAlimentoCompartido } from '../controllers/Bitacora/alimento_compart
 import { fillTemperaturas } from '../controllers/Bitacora/temperatura_controller.js'
 import { fillCribaFV } from '../controllers/Bitacora/cribaFV_controller.js'
 import { getBitacorasEstado } from '../controllers/Bitacora/visualizacion_bitacoras_controller.js'
-import { getBitacorasPerDay } from '../controllers/Bitacora/visualizacion_bitacotas_fecha_controller.js'
-import { getBitacorasState } from '../controllers/Bitacora/visualizacion_bitacoras_estado_controller.js'
+import { getBitacorasPerDay } from '../controllers/Bitacora/visualizacion_bitacoras_controller.js'
+import { getBitacorasState } from '../controllers/Bitacora/visualizacion_bitacoras_controller.js'
 
 const router = express.Router()
 
