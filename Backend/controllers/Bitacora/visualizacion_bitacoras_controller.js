@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient
 
+
 export const getBitacorasEstado = async (req, res) => {
     const { estado } = req.params;
     const { nombreArea } = req.query;
@@ -36,9 +37,9 @@ export const getBitacorasEstado = async (req, res) => {
                 idUsuarioEmisor: true,
                 idArea: true,
                 idRecordatorio: true,
+                estado: true,
                 areaBitacoraExtintor: true 
             },
-            // include: { areaBitacoraExtintor: true }
         });
         const bitacoraAliCom = await prisma.bitacoraLimpiezaAlimentoCompartidos.findMany({
             where: alimentosCompartido,
@@ -47,9 +48,9 @@ export const getBitacorasEstado = async (req, res) => {
                 idUsuarioEmisor: true,
                 idArea: true,
                 idRecordatorio: true,
+                estado: true,
                 areaBitacoraLimpiezaAlimentoCompartido: true
             },
-            // include: { areaBitacoraLimpiezaAlimentoCompartido: true }
         });
         const bitacoraTem = await prisma.bitacoraTemperaturas.findMany({
             where: temperatura,
@@ -58,9 +59,9 @@ export const getBitacorasEstado = async (req, res) => {
                 idUsuarioEmisor: true,
                 idArea: true,
                 idRecordatorio: true,
+                estado: true,
                 areaBitacoraTemperatura: true
             },
-            // include: { areaBitacoraTemperatura: true }
         });
         const bitacoraLimRec = await prisma.bitacoraLimpiezaRecibos.findMany({
             where: limpiezaRecibos,
@@ -69,9 +70,9 @@ export const getBitacorasEstado = async (req, res) => {
                 idUsuarioEmisor: true,
                 idArea: true,
                 idRecordatorio: true,
+                estado: true,
                 areaBitacoraLimpiezaRecibos: true 
             },
-            // include: { areaBitacoraLimpiezaRecibos: true }
         });
         const bitacoraLimEmp = await prisma.bitacoraLimpiezaEmpaques.findMany({
             where: limpiezaEmpaques,
@@ -80,9 +81,9 @@ export const getBitacorasEstado = async (req, res) => {
                 idUsuarioEmisor: true,
                 idArea: true,
                 idRecordatorio: true,
+                estado: true,
                 areaBitacoraLimpiezaEmpaques: true
             },
-            // include: { areaBitacoraLimpiezaEmpaques: true }
         });
         const bitacoraLimCFV = await prisma.bitacoraLimpiezaCribasFV.findMany({
             where: limpiezaCribas,
@@ -91,9 +92,9 @@ export const getBitacorasEstado = async (req, res) => {
                 idUsuarioEmisor: true,
                 idArea: true,
                 idRecordatorio: true,
+                estado: true,
                 areaBitacoraLimpiezaCribasFVs: true
             },
-            // include: { areaBitacoraLimpiezaCribasFVs: true }
         });
         const bitacoraLimAl = await prisma.bitacoraLimpiezaAlmacenes.findMany({
             where: limpiezaAlmacenes,
@@ -102,9 +103,9 @@ export const getBitacorasEstado = async (req, res) => {
                 idUsuarioEmisor: true,
                 idArea: true,
                 idRecordatorio: true,
+                estado: true,
                 areaBitacoraLimpiezaAlmacenes: true
             },
-            // include: { areaBitacoraLimpiezaAlmacenes: true }
         });
         const bitacoraLimEnt = await prisma.bitacoraLimpiezaEntregas.findMany({
             where: limpiezaEntregas,
@@ -113,9 +114,9 @@ export const getBitacorasEstado = async (req, res) => {
                 idUsuarioEmisor: true,
                 idArea: true,
                 idRecordatorio: true,
+                estado: true,
                 areaBitacoraLimpiezaEntregas: true
             },
-            // include: { areaBitacoraLimpiezaEntregas: true }
         });
 
         const combinedResult = [
@@ -135,4 +136,124 @@ export const getBitacorasEstado = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+
+// Bitacoras por dia
+export const getBitacorasPerDay = async (req, res) => {
+    let today = new Date().toLocaleDateString('se-SE')
+    console.log("Fecha de ahora:", today)
+
+    const { id } = req.params
+
+    function getBitacoraPerDay(areaFieldName) {
+        const bitacora = {
+            where: {
+                idUsuarioEmisor: Number(id),
+                fechaHora: {
+                    gte: new Date(today)
+                }
+            }, select: {
+                id: true,
+                idUsuarioEmisor: true,
+                estado: true,
+                [areaFieldName]: true
+            }
+        }
+        return bitacora
+    }
+
+    try {
+        const extintores = getBitacoraPerDay('areaBitacoraExtintor')
+        const temperatura = getBitacoraPerDay('areaBitacoraTemperatura')
+        const alimentosCompartido = getBitacoraPerDay('areaBitacoraLimpiezaAlimentoCompartido');
+        const limpiezaRecibos = getBitacoraPerDay('areaBitacoraLimpiezaRecibos')
+        const limpiezaEmpaques = getBitacoraPerDay('areaBitacoraLimpiezaEmpaques')
+        const limpiezaCribas = getBitacoraPerDay('areaBitacoraLimpiezaCribasFVs')
+        const limpiezaAlmacenes = getBitacoraPerDay('areaBitacoraLimpiezaAlmacenes')
+        const limpiezaEntregas = getBitacoraPerDay('areaBitacoraLimpiezaEntregas')
+
+        const bitacoraExtPD = await prisma.bitacoraExtintores.findMany(extintores)
+        const bitacoraTemPD = await prisma.bitacoraTemperaturas.findMany(temperatura)
+        const bitacoraAliComPD = await prisma.bitacoraLimpiezaAlimentoCompartidos.findMany(alimentosCompartido)
+        const bitacoraLimRecPD = await prisma.bitacoraLimpiezaRecibos.findMany(limpiezaRecibos)
+        const bitacoraLimEmpPD = await prisma.bitacoraLimpiezaEmpaques.findMany(limpiezaEmpaques)
+        const bitacoraLimCFVPD = await prisma.bitacoraLimpiezaCribasFV.findMany(limpiezaCribas)
+        const bitacoraLimAlPD = await prisma.bitacoraLimpiezaAlmacenes.findMany(limpiezaAlmacenes)
+        const bitacoraLimEntPD = await prisma.bitacoraLimpiezaEntregas.findMany(limpiezaEntregas)
+
+        const combinedResult = [
+            ...bitacoraExtPD,
+            ...bitacoraTemPD,
+            ...bitacoraAliComPD,
+            ...bitacoraLimRecPD,
+            ...bitacoraLimEmpPD,
+            ...bitacoraLimCFVPD,
+            ...bitacoraLimAlPD,
+            ...bitacoraLimEntPD
+        ];
+
+        const bitacorasFiltrada = combinedResult.filter(item => item.estado !== "revisado");
+
+        res.json(bitacorasFiltrada)
+    } catch (error) {
+        console.error('Error! Entry not found:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+// Json separados por revisado o no revisado
+export const getBitacorasState = async (req, res) => {
+    function getBitacoraNoRevisado(areaFieldName) {
+        const bitacora = {
+            select: {
+                id: true,
+                idUsuarioEmisor: true,
+                estado: true,
+                [areaFieldName]: true
+            }
+        }
+        return bitacora
+    }
+
+    try {
+        const extintores = getBitacoraNoRevisado('areaBitacoraExtintor')
+        const temperatura = getBitacoraNoRevisado('areaBitacoraTemperatura')
+        const alimentosCompartido = getBitacoraNoRevisado('areaBitacoraLimpiezaAlimentoCompartido');
+        const limpiezaRecibos = getBitacoraNoRevisado('areaBitacoraLimpiezaRecibos')
+        const limpiezaEmpaques = getBitacoraNoRevisado('areaBitacoraLimpiezaEmpaques')
+        const limpiezaCribas = getBitacoraNoRevisado('areaBitacoraLimpiezaCribasFVs')
+        const limpiezaAlmacenes = getBitacoraNoRevisado('areaBitacoraLimpiezaAlmacenes')
+        const limpiezaEntregas = getBitacoraNoRevisado('areaBitacoraLimpiezaEntregas')
+
+        const bitacoraExt = await prisma.bitacoraExtintores.findMany(extintores)
+        const bitacoraTem = await prisma.bitacoraTemperaturas.findMany(temperatura)
+        const bitacoraAliCom = await prisma.bitacoraLimpiezaAlimentoCompartidos.findMany(alimentosCompartido)
+        const bitacoraLimRec = await prisma.bitacoraLimpiezaRecibos.findMany(limpiezaRecibos)
+        const bitacoraLimEmp = await prisma.bitacoraLimpiezaEmpaques.findMany(limpiezaEmpaques)
+        const bitacoraLimCFV = await prisma.bitacoraLimpiezaCribasFV.findMany(limpiezaCribas)
+        const bitacoraLimAl = await prisma.bitacoraLimpiezaAlmacenes.findMany(limpiezaAlmacenes)
+        const bitacoraLimEnt = await prisma.bitacoraLimpiezaEntregas.findMany(limpiezaEntregas)
+
+        const combinedResult  = [
+            ...bitacoraExt,
+            ...bitacoraTem,
+            ...bitacoraAliCom,
+            ...bitacoraLimRec,
+            ...bitacoraLimEmp,
+            ...bitacoraLimCFV,
+            ...bitacoraLimAl,
+            ...bitacoraLimEnt
+        ];
+
+        const bitacorasRevisadas = combinedResult.filter(item => item.estado == "noRevisado");
+        const bitacotasNoRevisadas = combinedResult.filter(item => item.estado == "enRevision");
+        
+        const bitacorasPerState = [bitacorasRevisadas, bitacotasNoRevisadas]
+
+        res.json(...bitacorasPerState)
+    } catch (error) {
+        console.error('Error! Entry not found:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
 
