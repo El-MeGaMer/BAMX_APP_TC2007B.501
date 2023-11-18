@@ -9,15 +9,16 @@ const prisma = new PrismaClient
 
 export const updateEmpaque = async (req, res) => {
     try {
-        const {idUser, id}= req.params
+        const {id}= req.params
+        const newData = req.body
 
-        const data = req.body
-
+        console.log(id)
+        console.log(req.body)
         result = await prisma.bitacoraLimpiezaEmpaques.update({
-            where: {id: parseInt(id)},
-            data: data
+            where: {id: Number(id)},
+            data: newData
         })
-         
+        
         res.json(result)
 
     } catch (error) {

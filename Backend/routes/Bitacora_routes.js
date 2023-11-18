@@ -22,7 +22,7 @@ router.get("/Incidente/getBitacoras/:idArea", getIncidentes)
 router.put("/Recibo/user=:idUser/log=:id", updateRecibo)
 
 //Empaque Bitacoras
-router.put("/Empaque/user=:idUser/log=:id", updateEmpaque)
+router.get("/Empaque/fill/:id", updateEmpaque)
 
 // Almacen Bitacoras
 router.put("/Almacen/user=:idUser/log=:id", updateAlmacen)
