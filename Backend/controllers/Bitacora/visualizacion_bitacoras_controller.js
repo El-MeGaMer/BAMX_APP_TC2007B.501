@@ -7,16 +7,42 @@ export const getBitacorasEstado = async (req, res) => {
     const { estado } = req.params;
     const { nombreArea } = req.query;
 
+
+    let today = new Date()
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1);
+    // today = new Date().toLocaleDateString('se-SE')
+
+    console.log("Fecha de ahora:", today)
+    console.log("Primer dia del mes:", firstDayOfMonth)
+    console.log("Ultimo dia del mes:", lastDayOfMonth)
+
     function createCondition(areaFieldName, nombreArea) {
         const condition = {
-            estado: String(estado),
-        };
+            where: {
+                estado: String(estado),
+                fechaHora: {
+                    gte: firstDayOfMonth,
+                    lt: lastDayOfMonth
+                }
+            },
+            select: {
+                id: true,
+                idUsuarioEmisor: true,
+                idArea: true,
+                idRecordatorio: true,
+                estado: true,
+                fechaHora: true,
+                [areaFieldName]: true
+            }
+        }
 
         if (nombreArea) {
-            condition[areaFieldName] = {
+            condition.where[areaFieldName] = {
                 nombreArea: String(nombreArea)
             };
         }
+
         return condition;
     }
 
@@ -30,94 +56,15 @@ export const getBitacorasEstado = async (req, res) => {
         const limpiezaAlmacenes = createCondition('areaBitacoraLimpiezaAlmacenes', nombreArea)
         const limpiezaEntregas = createCondition('areaBitacoraLimpiezaEntregas', nombreArea)
 
-        const bitacoraExt = await prisma.bitacoraExtintores.findMany({
-            where: extintores,
-            select: {
-                id: true,
-                idUsuarioEmisor: true,
-                idArea: true,
-                idRecordatorio: true,
-                estado: true,
-                areaBitacoraExtintor: true 
-            },
-        });
-        const bitacoraAliCom = await prisma.bitacoraLimpiezaAlimentoCompartidos.findMany({
-            where: alimentosCompartido,
-            select: {
-                id: true,
-                idUsuarioEmisor: true,
-                idArea: true,
-                idRecordatorio: true,
-                estado: true,
-                areaBitacoraLimpiezaAlimentoCompartido: true
-            },
-        });
-        const bitacoraTem = await prisma.bitacoraTemperaturas.findMany({
-            where: temperatura,
-            select: {
-                id: true,
-                idUsuarioEmisor: true,
-                idArea: true,
-                idRecordatorio: true,
-                estado: true,
-                areaBitacoraTemperatura: true
-            },
-        });
-        const bitacoraLimRec = await prisma.bitacoraLimpiezaRecibos.findMany({
-            where: limpiezaRecibos,
-            select: {
-                id: true,
-                idUsuarioEmisor: true,
-                idArea: true,
-                idRecordatorio: true,
-                estado: true,
-                areaBitacoraLimpiezaRecibos: true 
-            },
-        });
-        const bitacoraLimEmp = await prisma.bitacoraLimpiezaEmpaques.findMany({
-            where: limpiezaEmpaques,
-            select: {
-                id: true,
-                idUsuarioEmisor: true,
-                idArea: true,
-                idRecordatorio: true,
-                estado: true,
-                areaBitacoraLimpiezaEmpaques: true
-            },
-        });
-        const bitacoraLimCFV = await prisma.bitacoraLimpiezaCribasFV.findMany({
-            where: limpiezaCribas,
-            select: {
-                id: true,
-                idUsuarioEmisor: true,
-                idArea: true,
-                idRecordatorio: true,
-                estado: true,
-                areaBitacoraLimpiezaCribasFVs: true
-            },
-        });
-        const bitacoraLimAl = await prisma.bitacoraLimpiezaAlmacenes.findMany({
-            where: limpiezaAlmacenes,
-            select: {
-                id: true,
-                idUsuarioEmisor: true,
-                idArea: true,
-                idRecordatorio: true,
-                estado: true,
-                areaBitacoraLimpiezaAlmacenes: true
-            },
-        });
-        const bitacoraLimEnt = await prisma.bitacoraLimpiezaEntregas.findMany({
-            where: limpiezaEntregas,
-            select: {
-                id: true,
-                idUsuarioEmisor: true,
-                idArea: true,
-                idRecordatorio: true,
-                estado: true,
-                areaBitacoraLimpiezaEntregas: true
-            },
-        });
+
+        const bitacoraExt = await prisma.bitacoraExtintores.findMany(extintores);
+        const bitacoraAliCom = await prisma.bitacoraLimpiezaAlimentoCompartidos.findMany(alimentosCompartido);
+        const bitacoraTem = await prisma.bitacoraTemperaturas.findMany(temperatura);
+        const bitacoraLimRec = await prisma.bitacoraLimpiezaRecibos.findMany(limpiezaRecibos);
+        const bitacoraLimEmp = await prisma.bitacoraLimpiezaEmpaques.findMany(limpiezaEmpaques);
+        const bitacoraLimCFV = await prisma.bitacoraLimpiezaCribasFV.findMany(limpiezaCribas);
+        const bitacoraLimAl = await prisma.bitacoraLimpiezaAlmacenes.findMany(limpiezaAlmacenes);
+        const bitacoraLimEnt = await prisma.bitacoraLimpiezaEntregas.findMany(limpiezaEntregas);
 
         const combinedResult = [
             ...bitacoraExt,
@@ -145,7 +92,7 @@ export const getBitacorasPerDay = async (req, res) => {
 
     const { id } = req.params
 
-    function getBitacoraPerDay(areaFieldName) {
+    function bitacoraPerDay(areaFieldName) {
         const bitacora = {
             where: {
                 idUsuarioEmisor: Number(id),
@@ -163,14 +110,14 @@ export const getBitacorasPerDay = async (req, res) => {
     }
 
     try {
-        const extintores = getBitacoraPerDay('areaBitacoraExtintor')
-        const temperatura = getBitacoraPerDay('areaBitacoraTemperatura')
-        const alimentosCompartido = getBitacoraPerDay('areaBitacoraLimpiezaAlimentoCompartido');
-        const limpiezaRecibos = getBitacoraPerDay('areaBitacoraLimpiezaRecibos')
-        const limpiezaEmpaques = getBitacoraPerDay('areaBitacoraLimpiezaEmpaques')
-        const limpiezaCribas = getBitacoraPerDay('areaBitacoraLimpiezaCribasFVs')
-        const limpiezaAlmacenes = getBitacoraPerDay('areaBitacoraLimpiezaAlmacenes')
-        const limpiezaEntregas = getBitacoraPerDay('areaBitacoraLimpiezaEntregas')
+        const extintores = bitacoraPerDay('areaBitacoraExtintor')
+        const temperatura = bitacoraPerDay('areaBitacoraTemperatura')
+        const alimentosCompartido = bitacoraPerDay('areaBitacoraLimpiezaAlimentoCompartido');
+        const limpiezaRecibos = bitacoraPerDay('areaBitacoraLimpiezaRecibos')
+        const limpiezaEmpaques = bitacoraPerDay('areaBitacoraLimpiezaEmpaques')
+        const limpiezaCribas = bitacoraPerDay('areaBitacoraLimpiezaCribasFVs')
+        const limpiezaAlmacenes = bitacoraPerDay('areaBitacoraLimpiezaAlmacenes')
+        const limpiezaEntregas = bitacoraPerDay('areaBitacoraLimpiezaEntregas')
 
         const bitacoraExtPD = await prisma.bitacoraExtintores.findMany(extintores)
         const bitacoraTemPD = await prisma.bitacoraTemperaturas.findMany(temperatura)
@@ -203,8 +150,23 @@ export const getBitacorasPerDay = async (req, res) => {
 
 // Json separados por revisado o no revisado
 export const getBitacorasState = async (req, res) => {
-    function getBitacoraNoRevisado(areaFieldName) {
+
+    let today = new Date()
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1);
+
+    console.log("Fecha de ahora:", today)
+    console.log("Primer dia del mes:", firstDayOfMonth)
+    console.log("Ultimo dia del mes:", lastDayOfMonth)
+
+    function bitacoraState(areaFieldName) {
         const bitacora = {
+            where: {
+                fechaHora: {
+                    gte: firstDayOfMonth,
+                    lt: lastDayOfMonth
+                }
+            },
             select: {
                 id: true,
                 idUsuarioEmisor: true,
@@ -216,14 +178,14 @@ export const getBitacorasState = async (req, res) => {
     }
 
     try {
-        const extintores = getBitacoraNoRevisado('areaBitacoraExtintor')
-        const temperatura = getBitacoraNoRevisado('areaBitacoraTemperatura')
-        const alimentosCompartido = getBitacoraNoRevisado('areaBitacoraLimpiezaAlimentoCompartido');
-        const limpiezaRecibos = getBitacoraNoRevisado('areaBitacoraLimpiezaRecibos')
-        const limpiezaEmpaques = getBitacoraNoRevisado('areaBitacoraLimpiezaEmpaques')
-        const limpiezaCribas = getBitacoraNoRevisado('areaBitacoraLimpiezaCribasFVs')
-        const limpiezaAlmacenes = getBitacoraNoRevisado('areaBitacoraLimpiezaAlmacenes')
-        const limpiezaEntregas = getBitacoraNoRevisado('areaBitacoraLimpiezaEntregas')
+        const extintores = bitacoraState('areaBitacoraExtintor')
+        const temperatura = bitacoraState('areaBitacoraTemperatura')
+        const alimentosCompartido = bitacoraState('areaBitacoraLimpiezaAlimentoCompartido');
+        const limpiezaRecibos = bitacoraState('areaBitacoraLimpiezaRecibos')
+        const limpiezaEmpaques = bitacoraState('areaBitacoraLimpiezaEmpaques')
+        const limpiezaCribas = bitacoraState('areaBitacoraLimpiezaCribasFVs')
+        const limpiezaAlmacenes = bitacoraState('areaBitacoraLimpiezaAlmacenes')
+        const limpiezaEntregas = bitacoraState('areaBitacoraLimpiezaEntregas')
 
         const bitacoraExt = await prisma.bitacoraExtintores.findMany(extintores)
         const bitacoraTem = await prisma.bitacoraTemperaturas.findMany(temperatura)
@@ -234,7 +196,7 @@ export const getBitacorasState = async (req, res) => {
         const bitacoraLimAl = await prisma.bitacoraLimpiezaAlmacenes.findMany(limpiezaAlmacenes)
         const bitacoraLimEnt = await prisma.bitacoraLimpiezaEntregas.findMany(limpiezaEntregas)
 
-        const combinedResult  = [
+        const combinedResult = [
             ...bitacoraExt,
             ...bitacoraTem,
             ...bitacoraAliCom,
@@ -247,10 +209,10 @@ export const getBitacorasState = async (req, res) => {
 
         const bitacorasRevisadas = combinedResult.filter(item => item.estado == "noRevisado");
         const bitacotasNoRevisadas = combinedResult.filter(item => item.estado == "enRevision");
-        
+
         const bitacorasPerState = [bitacorasRevisadas, bitacotasNoRevisadas]
 
-        res.json(...bitacorasPerState)
+        res.json(bitacorasPerState)
     } catch (error) {
         console.error('Error! Entry not found:', error);
         res.status(500).json({ error: 'Internal Server Error' });
