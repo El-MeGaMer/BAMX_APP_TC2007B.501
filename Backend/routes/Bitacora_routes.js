@@ -4,11 +4,11 @@ import { createIncidente, getIncidentes } from "../controllers/Bitacora/incident
 import { updateRecibo } from "../controllers/Bitacora/recibo_controller.js"
 import { updateEmpaque } from "../controllers/Bitacora/empaque_controller.js"
 import { updateAlmacen} from "../controllers/Bitacora/almacen_controller.js"
-import { fillExtinctor } from '../controllers/Bitacora/extintor_controller.js'
-import { fillEntrega } from '../controllers/Bitacora/entrega_controller.js'
-import { fillAlimentoCompartido } from '../controllers/Bitacora/alimento_compartido_controller.js'
-import { fillTemperaturas } from '../controllers/Bitacora/temperatura_controller.js'
-import { fillCribaFV } from '../controllers/Bitacora/cribaFV_controller.js'
+import { updateExtinctor } from '../controllers/Bitacora/extintor_controller.js'
+import { updateEntrega } from '../controllers/Bitacora/entrega_controller.js'
+import { updateAlimentoCompartido } from '../controllers/Bitacora/alimento_compartido_controller.js'
+import { updateTemperaturas } from '../controllers/Bitacora/temperatura_controller.js'
+import { updateCribaFV } from '../controllers/Bitacora/cribaFV_controller.js'
 import { getBitacorasEstado } from '../controllers/Bitacora/visualizacion_bitacoras_controller.js'
 
 const upload = multer()
@@ -28,18 +28,22 @@ router.put("/Empaque/user=:idUser/log=:id", updateEmpaque)
 router.put("/Almacen/user=:idUser/log=:id", updateAlmacen)
 
 // Entregas Bitacora
-router.put("/Entregas/fill/:id", fillEntrega)
+router.put("/Entrega/:id", updateEntrega)
 
 // Alimento Compartido Bitacora
-router.put("/AlimentoCompartido/fill/:id", fillAlimentoCompartido)
+router.put("/AlimentoCompartido/user=:idUser/log=:id", updateAlimentoCompartido)
 
 // Temperaturas Bitacora
-router.put("/Temperatura/fill/:id", fillTemperaturas)
+router.put("/Temperatura/user=:idUser/log=:id", updateTemperaturas)
 
 // Criba FV Bitacora
-router.put("/CribaFV/fill/:id", fillCribaFV)
+router.put("/CribaFV/user=:idUser/log=:id", updateCribaFV)
+
+// Extintores Bitacora
+router.put("/Extintor/user=:idUser/log=:id", updateExtinctor)
 
 // Estado bitacoras
 router.get("/:estado", getBitacorasEstado)
+
 
 export default router
