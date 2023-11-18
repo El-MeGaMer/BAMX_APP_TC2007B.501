@@ -12,9 +12,9 @@ export const updateEmpaque = async (req, res) => {
         const {id}= req.params
         const newData = req.body
 
-        console.log(id)
-        console.log(req.body)
-        result = await prisma.bitacoraLimpiezaEmpaques.update({
+        console.log(Number(id))
+        console.log(newData.observaciones)
+        const result = await prisma.bitacoraLimpiezaEmpaques.update({
             where: {id: Number(id)},
             data: newData
         })

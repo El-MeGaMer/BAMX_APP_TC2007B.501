@@ -9,53 +9,16 @@ const prisma = new PrismaClient
 
 export const updateRecibo = async (req, res) => {
     try {
-        const {idUser, id}= req.params
+        const {id}= req.params
+        const newData = req.body
 
-        const seeIdUser = await prisma.usuarios.findUnique({
-            where: {id: parseInt(idUser)},
-            select: {
-                idRol: true
-            }
+        console.log(Number(id))
+        console.log(newData.observaciones)
+        const result = await prisma.bitacoraLimpiezaRecibos.update({
+            where: {id: Number(id)},
+            data: newData
         })
-
-        let nameRole = ""
-        if(seeIdUser && seeIdUser.idRol) {
-            const role = await prisma.roles.findUnique({
-                where: { id: parseInt(seeIdUser.idRol) },
-                select: { nombreRol: true }
-            })
-            nameRole = role ? role.nombreRol : ""
-        }
-
-        let result
-        if (nameRole === "coordinador") {
-            result = await prisma.bitacoraLimpiezaRecibos.update({
-                where: {id: parseInt(id)},
-                data: {
-                    estado: "revisado"
-                } 
-            })
-
-        } else {
-            const {
-                areaArmado,
-                areaRecibo,
-                patio,
-                rampas,
-                cuartosFrios,
-                congelador,
-                transporte,
-                observaciones
-            } = req.body
-
-            const newData = { ...req.body, estado: "enRevision" }
-
-            result = await prisma.bitacoraLimpiezaRecibos.update({
-                where: {id: parseInt(id)},
-                data: newData
-            })
-        }  
-
+        
         res.json(result)
 
     } catch (error) {

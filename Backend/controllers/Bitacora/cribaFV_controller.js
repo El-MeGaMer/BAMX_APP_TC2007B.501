@@ -9,7 +9,7 @@ const prisma = new PrismaClient
 
 
 //Llenar bitacora rutinaria de criba frutas y verduras (Actualizarla)
-export const fillCribaFV = async (req, res) => {
+export const updateCribaFV = async (req, res) => {
 
     const {id} = req.params;
     const data = req.body;

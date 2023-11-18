@@ -19,13 +19,13 @@ router.post("/Incidente/create", upload.single('photo'), createIncidente)
 router.get("/Incidente/getBitacoras/:idArea", getIncidentes)
 
 //Recibo Bitacoras
-router.put("/Recibo/user=:idUser/log=:id", updateRecibo)
+router.put("/Recibo/fill/:id", updateRecibo)
 
 //Empaque Bitacoras
-router.get("/Empaque/fill/:id", updateEmpaque)
+router.put("/Empaque/fill/:id", updateEmpaque)
 
 // Almacen Bitacoras
-router.put("/Almacen/user=:idUser/log=:id", updateAlmacen)
+router.put("/Almacen/fill/:id", updateAlmacen)
 
 // Entregas Bitacora
 router.put("/Entrega/:id", updateEntrega)

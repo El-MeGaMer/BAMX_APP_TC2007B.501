@@ -9,7 +9,7 @@ const prisma = new PrismaClient
 
 
 //Llenar bitacora rutinaria de Entrega (Actualizarla)
-export const fillEntrega = async (req, res) => {
+export const updateEntrega = async (req, res) => {
     const {id} = req.params;
     const data = req.body;
         

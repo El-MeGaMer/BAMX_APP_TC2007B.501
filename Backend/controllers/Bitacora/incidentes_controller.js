@@ -27,8 +27,7 @@ export const createIncidente = async (req, res) => {
             data: {
                 titulo: "Incidente-" + area + "-" + fechaActual.slice(0, 10),
                 descripcion,
-                fechaHora: fechaActual,
-                estado: "NoVisto"
+                fechaHora: fechaActual
             }
         })
 
@@ -45,8 +44,9 @@ export const createIncidente = async (req, res) => {
                 await prisma.notificacionesUsuarios.create({
                 data: {
                     idNotificacion: createNotificacion.id,
-                    idUsuario: usuario.id
-                },
+                    idUsuario: usuario.id,
+                    estado: "noRevisado"
+                }
                 })
             })
         }
@@ -54,7 +54,8 @@ export const createIncidente = async (req, res) => {
         const areaResponsable = await prisma.notificacionesUsuarios.create({
             data: {
                 idNotificacion: createNotificacion.id,
-                idUsuario: usuarioConMismoId.id
+                idUsuario: usuarioConMismoId.id,
+                estado: "noRevisado"
             }
         })
 
