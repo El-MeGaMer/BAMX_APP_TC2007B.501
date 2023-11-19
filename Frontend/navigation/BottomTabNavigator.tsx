@@ -12,6 +12,7 @@ import IncidentScreen from "../screens/IncidentScreen";
 import LogsScreen from "../screens/LogsScreen";
 import UserScreen from "../screens/UserScreen";
 import CreateLogScreen from "../screens/CreateLogScreen";
+import ExportarBitacoras from "../screens/ExportarBitacora";
 
 const BottomTab = createBottomTabNavigator();
 
@@ -48,7 +49,7 @@ export default function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Incident"
-        component={IncidentNavigator}
+        component={ExBitNavigator}
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => (
@@ -233,5 +234,29 @@ function UserNavigator() {
         }}
       />
     </UserStack.Navigator>
+  );
+}
+
+function ExBitNavigator() {
+  return (
+    <IncidentStack.Navigator>
+      <IncidentStack.Screen
+        name="ExportarBitacora"
+        component={ExportarBitacoras}
+        options={{
+          headerTitle: "Exportar Datos",
+          headerStyle: {
+            backgroundColor: "#FF8000",
+            elevation: 0,
+            shadowOpacity: 0,
+            borderBottomWidth: 0,
+          },
+          headerTitleStyle: {
+            fontWeight: "bold",
+            color: "white",
+          },
+        }}
+      />
+    </IncidentStack.Navigator>
   );
 }
