@@ -1,86 +1,162 @@
 import React, { useState } from 'react';
-import { View, Text, Button, Image } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
-import ImagePicker, { launchImageLibrary, ImageLibraryOptions, ImagePickerResponse } from 'react-native-image-picker';
+import { View, Text, TextInput, Button, TouchableOpacity, Image } from 'react-native';
+import { launchCamera, MediaType } from 'react-native-image-picker';
+import RNPickerSelect from 'react-native-picker-select';
 import { DB_FILTERS } from '../constants/DB_constants';
+import Container from "./Container";
+import Background from './Background';
+const DropDown: React.FC = () => {
+  const [selectedArea, setSelectedArea] = useState<string>('');
+  const [incidentDescription, setIncidentDescription] = useState<string>('');
+  const [imageAttachment, setImageAttachment] = useState('https://via.placeholder.com/100');
 
-const DropDown = () => {
-    const [open1, setOpen1] = useState(false);
-    const [value1, setValue1] = useState(null);
-    const [imageUri, setImageUri] = useState<string | null>(null);
-    const [items1, setItems1] = useState([
-        { label: 'Recibo', value: DB_FILTERS.AREA1 },
-        { label: 'CribaFV', value: DB_FILTERS.AREA2 },
-        { label: 'Empaque', value: DB_FILTERS.AREA3 },
-        { label: 'AlmacenComp', value: DB_FILTERS.AREA4 },
-        { label: 'Almacen', value: DB_FILTERS.AREA5 },
-        { label: 'CuartosFrios', value: DB_FILTERS.AREA6 }
-    ]);
+  const areas = [
+    { label: 'Recibo', value: DB_FILTERS.AREA1 },
+    { label: 'CribaFV', value: DB_FILTERS.AREA2 },
+    { label: 'Empaque', value: DB_FILTERS.AREA3 },
+    { label: 'Entrega', value: DB_FILTERS.AREA4 },
+    { label: 'Almacen Comp', value: DB_FILTERS.AREA5 },
+    { label: 'Almacen', value: DB_FILTERS.AREA6 },
+    { label: 'Cuartos Frios', value: DB_FILTERS.AREA7 },
+  ];
 
-    const [open2, setOpen2] = useState(false);
-    const [value2, setValue2] = useState(null);
-    const [items2, setItems2] = useState([
-        { label: 'Opción1', value: 'opcion1' },
-        { label: 'Opción2', value: 'opcion2' },
-        { label: 'Opción3', value: 'opcion3' }
-    ]);
+  const handleAreaChange = (area: string) => {
+    setSelectedArea(area);
+  };
 
-    const handleImagePicker = () => {
-        const options: ImageLibraryOptions = {
-            mediaType: 'photo',
-        };
+  const handleDescriptionChange = (description: string) => {
+    setIncidentDescription(description);
+  };
 
-        launchImageLibrary(options, (response: ImagePickerResponse) => {
-            if (response.didCancel) {
-                console.log('La operación fue cancelada');
-            } else if (response.errorCode) {
-                console.error(`Error: ${response.errorCode}`);
-            } else if (response.assets && response.assets.length > 0) {
-                setImageUri(response.assets[0].uri);
-            }
-        });
+  const handleImageAttachment = async () => {
+    const options = {
+        mediaType: 'photo' as MediaType,
+        storageOptions: {
+            skipBackup: true,
+            path: 'images'
+        },
+        includeBase64: true,
     };
 
-    return (
-        <View style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingHorizontal: 15
-        }}>
-            <Text>Selecciona una área</Text>
-            <DropDownPicker
-                open={open1}
-                value={value1}
-                items={items1}
-                setOpen={setOpen1}
-                setValue={setValue1}
-                setItems={setItems1}
-                multiple={false}
-                theme="LIGHT"
-                mode="SIMPLE"
-            />
+    try {
+        const response = await launchCamera(options);
+        if (response.errorCode) {
+            console.log(response.errorMessage);
+        } else if (response.didCancel) {
+            console.log('El usuario canceló la fotografía');
+        } else {
+            const path = response.assets[0].uri;
+            setImageAttachment(path);
+        }
+    } catch (error) {
+        console.error('Error al lanzar la cámara:', error);
+    }
+};
 
-            <Text>Tipo de incidente</Text>
-            <DropDownPicker
-                open={open2}
-                value={value2}
-                items={items2}
-                setOpen={setOpen2}
-                setValue={setValue2}
-                setItems={setItems2}
-                multiple={false}
-                theme="LIGHT"
-                mode="SIMPLE"
-            />
 
-            <Text>Adjunta foto</Text>
-            <Button title="Adjuntar Foto" onPress={handleImagePicker} />
-            {imageUri && (
-                <Image source={{ uri: imageUri }} style={{ width: 200, height: 200 }} />
-            )}
-        </View>
-    );
+  const handleSubmit = () => {
+    console.log('Formulario enviado:', {
+      area: selectedArea,
+      description: incidentDescription,
+      image: imageAttachment,
+    });
+  };
+
+  return (
+    <View>
+        <Background>
+            <Container notCenter={true}>
+                <View style={{paddingLeft: 22, paddingRight: 22}}>
+                    <Text style={{ fontWeight: 'bold' }}>Área involucrada</Text>
+                    <RNPickerSelect
+                        onValueChange={handleAreaChange}
+                        items={areas}
+                        value={selectedArea}
+                        style={{
+                            inputAndroid: {
+                                backgroundColor: '#EBEBEB',
+                                padding: 10,
+                                borderRadius: 4,
+                                color: 'black',
+                                width: '100%',
+                                paddingLeft: 22,
+                                paddingRight: 22
+                            },
+                            inputIOS: {
+                                backgroundColor: '#EBEBEB',
+                                padding: 10,
+                                borderRadius: 4,
+                                color: 'black',
+                                width: '100%',
+                            },
+                        }}
+                        placeholder={{
+                            label: 'Selecciona un área...',
+                            value: null,
+                        }}
+                    />
+
+                    <Text style={{ fontWeight: 'bold' }}>Descripción</Text>
+                    <TextInput
+                        multiline
+                        numberOfLines={4}
+                        value={incidentDescription}
+                        onChangeText={handleDescriptionChange}
+                        style = {{ backgroundColor: '#EBEBEB',
+                        height: 138,
+                        width: '100%',
+                        borderRadius: 5 }}
+                    />
+
+                    <Text style={{ fontWeight: 'bold' }}>Adjuntar imagen</Text>
+                    <TouchableOpacity
+                        onPress={handleImageAttachment} 
+                        style={{
+                            backgroundColor: '#F9F9F9',
+                            padding: 10,
+                            borderRadius: 4,
+                            borderWidth: 1,
+                            borderColor: '#D0D0D0',
+                            height: 100,
+                            width: '100%',
+                            justifyContent: 'center'
+                        }}
+                    >
+                        <Text style={{ 
+                            color: '#000000', 
+                            textAlign: 'center', 
+                            textAlignVertical: 'center'
+                        }}>
+                            Seleccionar una foto
+                        </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                    onPress={handleSubmit}
+                    style={{ 
+                        backgroundColor: '#FF9225',
+                        padding: 10,
+                        borderRadius: 6, 
+                        width: '60%',
+                        height: 45,
+                        alignSelf: 'center',
+                        shadowColor: '#000',
+                        shadowOffset: {
+                            width: 0,
+                            height: 2,
+                        },
+                        shadowOpacity: 0.25,
+                        shadowRadius: 3.84,
+                        elevation: 5
+                    }}>
+                        <Text style={{ color: '#FFFFFF',
+                        textAlign: 'center' }}>Enviar Reporte</Text>
+                    </TouchableOpacity>
+                </View>
+            </Container>
+        </Background>
+    </View>
+  );
 };
 
 export default DropDown;
