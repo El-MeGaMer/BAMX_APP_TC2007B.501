@@ -15,7 +15,7 @@ export default function App() {
 
   const fetchUserData = async () => {
     try {
-      const response = await fetch('https://jsonplaceholder.typicode.com/users');
+      const response = await fetch('https://jsonplaceholder.typicode.com/users/1');
       const data = await response.json();
       setUserData(data);
     } catch (error) {
@@ -26,7 +26,6 @@ export default function App() {
   const html = `
   <html>
     <body>
-      <h1>Hi ${name}</h1>
       ${userData && (
         `<div>
         <p>User Data:</p>
@@ -55,28 +54,14 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        value={name}
-        placeholder="Name"
-        style={styles.textInput}
-        onChangeText={(value) => setName(value)}
-      />
       <Button title="Generate PDF" onPress={generatePdf} />
-      <StatusBar style="auto" />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  textInput: {
-    alignSelf: 'stretch',
-    padding: 8,
-    margin: 8,
+    color: '#fff',
   },
 });
