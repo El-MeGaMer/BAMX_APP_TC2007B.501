@@ -77,6 +77,7 @@ export const createIncidente = async (req, res) => {
         if (process.env.NODE_ENV !== 'test') {
             console.log('Error! Could not add the entry:', error)
         }
+        res.status(500).json({ error: 'Error' })
     }
 }
 
