@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Modal } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import RNPickerSelect from 'react-native-picker-select';
 import { DB_FILTERS } from '../constants/DB_constants';
@@ -10,6 +10,7 @@ const DropDown = () => {
     const [imageAttachment, setImageAttachment] = useState('');
     const [selectedArea, setSelectedArea] = useState('');
     const [incidentDescription, setIncidentDescription] = useState('');
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
     const areas = [
         { label: 'Recibo', value: DB_FILTERS.AREA1 },
@@ -54,6 +55,16 @@ const DropDown = () => {
         return <Text>Requesting for camera permission</Text>;
     }
 
+    const showModal = () => {
+        setIsModalVisible(true);
+        setTimeout(() => {
+            setIsModalVisible(false);
+            setSelectedArea('');
+            setIncidentDescription('');
+            setImageAttachment('');
+        }, 2000);
+    };
+
     const handleSubmit = () => {
         if (selectedArea && incidentDescription && imageAttachment !== null) {
             console.log('Formulario enviado:', {
@@ -61,6 +72,7 @@ const DropDown = () => {
                 description: incidentDescription,
                 image: imageAttachment,
             });
+            showModal();
         } else {
             console.log('Por favor, complete todos los campos antes de enviar.');
         }
@@ -126,6 +138,12 @@ const DropDown = () => {
         buttonText: {
             color: '#FFFFFF',
             textAlign: 'center'
+        },
+        modal: {
+            backgroundColor: 'white',
+            padding: 50, 
+            borderRadius: 10, 
+            elevation: 5
         }
     };
 
@@ -144,7 +162,7 @@ const DropDown = () => {
                             value: null,
                         }}
                     />
-
+    
                     <Text style={{ fontWeight: 'bold' }}>Descripción</Text>
                     <TextInput
                         multiline
@@ -153,33 +171,37 @@ const DropDown = () => {
                         onChangeText={handleDescriptionChange}
                         style={styles.textInput}
                     />
-
+    
                     <Text style={{ fontWeight: 'bold' }}>Adjuntar imagen</Text>
                     <TouchableOpacity
                         onPress={handleImageAttachment}
                         style={styles.imageButton}
                     >
-                        <Text 
-                        style={styles.imageText}
-                        >
-                            Seleccionar una foto
-                        </Text>
+                        <Text style={styles.imageText}>Seleccionar una foto</Text>
                     </TouchableOpacity>
-
+    
                     <TouchableOpacity
                         onPress={handleSubmit}
                         style={styles.submitButton}
                     >
-                        <Text 
-                        style={styles.buttonText}
-                        >
-                            Enviar Reporte
-                        </Text>
+                        <Text style={styles.buttonText}>Enviar Reporte</Text>
                     </TouchableOpacity>
+
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={isModalVisible}
+                    >
+                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                            <View style={ styles.modal }>
+                                <Text>Bitácora enviada con éxito</Text>
+                            </View>
+                        </View>
+                    </Modal>
                 </View>
             </Container>
-    </View>
-    );
+        </View>
+    );    
 };
 
 export default DropDown;
