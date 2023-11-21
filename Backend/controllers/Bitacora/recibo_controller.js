@@ -9,52 +9,78 @@ const prisma = new PrismaClient
 
 export const updateRecibo = async (req, res) => {
     try {
-        const {idUser, id}= req.params
+        const {idLog, idUser}= req.params
+        const newData = req.body
+        
+        const currentDate = new Date()
 
-        const seeIdUser = await prisma.usuarios.findUnique({
-            where: {id: parseInt(idUser)},
-            select: {
-                idRol: true
+        // See if there's a Log available for the day
+
+        const seeBitStatus = await prisma.bitacoraLimpiezaRecibos.findFirst({
+            where: { id: parseInt(idLog) },
+            select:{
+                estado: true
             }
         })
 
-        let nameRole = ""
-        if(seeIdUser && seeIdUser.idRol) {
-            const role = await prisma.roles.findUnique({
-                where: { id: parseInt(seeIdUser.idRol) },
-                select: { nombreRol: true }
-            })
-            nameRole = role ? role.nombreRol : ""
-        }
-
         let result
-        if (nameRole === "coordinador") {
-            result = await prisma.bitacoraLimpiezaRecibos.update({
-                where: {id: parseInt(id)},
+
+        if (seeBitStatus.estado == 'noRevisado') {
+
+            // Creates notification and update the "Bitacora Empaque" data
+            const notification = await prisma.notificaciones.create({
                 data: {
-                    estado: "revisado"
-                } 
+                    titulo: "Bitacora de empaque | " + currentDate.toISOString().slice(0, 10),
+                    descripcion: "Bitacora del area de empaque del dia " + currentDate.toISOString().slice(0, 10) + " está lista para revisión",
+                    fechaHora: currentDate 
+                }
             })
 
-        } else {
-            const {
-                areaArmado,
-                areaRecibo,
-                patio,
-                rampas,
-                cuartosFrios,
-                congelador,
-                transporte,
-                observaciones
-            } = req.body
-
-            const newData = { ...req.body, estado: "enRevision" }
-
-            result = await prisma.bitacoraLimpiezaRecibos.update({
-                where: {id: parseInt(id)},
-                data: newData
+            // Finds all the users with "Coordinador" role
+            
+            const idRolUsers = await prisma.usuarios.findMany({
+                where: {
+                    idRol: 2 
+                },
+                select: {
+                    id: true
+                }
             })
-        }  
+
+            // Make all the relations of "notificacionesUsuarios" with the users with the "coordinador" role
+    
+            const createRelation = idRolUsers.map(async (idUserRol) => {
+                await prisma.notificacionesUsuarios.create({
+                    data: {
+                        idNotificacion: notification.id,
+                        idUsuario: idUserRol.id,
+                        estado: 'noRevisado' 
+                    }
+                })
+            })
+    
+            await Promise.all(createRelation)
+
+            await prisma.bitacoraLimpiezaRecibos.update({
+                where: {id: parseInt(idLog)},
+                data: {...newData, estado: 'enRevision'}
+            })
+
+            result = 'Entry sent'
+
+        } else if (seeBitStatus.estado == 'revisado') {
+
+            result = 'Log already reviewed'
+
+        } else if (seeBitStatus.estado == 'enRevision') {
+
+            await prisma.bitacoraLimpiezaRecibos.update({
+                where: {id: parseInt(idLog)},
+                data: {...newData, estado: 'revisado', idUsuarioSupervisor: parseInt(idUser) }
+            })
+
+            result = 'Entry sent'
+        }
 
         res.json(result)
 
@@ -62,6 +88,7 @@ export const updateRecibo = async (req, res) => {
         if (process.env.NODE_ENV !== 'test') {
             console.log('Error! Entry not found')
         }
+        res.status(500).json({ error: 'Error' })
     }
 }
 
