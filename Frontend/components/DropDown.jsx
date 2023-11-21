@@ -142,8 +142,15 @@ const DropDown = () => {
         modal: {
             backgroundColor: 'white',
             padding: 50, 
-            borderRadius: 10, 
-            elevation: 5
+            borderRadius: 6, 
+            elevation: 5,
+            shadowColor: '#000',
+            shadowOffset: {
+                width: 0,
+                height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
         }
     };
 
@@ -194,7 +201,9 @@ const DropDown = () => {
                     >
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                             <View style={ styles.modal }>
-                                <Text>Bitácora enviada con éxito</Text>
+                                <Text style={{fontWeight: 'bold', fontSize: 20}}>
+                                    Reporte enviado con éxito
+                                </Text>
                             </View>
                         </View>
                     </Modal>
