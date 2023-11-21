@@ -104,17 +104,17 @@ const DropDown = () => {
     const dropDownInput = {
         inputIOS: {
             backgroundColor: '#EBEBEB',
-            padding: 10,
             borderRadius: 4,
             color: 'black',
-            width: '100%'
+            width: '100%',
+            height: 30
         },
         inputAndroid: {
             backgroundColor: '#EBEBEB',
-            padding: 10,
             borderRadius: 4,
             color: 'black',
-            width: '100%'
+            width: '100%',
+            height: 30
         },
     };
 
