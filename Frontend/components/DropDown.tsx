@@ -45,43 +45,17 @@ const DropDown: React.FC = () => {
             aspect: [4, 3],
             quality: 1,
         });
-
-        console.log(result);
-
-        if (!result.canceled) {
-            setImageAttachment(result.uri);
+    
+        if (result && !result.canceled && result.assets && result.assets.length > 0) {
+            // Verificar si hay al menos una imagen seleccionada
+            const selectedImage = result.assets[0];
+            setImageAttachment(selectedImage.uri);
         }
-    };
+    };    
 
     if (hasGalleryPermission === null) {
         return <Text>Requesting for camera permission</Text>;
     }
-
-    // const handleImageAttachment = async () => {
-    //     const options = {
-    //         mediaType: 'photo' as MediaType,
-    //         storageOptions: {
-    //             skipBackup: true,
-    //             path: 'images'
-    //         },
-    //         includeBase64: true,
-    //     };
-
-    //     try {
-    //         const response = await launchCamera(options);
-    //         if (response.errorCode) {
-    //             console.log(response.errorMessage);
-    //         } else if (response.didCancel) {
-    //             console.log('El usuario canceló la fotografía');
-    //         } else {
-    //             const path = response.assets[0].uri;
-    //             setImageAttachment(path);
-    //         }
-    //     } catch (error) {
-    //         console.error('Error al lanzar la cámara:', error);
-    //     }
-    // };
-
 
     const handleSubmit = () => {
         console.log('Formulario enviado:', {
