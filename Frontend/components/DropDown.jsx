@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Modal } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import RNPickerSelect from 'react-native-picker-select';
 import { DB_FILTERS } from '../constants/DB_constants';
+import { MdDoneOutline } from 'react-icons/md';
 import Container from "./Container";
 
 const DropDown = () => {
@@ -11,6 +12,7 @@ const DropDown = () => {
     const [selectedArea, setSelectedArea] = useState('');
     const [incidentDescription, setIncidentDescription] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [submissionStatus, setSubmissionStatus] = useState(null);
 
     const areas = [
         { label: 'Recibo', value: DB_FILTERS.AREA1 },
@@ -55,13 +57,15 @@ const DropDown = () => {
         return <Text>Requesting for camera permission</Text>;
     }
 
-    const showModal = () => {
+    const showModal = (success) => {
+        setSubmissionStatus(success);
         setIsModalVisible(true);
         setTimeout(() => {
             setIsModalVisible(false);
             setSelectedArea('');
             setIncidentDescription('');
             setImageAttachment('');
+            setSubmissionStatus(null); 
         }, 2000);
     };
 
@@ -72,9 +76,9 @@ const DropDown = () => {
                 description: incidentDescription,
                 image: imageAttachment,
             });
-            showModal();
+            showModal(true); 
         } else {
-            console.log('Por favor, complete todos los campos antes de enviar.');
+            showModal(false); 
         }
     };
 
@@ -204,9 +208,11 @@ const DropDown = () => {
                         visible={isModalVisible}
                     >
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                            <View style={ styles.modal }>
-                                <Text style={{fontWeight: 'bold', fontSize: 20}}>
-                                    Reporte enviado con éxito
+                            <View style={styles.modal}>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
+                                    {submissionStatus
+                                        ? 'Reporte enviado con éxito'
+                                        : 'Error al enviar el reporte. Por favor, complete todos los campos.'}
                                 </Text>
                             </View>
                         </View>
