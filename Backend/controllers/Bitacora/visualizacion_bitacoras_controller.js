@@ -149,6 +149,7 @@ export const getBitacorasPerDay = async (req, res) => {
 // Json separados por revisado o no revisado
 export const getBitacorasPending = async (req, res) => {
     let today = new Date()
+    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1);
     const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
     function bitacoraPending(areaFieldName) {
