@@ -8,7 +8,7 @@ const prisma = new PrismaClient
 
 
 //Llenar bitacora rutinaria de Alimento Compartido (Actualizarla)
-export const fillAlimentoCompartido = async (req, res) => {
+export const updateAlimentoCompartido = async (req, res) => {
     const {id} = req.params;
     const data = req.body;
 

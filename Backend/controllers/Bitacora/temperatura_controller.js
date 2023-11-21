@@ -9,7 +9,7 @@ const prisma = new PrismaClient
 
 
 //Llenar bitacora rutinaria de Temperaturas (Actualizarla)
-export const fillTemperaturas = async (req, res) => {
+export const updateTemperaturas = async (req, res) => {
 
     const {id} = req.params;
     const data = req.body;

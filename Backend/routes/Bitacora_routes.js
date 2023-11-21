@@ -31,16 +31,16 @@ router.put("/Almacen/user=:idUser/log=:id", updateAlmacen)
 router.put("/Entrega/:id", updateEntrega)
 
 // Alimento Compartido Bitacora
-router.put("/AlimentoCompartido/user=:idUser/log=:id", updateAlimentoCompartido)
+router.put("/AlimentoCompartido/:id", updateAlimentoCompartido)
 
 // Temperaturas Bitacora
-router.put("/Temperatura/user=:idUser/log=:id", updateTemperaturas)
+router.put("/Temperatura/:id", updateTemperaturas)
 
 // Criba FV Bitacora
-router.put("/CribaFV/user=:idUser/log=:id", updateCribaFV)
+router.put("/CribaFV/:id", updateCribaFV)
 
 // Extintores Bitacora
-router.put("/Extintor/user=:idUser/log=:id", updateExtinctor)
+router.put("/Extintor/:id", updateExtinctor)
 
 // Estado bitacoras
 router.get("/:estado", getBitacorasEstado)
