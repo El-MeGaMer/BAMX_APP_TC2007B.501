@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, TouchableOpacity, Image } from 'react-native';
-import { launchCamera, MediaType } from 'react-native-image-picker';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import RNPickerSelect from 'react-native-picker-select';
 import { DB_FILTERS } from '../constants/DB_constants';
 import Container from "./Container";
-import Background from './Background';
+
 const DropDown: React.FC = () => {
     const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
     const [imageAttachment, setImageAttachment] = useState('');
-
     const [selectedArea, setSelectedArea] = useState<string>('');
     const [incidentDescription, setIncidentDescription] = useState<string>('');
 
@@ -47,7 +45,6 @@ const DropDown: React.FC = () => {
         });
     
         if (result && !result.canceled && result.assets && result.assets.length > 0) {
-            // Verificar si hay al menos una imagen seleccionada
             const selectedImage = result.assets[0];
             setImageAttachment(selectedImage.uri);
         }
@@ -58,111 +55,134 @@ const DropDown: React.FC = () => {
     }
 
     const handleSubmit = () => {
-        console.log('Formulario enviado:', {
-            area: selectedArea,
-            description: incidentDescription,
-            image: imageAttachment,
-        });
+        if (selectedArea && incidentDescription && imageAttachment !== null) {
+            console.log('Formulario enviado:', {
+                area: selectedArea,
+                description: incidentDescription,
+                image: imageAttachment,
+            });
+        } else {
+            console.log('Por favor, complete todos los campos antes de enviar.');
+        }
+    };
+
+    const styles = {
+        inputContainer: {
+            backgroundColor: '#EBEBEB',
+            padding: 10,
+            borderRadius: 4,
+            color: 'black',
+            width: '100%',
+            paddingLeft: 22,
+            paddingRight: 22,
+        },
+        textInput: {
+            backgroundColor: '#EBEBEB',
+            height: 138,
+            width: '100%',
+            borderRadius: 5,
+        },
+        imageButton: {
+            backgroundColor: '#F9F9F9',
+            padding: 10,
+            borderRadius: 4,
+            borderWidth: 1,
+            borderColor: '#D0D0D0',
+            height: 100,
+            width: '100%',
+            justifyContent: 'center',
+        },
+        submitButton: {
+            backgroundColor: '#FF9225',
+            borderRadius: 6,
+            width: '60%',
+            height: 45,
+            alignSelf: 'center',
+            shadowColor: '#000',
+            shadowOffset: {
+                width: 0,
+                height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
+            justifyContent: 'center',
+        },
+    };
+
+    const pickerSelectStyles = {
+        inputIOS: {
+            backgroundColor: '#EBEBEB',
+            padding: 10,
+            borderRadius: 4,
+            color: 'black',
+            width: '100%'
+        },
+        inputAndroid: {
+            backgroundColor: '#EBEBEB',
+            padding: 10,
+            borderRadius: 4,
+            color: 'black',
+            width: '100%'
+        },
     };
 
     return (
         <View>
-            <Background>
-                <Container notCenter={true}>
-                    <View style={{ paddingLeft: 22, paddingRight: 22 }}>
-                        <Text style={{ fontWeight: 'bold' }}>Área involucrada</Text>
-                        <RNPickerSelect
-                            onValueChange={handleAreaChange}
-                            items={areas}
-                            value={selectedArea}
-                            style={{
-                                inputAndroid: {
-                                    backgroundColor: '#EBEBEB',
-                                    padding: 10,
-                                    borderRadius: 4,
-                                    color: 'black',
-                                    width: '100%',
-                                    paddingLeft: 22,
-                                    paddingRight: 22
-                                },
-                                inputIOS: {
-                                    backgroundColor: '#EBEBEB',
-                                    padding: 10,
-                                    borderRadius: 4,
-                                    color: 'black',
-                                    width: '100%',
-                                },
-                            }}
-                            placeholder={{
-                                label: 'Selecciona un área...',
-                                value: null,
-                            }}
-                        />
+            <Container notCenter={true}>
+                <View style={{ paddingLeft: 22, paddingRight: 22 }}>
+                    <Text style={{ fontWeight: 'bold' }}>Área involucrada</Text>
+                    <RNPickerSelect
+                        onValueChange={handleAreaChange}
+                        items={areas}
+                        value={selectedArea}
+                        style={pickerSelectStyles}
+                        placeholder={{
+                            label: 'Selecciona un área...',
+                            value: null,
+                        }}
+                    />
 
-                        <Text style={{ fontWeight: 'bold' }}>Descripción</Text>
-                        <TextInput
-                            multiline
-                            numberOfLines={4}
-                            value={incidentDescription}
-                            onChangeText={handleDescriptionChange}
-                            style={{
-                                backgroundColor: '#EBEBEB',
-                                height: 138,
-                                width: '100%',
-                                borderRadius: 5
-                            }}
-                        />
+                    <Text style={{ fontWeight: 'bold' }}>Descripción</Text>
+                    <TextInput
+                        multiline
+                        numberOfLines={4}
+                        value={incidentDescription}
+                        onChangeText={handleDescriptionChange}
+                        style={{
+                            backgroundColor: '#EBEBEB',
+                            height: 138,
+                            width: '100%',
+                            borderRadius: 5,
+                        }}
+                    />
 
-                        <Text style={{ fontWeight: 'bold' }}>Adjuntar imagen</Text>
-                        <TouchableOpacity
-                            onPress={handleImageAttachment}
-                            style={{
-                                backgroundColor: '#F9F9F9',
-                                padding: 10,
-                                borderRadius: 4,
-                                borderWidth: 1,
-                                borderColor: '#D0D0D0',
-                                height: 100,
-                                width: '100%',
-                                justifyContent: 'center'
-                            }}
-                        >
-                            <Text style={{
-                                color: '#000000',
-                                textAlign: 'center',
-                                textAlignVertical: 'center'
-                            }}>
-                                Seleccionar una foto
-                            </Text>
-                        </TouchableOpacity>
+                    <Text style={{ fontWeight: 'bold' }}>Adjuntar imagen</Text>
+                    <TouchableOpacity
+                        onPress={handleImageAttachment}
+                        style={styles.imageButton}
+                    >
+                        <Text style={{
+                            color: '#000000',
+                            textAlign: 'center',
+                            textAlignVertical: 'center'
+                        }}>
+                            Seleccionar una foto
+                        </Text>
+                    </TouchableOpacity>
 
-                        <TouchableOpacity
-                            onPress={handleSubmit}
-                            style={{
-                                backgroundColor: '#FF9225',
-                                padding: 10,
-                                borderRadius: 6,
-                                width: '60%',
-                                height: 45,
-                                alignSelf: 'center',
-                                shadowColor: '#000',
-                                shadowOffset: {
-                                    width: 0,
-                                    height: 2,
-                                },
-                                shadowOpacity: 0.25,
-                                shadowRadius: 3.84,
-                                elevation: 5
-                            }}>
-                            <Text style={{
-                                color: '#FFFFFF',
-                                textAlign: 'center'
-                            }}>Enviar Reporte</Text>
-                        </TouchableOpacity>
-                    </View>
-                </Container>
-            </Background>
-        </View>
+                    <TouchableOpacity
+                        onPress={handleSubmit}
+                        style={styles.submitButton}
+                    >
+                        <Text style={{
+                            color: '#FFFFFF',
+                            textAlign: 'center'
+                        }}>Enviar Reporte</Text>
+                    </TouchableOpacity>
+                </View>
+            </Container>
+    </View>
     );
 };
 
