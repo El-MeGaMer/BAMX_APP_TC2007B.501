@@ -71,7 +71,7 @@ const DropDown = () => {
 
     const handleSubmit = () => {
         if (selectedArea && incidentDescription && imageAttachment !== null) {
-            console.log('Formulario enviado:', {
+            console.log({
                 area: selectedArea,
                 description: incidentDescription,
                 image: imageAttachment,
