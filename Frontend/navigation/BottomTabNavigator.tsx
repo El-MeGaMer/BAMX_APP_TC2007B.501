@@ -8,26 +8,38 @@ import { useColorScheme } from "react-native";
 
 import Colors from "../constants/Colors";
 import HomeScreen from "../screens/HomeScreen";
-import CalendarScreen from "../screens/CalendarScreen";
 import IncidentScreen from "../screens/IncidentScreen";
 import LogsScreen from "../screens/LogsScreen";
 import UserScreen from "../screens/UserScreen";
+import CreateLogScreen from "../screens/CreateLogScreen";
 
 const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
+  // TO CHANGE:
+  // Set user role 
+  // this needs to be changed to a global variable that will be used in props
+  // to determine the role of the user
+  // example
+  // let user = this.props.user
+  // user.isAdmin
+  let isAdmin: boolean = false;
+  let isAreaSupervisor: boolean = true;
+  let isOpsSupervisor: boolean = false;
+
+  // Function that returns the bottom tab navigator
   return (
-    <BottomTab.Navigator
+    <BottomTab.Navigator 
       initialRouteName="Home"
       screenOptions={{ tabBarActiveTintColor: Colors[colorScheme].tint }}
     >
+      {/* Renders the homescreen */}
       <BottomTab.Screen
         name="Home"
         component={HomeNavigator}
         options={{
-          cardSyle: {},
           headerShown: false,
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="home-outline" color={color} />
@@ -44,16 +56,32 @@ export default function BottomTabNavigator() {
           ),
         }}
       />
-      <BottomTab.Screen
-        name="Logs"
-        component={LogsNavigator}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="format-list-bulleted-type" color={color} />
-          ),
-        }}
-      />
+
+      {/* Conditional rendering of Logs screens depending on the user role */}
+      {isAreaSupervisor && (
+        <BottomTab.Screen
+          name="Logs"
+          component={CreateLogsNavigator}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ color }) => (
+              <TabBarIcon name="format-list-bulleted-type" color={color} />
+            ),
+          }}
+        />
+      )}
+      {isAdmin && (
+        <BottomTab.Screen
+          name="Logs"
+          component={LogsNavigator}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ color }) => (
+              <TabBarIcon name="format-list-bulleted-type" color={color} />
+            ),
+          }}
+        />
+      )}
       <BottomTab.Screen
         name="User"
         component={UserNavigator}
@@ -104,7 +132,6 @@ function HomeNavigator() {
   );
 }
 
-
 const IncidentStack = createStackNavigator();
 
 function IncidentNavigator() {
@@ -154,6 +181,32 @@ function LogsNavigator() {
         }}
       />
     </LogsStack.Navigator>
+  );
+}
+
+const CreateLogStack = createStackNavigator();
+
+function CreateLogsNavigator() {
+  return (
+    <CreateLogStack.Navigator>
+      <CreateLogStack.Screen
+        name="CreateLogScreen"
+        component={CreateLogScreen}
+        options={{
+          headerTitle: "Crear Bitácora",
+          headerStyle: {
+            backgroundColor: "#FF8000",
+            elevation: 0,
+            shadowOpacity: 0,
+            borderBottomWidth: 0,
+          },
+          headerTitleStyle: {
+            fontWeight: "bold",
+            color: "white",
+          },
+        }}
+      />
+    </CreateLogStack.Navigator>
   );
 }
 

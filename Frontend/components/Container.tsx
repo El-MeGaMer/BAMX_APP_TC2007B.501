@@ -13,9 +13,15 @@ const StyledScrollView = styled(ScrollView);
 
 const Container = (props) => {
   return (
-          <StyledView className="flex-1 items-center justify-center m-6 mb-0 shadow">
-            {props.children}
-          </StyledView>
+    <StyledView
+      className={
+        props.notCenter
+          ? "flex-1 pt-6 justify-center m-6 mb-0 shadow"
+          : "flex-1 pt-6 items-center justify-center m-6 mb-0 shadow"
+      }
+    >
+      {props.children}
+    </StyledView>
   );
 };
 

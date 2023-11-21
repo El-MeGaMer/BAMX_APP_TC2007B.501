@@ -4,6 +4,7 @@ import { StyleSheet, Alert, Text, View, TouchableOpacity } from "react-native";
 import EditScreenInfo from "../components/EditScreenInfo";
 //import { Text, View } from "../components/Themed";
 import Container from "../components/Container";
+import TwoColLog from "../components/TwoColLog";
 import Background from "../components/Background";
 import {
   Calendar,
