@@ -11,8 +11,19 @@ export const updateEmpaque = async (req, res) => {
     try {
         const {idLog, idUser}= req.params
         const newData = req.body
-        
         const currentDate = new Date()
+
+        const convertedData = {}
+        Object.keys(newData).forEach((key) => {
+            const value = newData[key]
+            if (value === 1) {
+                convertedData[key] = true
+            } else if (value === 0) {
+                convertedData[key] = false
+            } else {
+                convertedData[key] = value // Maintains original values if its not 1 or 0
+            }
+        })
 
         // See if there's a Log available for the day
 
@@ -63,7 +74,7 @@ export const updateEmpaque = async (req, res) => {
 
             await prisma.bitacoraLimpiezaEmpaques.update({
                 where: {id: parseInt(idLog)},
-                data: {...newData, estado: 'enRevision'}
+                data: {...convertedData, estado: 'enRevision'}
             })
 
             result = 'Entry sent'
@@ -79,7 +90,7 @@ export const updateEmpaque = async (req, res) => {
 
             await prisma.bitacoraLimpiezaEmpaques.update({
                 where: {id: parseInt(idLog)},
-                data: {...newData, estado: 'revisado', idUsuarioSupervisor: parseInt(idUser) }
+                data: {...convertedData, estado: 'revisado', idUsuarioSupervisor: parseInt(idUser) }
             })
 
             result = 'Entry sent'
