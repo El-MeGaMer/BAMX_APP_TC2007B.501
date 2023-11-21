@@ -14,7 +14,7 @@ export const updateTemperaturas = async (req, res) => {
     try {
 
         //Info from route
-        const {idLog, idUser} = req.params;
+        const {idLog} = req.params;
         const data = req.body;
 
         const limitesTemperaturas = {
@@ -29,13 +29,14 @@ export const updateTemperaturas = async (req, res) => {
         }
 
         let response
+        let problemas = []
         
         //Current date
         const currentDate = new Date()
 
         //Extraer valor de estado de bitacora
         const seeBitStatus = await prisma.bitacoraTemperaturas.findFirst({
-            where: { id: parseInt(idLog)},
+            where: { id: Number(idLog)},
             select:{
                 estado: true
             }
@@ -57,7 +58,7 @@ export const updateTemperaturas = async (req, res) => {
 
             //Actualizamos la bitacora
             const update = await prisma.bitacoraTemperaturas.update({
-                where: {id: parseInt(idLog)},
+                where: {id: Number(idLog)},
                 data: {...data, estado: 'revisado'}
             })
 
@@ -99,21 +100,51 @@ export const updateTemperaturas = async (req, res) => {
             console.log(update)
 
             if (update.cuartoFrio1 < limitesTemperaturas.cuartoFrio1_low || update.cuartoFrio1 > limitesTemperaturas.cuartoFrio1_high){
-                console.log("valor de cuarto Frio 1 fuera de rango")
+                problemas.push("valor de cuarto Frio 1 fuera de rango")
+                //console.log("valor de cuarto Frio 1 fuera de rango")
             }
 
             if (update.cuartoFrio2 < limitesTemperaturas.cuartoFrio2_low || update.cuartoFrio2 > limitesTemperaturas.cuartoFrio2_high){
-                console.log("valor de cuarto Frio 2 fuera de rango")
+                problemas.push("valor de cuarto Frio 2 fuera de rango")
+                //console.log("valor de cuarto Frio 2 fuera de rango")
             }
 
             if (update.camaraConservacionB < limitesTemperaturas.camaraConservacionB_low || update.camaraConservacionB > limitesTemperaturas.camaraConservacionB_high){
-                console.log("valor de camara B fuera de rango")
+                problemas.push("valor de camara B fuera de rango")
+                //console.log("valor de camara B fuera de rango")
             }
 
             if (update.camaraConservacionC < limitesTemperaturas.camaraConservacionC_low || update.camaraConservacionC > limitesTemperaturas.camaraConservacionC_high){
-                console.log("valor de camara C fuera de rango")
+                problemas.push("valor de camara C fuera de rango")
+                //console.log("valor de camara C fuera de rango")
+            }
+
+            //EN CASO DE QUE SE REGISTREN DATOS FUERA DE ORDEN
+            if (problemas.length != 0){
+
+                let descripcion = ""
+
+                problemas.forEach(element => {
+                    descripcion += element
+                    descripcion += " "
+                });
+
+                const incidente = await prisma.bitacoraIncidentes.create({
+
+                    data: {
+                        idUsuarioEmisor: update.idUsuarioEmisor,
+                        idArea: 7,
+                        nombre: "Problemas con limites de temperatura",
+                        fechaHora: currentDate,
+                        descripcion: descripcion,
+                        estado: "noRevisado"
+                    }
+
+                })
+                console.log(incidente)
             }
             
+
 
             response = 'Enviado exitosamente'
 
