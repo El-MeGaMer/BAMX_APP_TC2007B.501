@@ -15,7 +15,7 @@ export default function App() {
 
   const fetchUserData = async () => {
     try {
-      const response = await fetch('https://jsonplaceholder.typicode.com/users/1');
+      const response = await fetch('https://jsonplaceholder.typicode.com/todos/1');
       const data = await response.json();
       setUserData(data);
     } catch (error) {
@@ -25,19 +25,48 @@ export default function App() {
 
   const html = `
   <html>
+    <head>
+      <style>
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-bottom: 20px;
+        }
+        table, th, td {
+          border: 1px solid black;
+        }
+        th, td {
+          padding: 8px;
+          text-align: left;
+        }
+        th {
+          background-color: #f2f2f2;
+        }
+      </style>
+    </head>
     <body>
       ${userData && (
-        `<div>
-        <p>User Data:</p>
-        <p>id: ${userData.id}</p>
-        <p>title: ${userData.title}</p>
-        <p>completed: ${userData.completed}</p>
-        </div>`
+        `<table>
+          <tr>
+            <th colspan="2">bitacora_limpieza</th>
+          </tr>
+          <tr>
+            <td>id</td>
+            <td>${userData.id}</td>
+          </tr>
+          <tr>
+            <td>title</td>
+            <td>${userData.title}</td>
+          </tr>
+          <tr>
+            <td>completed</td>
+            <td>${userData.completed}</td>
+          </tr>
+        </table>`
       )}
     </body>
   </html>
-`;
-
+  `;  
 
   const generatePdf = async () => {
     try {
