@@ -88,6 +88,7 @@ const DropDown = () => {
             height: 100,
             width: '100%',
             justifyContent: 'center',
+            marginBottom: 25
         },
         submitButton: {
             backgroundColor: '#FF9225',
@@ -110,7 +111,8 @@ const DropDown = () => {
             height: 138,
             width: '100%',
             borderRadius: 5,
-            padding: 10
+            padding: 10,
+            marginBottom: 11
         },
         dropDownInput: {
             inputIOS: {
@@ -119,7 +121,8 @@ const DropDown = () => {
                 color: 'black',
                 width: '100%',
                 height: 30,
-                padding: 10
+                padding: 10,
+                marginBottom: 11
             },
             inputAndroid: {
                 backgroundColor: '#EBEBEB',
@@ -127,7 +130,8 @@ const DropDown = () => {
                 color: 'black',
                 width: '100%',
                 height: 30,
-                padding: 10
+                padding: 10,
+                marginBottom: 11
             }
         },
         imageText: {
@@ -158,7 +162,7 @@ const DropDown = () => {
         <View>
             <Container notCenter={true}>
                 <View style={{ paddingLeft: 22, paddingRight: 22, paddingBottom: 25 }}>
-                    <Text style={{ fontWeight: 'bold' }}>Área involucrada</Text>
+                    <Text style={{ fontWeight: 'bold', marginBottom: 11 }}>Área involucrada</Text>
                     <RNPickerSelect
                         onValueChange={handleAreaChange}
                         items={areas}
@@ -170,7 +174,7 @@ const DropDown = () => {
                         }}
                     />
     
-                    <Text style={{ fontWeight: 'bold' }}>Descripción</Text>
+                    <Text style={{ fontWeight: 'bold', marginBottom: 11 }}>Descripción</Text>
                     <TextInput
                         multiline
                         numberOfLines={4}
@@ -179,7 +183,7 @@ const DropDown = () => {
                         style={styles.textInput}
                     />
     
-                    <Text style={{ fontWeight: 'bold' }}>Adjuntar imagen</Text>
+                    <Text style={{ fontWeight: 'bold', marginBottom: 11 }}>Adjuntar imagen</Text>
                     <TouchableOpacity
                         onPress={handleImageAttachment}
                         style={styles.imageButton}
