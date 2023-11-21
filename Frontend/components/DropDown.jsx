@@ -67,12 +67,6 @@ const DropDown = () => {
     };
 
     const styles = {
-        textInput: {
-            backgroundColor: '#EBEBEB',
-            height: 138,
-            width: '100%',
-            borderRadius: 5,
-        },
         imageButton: {
             backgroundColor: '#F9F9F9',
             padding: 10,
@@ -99,35 +93,52 @@ const DropDown = () => {
             elevation: 5,
             justifyContent: 'center',
         },
-    };
-
-    const dropDownInput = {
-        inputIOS: {
+        textInput: {
             backgroundColor: '#EBEBEB',
-            borderRadius: 4,
-            color: 'black',
+            height: 138,
             width: '100%',
-            height: 30
+            borderRadius: 5,
+            padding: 10
         },
-        inputAndroid: {
-            backgroundColor: '#EBEBEB',
-            borderRadius: 4,
-            color: 'black',
-            width: '100%',
-            height: 30
+        dropDownInput: {
+            inputIOS: {
+                backgroundColor: '#EBEBEB',
+                borderRadius: 4,
+                color: 'black',
+                width: '100%',
+                height: 30,
+                padding: 10
+            },
+            inputAndroid: {
+                backgroundColor: '#EBEBEB',
+                borderRadius: 4,
+                color: 'black',
+                width: '100%',
+                height: 30,
+                padding: 10
+            }
         },
+        imageText: {
+            color: '#000000',
+            textAlign: 'center',
+            textAlignVertical: 'center'
+        },
+        buttonText: {
+            color: '#FFFFFF',
+            textAlign: 'center'
+        }
     };
 
     return (
         <View>
             <Container notCenter={true}>
-                <View style={{ paddingLeft: 22, paddingRight: 22 }}>
+                <View style={{ paddingLeft: 22, paddingRight: 22, paddingBottom: 25 }}>
                     <Text style={{ fontWeight: 'bold' }}>Área involucrada</Text>
                     <RNPickerSelect
                         onValueChange={handleAreaChange}
                         items={areas}
                         value={selectedArea}
-                        style={dropDownInput}
+                        style={styles.dropDownInput}
                         placeholder={{
                             label: 'Selecciona un área...',
                             value: null,
@@ -140,12 +151,7 @@ const DropDown = () => {
                         numberOfLines={4}
                         value={incidentDescription}
                         onChangeText={handleDescriptionChange}
-                        style={{
-                            backgroundColor: '#EBEBEB',
-                            height: 138,
-                            width: '100%',
-                            borderRadius: 5,
-                        }}
+                        style={styles.textInput}
                     />
 
                     <Text style={{ fontWeight: 'bold' }}>Adjuntar imagen</Text>
@@ -153,11 +159,9 @@ const DropDown = () => {
                         onPress={handleImageAttachment}
                         style={styles.imageButton}
                     >
-                        <Text style={{
-                            color: '#000000',
-                            textAlign: 'center',
-                            textAlignVertical: 'center'
-                        }}>
+                        <Text 
+                        style={styles.imageText}
+                        >
                             Seleccionar una foto
                         </Text>
                     </TouchableOpacity>
@@ -166,10 +170,11 @@ const DropDown = () => {
                         onPress={handleSubmit}
                         style={styles.submitButton}
                     >
-                        <Text style={{
-                            color: '#FFFFFF',
-                            textAlign: 'center'
-                        }}>Enviar Reporte</Text>
+                        <Text 
+                        style={styles.buttonText}
+                        >
+                            Enviar Reporte
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </Container>
