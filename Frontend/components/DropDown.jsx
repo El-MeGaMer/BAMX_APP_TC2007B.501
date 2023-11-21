@@ -5,11 +5,11 @@ import RNPickerSelect from 'react-native-picker-select';
 import { DB_FILTERS } from '../constants/DB_constants';
 import Container from "./Container";
 
-const DropDown: React.FC = () => {
+const DropDown = () => {
     const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
     const [imageAttachment, setImageAttachment] = useState('');
-    const [selectedArea, setSelectedArea] = useState<string>('');
-    const [incidentDescription, setIncidentDescription] = useState<string>('');
+    const [selectedArea, setSelectedArea] = useState('');
+    const [incidentDescription, setIncidentDescription] = useState('');
 
     const areas = [
         { label: 'Recibo', value: DB_FILTERS.AREA1 },
@@ -21,11 +21,11 @@ const DropDown: React.FC = () => {
         { label: 'Cuartos Frios', value: DB_FILTERS.AREA7 },
     ];
 
-    const handleAreaChange = (area: string) => {
+    const handleAreaChange = (area) => {
         setSelectedArea(area);
     };
 
-    const handleDescriptionChange = (description: string) => {
+    const handleDescriptionChange = (description) => {
         setIncidentDescription(description);
     };
 
@@ -67,15 +67,6 @@ const DropDown: React.FC = () => {
     };
 
     const styles = {
-        inputContainer: {
-            backgroundColor: '#EBEBEB',
-            padding: 10,
-            borderRadius: 4,
-            color: 'black',
-            width: '100%',
-            paddingLeft: 22,
-            paddingRight: 22,
-        },
         textInput: {
             backgroundColor: '#EBEBEB',
             height: 138,
@@ -110,7 +101,7 @@ const DropDown: React.FC = () => {
         },
     };
 
-    const pickerSelectStyles = {
+    const dropDownInput = {
         inputIOS: {
             backgroundColor: '#EBEBEB',
             padding: 10,
@@ -136,7 +127,7 @@ const DropDown: React.FC = () => {
                         onValueChange={handleAreaChange}
                         items={areas}
                         value={selectedArea}
-                        style={pickerSelectStyles}
+                        style={dropDownInput}
                         placeholder={{
                             label: 'Selecciona un área...',
                             value: null,
