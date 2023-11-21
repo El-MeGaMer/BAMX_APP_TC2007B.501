@@ -1,20 +1,25 @@
 import { StyleSheet } from "react-native";
-
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
 import Container from "../components/Container";
-import DropDown from "../components/DropDown";
 import Background from "../components/Background";
-
 import { styled } from "nativewind";
 
 const StyledView = styled(View);
-// Home screen function
+
 export default function HomeScreen() {
   return (
     <StyledView className="flex-1">
       <Background>
-          <DropDown />
+        <Container>
+          <Text style={styles.title}>Home Screeen</Text>
+          <View
+            style={styles.separator}
+            lightColor="#eee"
+            darkColor="rgba(255,255,255,0.1)"
+          />
+          <EditScreenInfo path="/screens/TabOneScreen.tsx" />
+        </Container>
       </Background>
     </StyledView>
   );
