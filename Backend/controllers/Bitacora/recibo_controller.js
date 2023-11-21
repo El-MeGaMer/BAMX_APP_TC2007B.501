@@ -5,7 +5,7 @@ const prisma = new PrismaClient
 // Controllers for Incidentes Bitacoras, for more 
 // information see file "/Backend/prisma/schema.prima"
 
-//main controllers ----------------------
+//main controller ----------------------
 
 export const updateRecibo = async (req, res) => {
     try {
@@ -68,10 +68,13 @@ export const updateRecibo = async (req, res) => {
 
             result = 'Entry sent'
 
+            // In order to prevent further changes to the logs itself
+            // this stops the user from making changes
         } else if (seeBitStatus.estado == 'revisado') {
 
             result = 'Log already reviewed'
 
+            // Signature or checkmark for the role "Coordinador"
         } else if (seeBitStatus.estado == 'enRevision') {
 
             await prisma.bitacoraLimpiezaRecibos.update({
