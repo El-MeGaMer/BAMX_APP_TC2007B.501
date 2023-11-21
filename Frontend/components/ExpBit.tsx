@@ -4,12 +4,10 @@ import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import { printToFileAsync } from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 
-export default function App() {
-  const [name, setName] = useState("");
+export default function ExpBit() {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    // Esta función se ejecutará al cargar el componente
     fetchUserData();
   }, []);
 
