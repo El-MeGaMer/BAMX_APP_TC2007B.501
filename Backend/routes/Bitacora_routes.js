@@ -1,5 +1,6 @@
 import express from 'express'
 import multer from 'multer'
+
 import { createIncidente, getIncidentes } from "../controllers/Bitacora/incidentes_controller.js"
 import { updateRecibo } from "../controllers/Bitacora/recibo_controller.js"
 import { updateEmpaque } from "../controllers/Bitacora/empaque_controller.js"
@@ -9,7 +10,7 @@ import { updateEntrega } from '../controllers/Bitacora/entrega_controller.js'
 import { updateAlimentoCompartido } from '../controllers/Bitacora/alimento_compartido_controller.js'
 import { updateTemperaturas } from '../controllers/Bitacora/temperatura_controller.js'
 import { updateCribaFV } from '../controllers/Bitacora/cribaFV_controller.js'
-import { getBitacorasEstado } from '../controllers/Bitacora/visualizacion_bitacoras_controller.js'
+import { getBitacorasState, getBitacorasPending, getBitacorasExport, getBitacorasPerDay } from '../controllers/Bitacora/visualizacion_bitacoras_controller.js'
 
 const upload = multer()
 const router = express.Router()
@@ -42,8 +43,10 @@ router.put("/CribaFV/:idLog/:idUser", updateCribaFV)
 // Extintores Bitacora
 router.put("/Extintor/:idLog", updateExtinctor)
 
-// Estado bitacoras
-router.get("/:estado", getBitacorasEstado)
-
+// Vizualizacion de bitacoras
+router.get("/pending", getBitacorasPending)         // muestra las bitacoras no revisadas y en revision
+router.get("/export", getBitacorasExport)           // exportar bitacotar
+router.get("/display/:id", getBitacorasPerDay)      // despliega por dia 
+router.get("/:estado", getBitacorasState)           // despliega las bitacoras dependiendo del estado
 
 export default router

@@ -28,6 +28,6 @@ app.use(router)
 initScheduledJobs()
 
 
-app.listen(PORT, ()=>{
-    console.log(`Server ready at port http://localhost:${PORT}`)
+app.listen(PORT, HOST, ()=>{
+    console.log(`Server ready at port ${HOST}:${PORT}`)
 })
