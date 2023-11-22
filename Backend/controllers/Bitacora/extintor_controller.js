@@ -9,7 +9,7 @@ const prisma = new PrismaClient
 
 
 //Llenar bitacora rutinaria de extinctor (Actualizarla)
-export const fillExtinctor = async (req, res) => {
+export const updateExtinctor = async (req, res) => {
 
     const {id} = req.params;
     const data = req.body;

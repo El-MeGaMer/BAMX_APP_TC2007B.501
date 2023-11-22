@@ -1,49 +1,47 @@
 import express from 'express'
-import { createIncidente, getIncidentes, deleteIncidenteById } from "../controllers/Bitacora/incidentes_controller.js"
-import { fillRecibo, getReciboPending } from "../controllers/Bitacora/recibo_controller.js"
-import { getEmpaquePending, fillEmpaque } from "../controllers/Bitacora/empaque_controller.js"
-import { getAlmacenPending, fillAlmacen } from "../controllers/Bitacora/almacen_controller.js"
-import { fillExtinctor } from '../controllers/Bitacora/extintor_controller.js'
-import { fillEntrega } from '../controllers/Bitacora/entrega_controller.js'
-import { fillAlimentoCompartido } from '../controllers/Bitacora/alimento_compartido_controller.js'
-import { fillTemperaturas } from '../controllers/Bitacora/temperatura_controller.js'
-import { fillCribaFV } from '../controllers/Bitacora/cribaFV_controller.js'
+import multer from 'multer'
+
+import { createIncidente, getIncidentes } from "../controllers/Bitacora/incidentes_controller.js"
+import { updateRecibo } from "../controllers/Bitacora/recibo_controller.js"
+import { updateEmpaque } from "../controllers/Bitacora/empaque_controller.js"
+import { updateAlmacen} from "../controllers/Bitacora/almacen_controller.js"
+import { updateExtinctor } from '../controllers/Bitacora/extintor_controller.js'
+import { updateEntrega } from '../controllers/Bitacora/entrega_controller.js'
+import { updateAlimentoCompartido } from '../controllers/Bitacora/alimento_compartido_controller.js'
+import { updateTemperaturas } from '../controllers/Bitacora/temperatura_controller.js'
+import { updateCribaFV } from '../controllers/Bitacora/cribaFV_controller.js'
 import { getBitacorasState, getBitacorasPending, getBitacorasExport, getBitacorasPerDay } from '../controllers/Bitacora/visualizacion_bitacoras_controller.js'
 
-
+const upload = multer()
 const router = express.Router()
 
 //Incidentes Bitacoras
-router.post("/Incidente/create", createIncidente)
+router.post("/Incidente/create", upload.single('photo'), createIncidente)
 router.get("/Incidente/getBitacoras/:idArea", getIncidentes)
-router.delete("Incidente/delete/:id", deleteIncidenteById)
 
 //Recibo Bitacoras
-router.get("/Recibo/getPending/:id", getReciboPending)
-router.put("/Recibo/fill/:id", fillRecibo)
+router.put("/Recibo/:idLog/:idUser", updateRecibo)
 
 //Empaque Bitacoras
-router.get("/Empaque/getPending/:id", getEmpaquePending)
-router.put("/Empaque/fill/:id", fillEmpaque)
+router.put("/Empaque/:idLog/:idUser", updateEmpaque)
 
 // Almacen Bitacoras
-router.get("/Almacen/getPending/:id", getAlmacenPending)
-router.put("/Almacen/fill/:id", fillAlmacen)
-
-// Extintor Bitacoras
-router.put("/Extintor/fill/:id", fillExtinctor)
+router.put("/Almacen/:idLog/:idUser", updateAlmacen)
 
 // Entregas Bitacora
-router.put("/Entregas/fill/:id", fillEntrega)
+router.put("/Entrega/:idLog/:idUser", updateEntrega)
 
 // Alimento Compartido Bitacora
-router.put("/AlimentoCompartido/fill/:id", fillAlimentoCompartido)
+router.put("/AlimentoCompartido/:idLog/:idUser", updateAlimentoCompartido)
 
 // Temperaturas Bitacora
-router.put("/Temperatura/fill/:id", fillTemperaturas)
+router.put("/Temperatura/:idLog/:idUser", updateTemperaturas)
 
 // Criba FV Bitacora
-router.put("/CribaFV/fill/:id", fillCribaFV)
+router.put("/CribaFV/:idLog/:idUser", updateCribaFV)
+
+// Extintores Bitacora
+router.put("/Extintor/:idLog/:idUser", updateExtinctor)
 
 // Vizualizacion de bitacoras
 router.get("/pending", getBitacorasPending)         // muestra las bitacoras no revisadas y en revision
