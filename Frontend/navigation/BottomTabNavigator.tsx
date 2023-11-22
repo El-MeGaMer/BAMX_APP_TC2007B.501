@@ -14,8 +14,6 @@ import UserScreen from "../screens/UserScreen";
 import NotificationScreen from "../screens/NotificationScreen";
 import CreateLogScreen from "../screens/CreateLogScreen";
 
-import { useNavigation } from '@react-navigation/native';
-
 const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
@@ -111,8 +109,7 @@ function TabBarIcon(props) {
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const HomeStack = createStackNavigator();
 
-function HomeNavigator() {
-  const navigation = useNavigation();
+function HomeNavigator({navigation}) {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
@@ -157,6 +154,16 @@ function HomeNavigator() {
             fontWeight: "bold",
             color: "white",
           },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{ marginLeft: 15 }}
+              onPress={() => {
+                navigation.navigate("HomeScreen")
+              }}
+            >
+              <TabBarIcon name="arrow-left" color="white" />
+            </TouchableOpacity>
+          ),
         }}
       />
     </HomeStack.Navigator>
