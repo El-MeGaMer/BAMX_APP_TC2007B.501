@@ -1,0 +1,6 @@
+node_modules
+# Keep environment variables out of version control
+.env
+# Just migrate the models locally
+migrations
+package-lock.json
