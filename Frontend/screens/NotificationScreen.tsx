@@ -3,7 +3,7 @@ import { Text, View } from "../components/Themed";
 
 import { styled } from "nativewind";
 
-const IconI = "../assets/images/favicon.png";
+export const IconI = require("../assets/images/favicon.png");
 
 const StyledView = styled(View);
 
@@ -11,13 +11,13 @@ export default function NotificationScreen() {
   const data=[
     {
       id: "1",
-      IconImage: "../assets/images/favicon.png",
+      Image: IconI,
       notiTitle: "Atención, temperatura elevada!",
       notification: "Se detectó una temperatura mayor a la permitida en REFRIGERADOR 1",
     },
     {
       id: "2",
-      IconImage: "../assets/images/favicon.png",
+      Image: IconI,
       notiTitle: "Atención, temperatura crítica!",
       notification: "Se detectó una temperatura mucho mayor a la permitida en REFRIGERADOR 2",
     }
@@ -25,7 +25,7 @@ export default function NotificationScreen() {
 
   return (
     <StyledView className="flex-1">
-      <View className="mt-4">
+      <View>
         <FlatList
           data={data}
           keyExtractor={(item, index) => {return index.toString()}}
@@ -34,11 +34,11 @@ export default function NotificationScreen() {
               <View style={styles.Container}>
                 <Image
                   style={styles.Icon}
-                  source={require(IconI)}
+                  source={item.Image}
                 />
-                <View>
+                <View style={styles.Text}>
                   <Text style={styles.Title}>{item.notiTitle}</Text>
-                  <Text style={styles.Text}>{item.notification}</Text>
+                  <Text>{item.notification}</Text>
                 </View>
               </View>
             );
@@ -51,7 +51,7 @@ export default function NotificationScreen() {
 
 const styles = StyleSheet.create({
   Container: {
-    marginBottom: 20,
+    marginTop: 20,
     flexDirection: "row",
     alignItems: "center"
   },
@@ -61,12 +61,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   Title: {
-    marginRight: 90,
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: "bold"
   },
   Text: {
-    marginRight: 150,
-    fontSize: 14,
+    marginRight: 135,
   }
 });
