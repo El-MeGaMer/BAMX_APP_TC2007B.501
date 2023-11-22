@@ -17,17 +17,6 @@ export const updateExtinctor = async (req, res) => {
         const {idLog} = req.params;
         const data = req.body;
 
-        const limitesTemperaturas = {
-            "cuartoFrio1_low": 1,
-            "cuartoFrio1_high": 20,
-            "cuartoFrio2_low": 1,
-            "cuartoFrio2_high": 20,
-            "camaraConservacionB_low": 1,
-            "camaraConservacionB_high": 20,
-            "camaraConservacionC_low": 1,
-            "camaraConservacionC_high": 20,
-        }
-
         let response
         let problemas = []
         
@@ -75,6 +64,9 @@ export const updateExtinctor = async (req, res) => {
 
             //Checar errores/problemas
 
+            if (update.capacidad === false) {
+                problemas.push("capacidad")
+            }
             if (update.manometro === false) {
                 problemas.push("manometro")
             }
