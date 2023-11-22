@@ -30,7 +30,7 @@ export async function sendNotifMail(notif) {
             to: destination, // list of receivers
             subject: notif.titulo, // Subject line
             text: notif.descripcion, // plain text body
-            html: `<p>${notif.descripcion}</p>`, // html body
+            html: notif.descripcion, // html body
         })
         console.log("Message sent: %s", info.messageId);
     } catch (error) {
