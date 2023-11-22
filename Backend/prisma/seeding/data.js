@@ -19,9 +19,12 @@ const seedBitacoraLimpiezaCribasFV = [];
 const seedBitacoraLimpiezaAlmacenes = [];
 const seedBitacoraLimpiezaEntregas = [];
 
+let estados = ['revisado', 'noRevisado', 'enRevision'] 
+let areas = ['recibo', 'cribaFV', 'empaque', 'almacen_comp', 'almacen', 'entrega', 'cuartos_frios']
+let rol = ['administrador', 'coordinador', 'supervisor']
 
 // Recordatorio
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedRecordatorio.push({
         nombre: faker.company.buzzNoun(),
         descripcion: faker.company.catchPhrase(),
@@ -31,32 +34,33 @@ for (let i = 0; i < 5; i++) {
 }
 
 // Roles
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 3; i++) {
     seedRoles.push({
-        nombreRol: faker.helpers.arrayElement(['administrador', 'supervisor de área', 'operador', 'usuario']),
+        nombreRol: faker.helpers.arrayElement([rol[i]]),
     })
 }
 
 // Areas
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedAreas.push({
-        nombreArea: faker.helpers.arrayElement(['alimento', 'limpieza', 'empaque', 'criba', 'almacen', 'entregas']),
+        nombreArea: faker.helpers.arrayElement([areas[i]]),
     })
 }
 
 // Notificaciones
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedNotificaciones.push({
         titulo: faker.company.buzzVerb(),
-        descripcion: faker.company.buzzPhrase()
+        descripcion: faker.company.buzzPhrase(),
+        fechaHora: faker.date.recent(),
     })
 }
 
 // Usuarios
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedUsuarios.push({
         idRecordatorio: i + 1,
-        idRol: i + 1,
+        idRol: faker.number.int({min: 1, max: 3}),
         idArea: i + 1,
         nombre: faker.person.firstName(),
         apellido: faker.person.lastName(),
@@ -65,18 +69,19 @@ for (let i = 0; i < 5; i++) {
 }
 
 // Notificaciones Usuarios
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedNotificacionesUsuarios.push({
         idNotificacion: i + 1,
         idUsuario: i + 1,
+        estado: faker.helpers.arrayElement([estados[0], estados[1]])
     })
 }
 
 // Bitacoras Extintores
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedBitacorasExtintores.push({
         idUsuarioEmisor: i + 1,
-        idArea: i + 1,
+        idArea: i + 1,                      // cualquier area 
         idRecordatorio: i + 1,
         nombre: 'Bitácora de Extintonres',
         capacidad: faker.helpers.arrayElement([true, false]),
@@ -89,29 +94,31 @@ for (let i = 0; i < 5; i++) {
         ultimaRevision: faker.date.past(),
         proximaRecarga: faker.date.soon(),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision'])
+        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
     })
 }
 
 // Bitacora Incidentes
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedBitacoraIncidentes.push({
         idUsuarioEmisor: i + 1,
         idUsuarioSupervisor: i + 1,
-        idArea: i + 1,
+        idArea: i + 1,                      // cualquier area
         nombre: 'Bitácora de Incidentes',
         fechaHora: faker.date.recent(),
         descripcion: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal']),
         imagen: faker.helpers.arrayElement([null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision'])
+        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
     })
 }
 
+
 // Bitacora Temperatura
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedBitacoraTemperatura.push({
         idUsuarioEmisor: i + 1,
         idRecordatorio: i + 1,
+        idArea: 7,                      // cuertos_frios
         nombre: 'Bitácora de Temperatura',
         fechaHora: faker.date.recent(),
         cuartoFrio1: faker.number.int({min: -15, max: 50}),
@@ -119,16 +126,16 @@ for (let i = 0; i < 5; i++) {
         camaraConservacionB: faker.number.int({min: -15, max: 50}),
         camaraConservacionC: faker.number.int({min: -15, max: 50}),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision'])
+        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
     })
 }
 
 // Bitacora Limpieza Alimento Compartidos
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedBitacoraLimpiezaAlimentoCompartidos.push({
         idUsuarioEmisor: i + 1,
         idUsuarioSupervisor: i + 1,
-        idArea: i + 1,
+        idArea: 4,                          // almacen_comp
         idRecordatorio: i + 1,
         nombre: 'Bitácora de Alimentos Compartidos',
         dia: faker.number.int({ min: 1, max: 31 }),
@@ -142,16 +149,16 @@ for (let i = 0; i < 5; i++) {
         patines: faker.helpers.arrayElement([true, false]),
         basculas: faker.helpers.arrayElement([true, false]),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision'])
+        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
     })
 }
 
 // Bitacora Limpieza Recibos
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedBitacoraLimpiezaRecibos.push({
         idUsuarioEmisor: i + 1,
         idUsuarioSupervisor: i + 1,
-        idArea: i + 1,
+        idArea: 1,                          // recibo
         idRecordatorio: i + 1,
         nombre: 'Bitácora de Limpieza Recibos',
         dia: faker.number.int({min: 1, max: 31}),
@@ -164,16 +171,16 @@ for (let i = 0; i < 5; i++) {
         congelador: faker.helpers.arrayElement([true, false]),
         transporte: faker.helpers.arrayElement([true, false]),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision'])
+        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
     })
 }
 
 // Bitacora Limpieza Empaques
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedBitacoraLimpiezaEmpaques.push({
         idUsuarioEmisor: i + 1,
         idUsuarioSupervisor: i + 1,
-        idArea: i + 1,
+        idArea: 3,                      // empaque
         idRecordatorio: i + 1,
         nombre: 'Bitácora de Limpieza Empaques',
         dia: faker.number.int({min: 1, max: 31}),
@@ -187,16 +194,16 @@ for (let i = 0; i < 5; i++) {
         bandejas: faker.helpers.arrayElement([true, false]),
         patines: faker.helpers.arrayElement([true, false]),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision'])
+        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
     })
 }
 
 // Bitacora Limpieza CribasFV
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedBitacoraLimpiezaCribasFV.push({
         idUsuarioEmisor: i + 1,
         idUsuarioSupervisor: i + 1,
-        idArea: i + 1,
+        idArea: 2,                      // cribas
         idRecordatorio: i + 1,
         nombre: 'Bitácora de Limpieza CribasFV',
         dia: faker.number.int({min: 1, max:31}),
@@ -209,16 +216,16 @@ for (let i = 0; i < 5; i++) {
         rejillas: faker.helpers.arrayElement([true, false]),
         patines: faker.helpers.arrayElement([true, false]),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision'])
+        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
     })
 } 
 
 // Bitacora Limpieza Almacenes
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedBitacoraLimpiezaAlmacenes.push({
         idUsuarioEmisor: i + 1,
         idUsuarioSupervisor: i + 1,
-        idArea: i + 1,
+        idArea: 5,                      // almacen
         idRecordatorio: i + 1,
         nombre: 'Bitácora de Limpieza Almacenes',
         dia: faker.number.int({min: 1, max: 31}),
@@ -236,17 +243,17 @@ for (let i = 0; i < 5; i++) {
         montacargas: faker.helpers.arrayElement([true, false]),
         patines: faker.helpers.arrayElement([true, false]),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision'])
+        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
       
     })
 }
 
 // Bitacora Limpieza Entregas
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
     seedBitacoraLimpiezaEntregas.push({
         idUsuarioEmisor: i + 1,
         idUsuarioSupervisor: i + 1,
-        idArea: i + 1,
+        idArea: 6,                  // entrega
         idRecordatorio: i + 1,
         nombre: 'Bitácora de Limpieza Entregas',
         dia: faker.number.int({min: 1, max: 31}),
@@ -259,7 +266,7 @@ for (let i = 0; i < 5; i++) {
         rampas: faker.helpers.arrayElement([true, false]),
         patines: faker.helpers.arrayElement([true, false]),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement(['revisado', 'noRevisado', 'enRevision'])
+        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
     })
 }
 
