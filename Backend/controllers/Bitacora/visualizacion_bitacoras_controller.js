@@ -28,7 +28,7 @@ export const getBitacorasState = async (req, res) => {
                 idRecordatorio: true,
                 estado: true,
                 fechaHora: true,
-
+                [areaFieldName]: true
             }
         }
 
