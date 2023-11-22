@@ -9,6 +9,7 @@ import { styled } from "nativewind";
 
 import Background from "../components/Background";
 import SelectLogButton from "../components/SelectLogButton";
+import { TableInitialValues } from "../constants/TableInitialValues";
 
 const StyledView = styled(View);
 
@@ -18,12 +19,12 @@ export default function CreateLogScreen() {
       <Background>
         <Container className>
           <SelectLogButton
-            text="Bitacora Limpieza Recibo"
-            destinatedLog="bitacora_limpiezaRecibo"
+            text="Bitacora Limpieza Empaques"
+            destinatedLog="bitacoraExtintores"
           />
           <SelectLogButton
             text="Bitacora Limpieza"
-            destinatedLog="bitacora_limpieza"
+            destinatedLog="bitacoraLimpiezaRecibos"
           />
         </Container>
       </Background>
