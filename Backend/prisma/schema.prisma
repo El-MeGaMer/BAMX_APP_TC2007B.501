@@ -1,0 +1,350 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model recordatorios {
+  id          Int      @id @default(autoincrement())
+  nombre      String   @db.VarChar(100)
+  descripcion String   @db.MediumText
+  horaInicial DateTime @db.DateTime
+  horaFinal   DateTime @db.DateTime
+
+  usuarios                                       usuarios[]
+  recordatorioBitacoraExtintor                   bitacoraExtintores?
+  recordatorioBitacoraTemperatura                bitacoraTemperaturas?
+  recordatorioBitacoraLimpiezaAlimentoCompartido bitacoraLimpiezaAlimentoCompartidos?
+  recordatorioBitacoraLimpiezaRecibos            bitacoraLimpiezaRecibos?
+  recordatorioBitacoraLimpiezaEntregas           bitacoraLimpiezaEntregas?
+  recordatorioBitacoraLimpiezaEmpaques           bitacoraLimpiezaEmpaques?
+  recordatorioBitacoraLimpiezaCribasFV           bitacoraLimpiezaCribasFV?
+  recordatorioBitacoraLimpiezaAlmacenes          bitacoraLimpiezaAlmacenes?
+}
+
+model roles {
+  id         Int        @id @default(autoincrement())
+  nombreRol  Rol
+  rolUsuario usuarios[]
+}
+
+model notificaciones {
+  id          Int      @id @default(autoincrement())
+  titulo      String   @db.VarChar(100)
+  descripcion String   @db.MediumText
+  fechaHora   DateTime @db.DateTime()
+
+  usuarios notificacionesUsuarios[]
+}
+
+model usuarios {
+  id             Int    @id @default(autoincrement())
+  idRecordatorio Int
+  idRol          Int
+  idArea         Int
+  nombre         String @db.VarChar(20)
+  apellido       String @db.VarChar(20)
+  correo         String @db.VarChar(40)
+
+  notificaciones notificacionesUsuarios[]
+  recordatorio   recordatorios            @relation(fields: [idRecordatorio], references: [id])
+  rolUsuario     roles                    @relation(fields: [idRol], references: [id])
+  areaUsuario    areas                    @relation(fields: [idArea], references: [id])
+
+  usuarioEmisorBitacoraIncidentes     bitacoraIncidentes[] @relation("usuarioEmisor")
+  usuarioSupervisorBitacoraIncidentes bitacoraIncidentes[] @relation("usuarioSupervisor")
+
+  usuarioEmisorBitacoraExtintores bitacoraExtintores[]
+
+  usuarioEmisorBitacoraTemperatura bitacoraTemperaturas[]
+
+  usuarioEmisorBitacoraLimpiezaAlimentoCompartido     bitacoraLimpiezaAlimentoCompartidos[] @relation("usuarioEmisor")
+  usuarioSupervisorBitacoraLimpiezaAlimentoCompartido bitacoraLimpiezaAlimentoCompartidos[] @relation("usuarioSupervisor")
+
+  usuarioEmisorBitacoraLimpiezaRecibos     bitacoraLimpiezaRecibos[] @relation("usuarioEmisor")
+  usuarioSupervisorBitacoraLimpiezaRecibos bitacoraLimpiezaRecibos[] @relation("usuarioSupervisor")
+
+  usuarioEmisorBitacoraLimpiezaEntregas     bitacoraLimpiezaEntregas[] @relation("usuarioEmisor")
+  usuarioSupervisorBitacoraLimpiezaEntregas bitacoraLimpiezaEntregas[] @relation("usuarioSupervisor")
+
+  usuarioEmisorBitacoraLimpiezaEmpaques     bitacoraLimpiezaEmpaques[] @relation("usuarioEmisor")
+  usuarioSupervisorBitacoraLimpiezaEmpaques bitacoraLimpiezaEmpaques[] @relation("usuarioSupervisor")
+
+  usuarioEmisorBitacoraLimpiezaCribasFV     bitacoraLimpiezaCribasFV[] @relation("usuarioEmisor")
+  usuarioSupervisorBitacoraLimpiezaCribasFV bitacoraLimpiezaCribasFV[] @relation("usuarioSupervisor")
+
+  usuarioEmisorBitacoraLimpiezaAlmacenes     bitacoraLimpiezaAlmacenes[] @relation("usuarioEmisor")
+  usuarioSupervisorBitacoraLimpiezaAlmacenes bitacoraLimpiezaAlmacenes[] @relation("usuarioSupervisor")
+}
+
+model notificacionesUsuarios {
+  idNotificacion Int
+  idUsuario      Int
+
+  notificacion notificaciones @relation(fields: [idNotificacion], references: [id])
+  usuario      usuarios       @relation(fields: [idUsuario], references: [id])
+  estado       String         @db.VarChar(10)
+
+  @@id([idNotificacion, idUsuario])
+}
+
+model areas {
+  id         Int  @id @default(autoincrement())
+  nombreArea Area
+
+  areaUsuario                            usuarios[]
+  areaBitacoraIncidentes                 bitacoraIncidentes[]
+  areaBitacoraExtintor                   bitacoraExtintores[]
+  areaBitacoraLimpiezaAlimentoCompartido bitacoraLimpiezaAlimentoCompartidos[]
+  areaBitacoraLimpiezaRecibos            bitacoraLimpiezaRecibos[]
+  areaBitacoraLimpiezaEntregas           bitacoraLimpiezaEntregas[]
+  areaBitacoraLimpiezaEmpaques           bitacoraLimpiezaEmpaques[]
+  areaBitacoraLimpiezaCribasFV           bitacoraLimpiezaCribasFV[]
+  areaBitacoraLimpiezaAlmacenes          bitacoraLimpiezaAlmacenes[]
+  bitacoraTemperaturas                   bitacoraTemperaturas[]
+}
+
+model bitacoraExtintores {
+  id              Int      @id @default(autoincrement())
+  idUsuarioEmisor Int
+  idArea          Int
+  idRecordatorio  Int      @unique
+  nombre          String   @db.VarChar(100)
+  fechaHora       DateTime @default(now())
+  capacidad       Boolean
+  manometro       Boolean
+  estadoFisico    Boolean
+  mangueras       Boolean
+  seguro          Boolean
+  etiquetas       Boolean
+  holograma       Boolean
+  ultimaRevision  DateTime
+  proximaRecarga  DateTime
+  observaciones   String?  @db.MediumText
+  estado          Estado   @default(creado)
+
+  usuarioEmisor                usuarios      @relation(fields: [idUsuarioEmisor], references: [id])
+  areaBitacoraExtintor         areas         @relation(fields: [idArea], references: [id])
+  recordatorioBitacoraExtintor recordatorios @relation(fields: [idRecordatorio], references: [id])
+}
+
+model bitacoraIncidentes {
+  id                  Int      @id @default(autoincrement())
+  idUsuarioEmisor     Int
+  idUsuarioSupervisor Int?
+  idArea              Int
+  nombre              String   @db.VarChar(100)
+  fechaHora           DateTime @default(now())
+  descripcion         String   @db.MediumText
+  imagen              Bytes?   @db.LongBlob
+  estado              Estado   @default(creado)
+
+  usuarioEmisor     usuarios  @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
+  usuarioSupervisor usuarios? @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
+  area              areas     @relation(fields: [idArea], references: [id])
+}
+
+model bitacoraTemperaturas {
+  id                  Int      @id @default(autoincrement())
+  idUsuarioEmisor     Int
+  idRecordatorio      Int      @unique
+  idArea              Int
+  nombre              String   @db.VarChar(100)
+  fechaHora           DateTime @default(now())
+  cuartoFrio1         Int
+  cuartoFrio2         Int
+  camaraConservacionB Int
+  camaraConservacionC Int
+  observaciones       String?  @db.MediumText
+  estado              Estado   @default(creado)
+
+  usuarioEmisor                   usuarios      @relation(fields: [idUsuarioEmisor], references: [id])
+  areaBitacoraTemperatura         areas         @relation(fields: [idArea], references: [id])
+  recordatorioBitacoraTemperatura recordatorios @relation(fields: [idRecordatorio], references: [id])
+}
+
+model bitacoraLimpiezaAlimentoCompartidos {
+  id                  Int      @id @default(autoincrement())
+  idUsuarioEmisor     Int
+  idUsuarioSupervisor Int?
+  idArea              Int
+  idRecordatorio      Int      @unique
+  nombre              String   @db.VarChar(100)
+  dia                 Int
+  fechaHora           DateTime @default(now())
+  pisos               Boolean?
+  cuartosFrios        Boolean?
+  refrigeradores      Boolean?
+  congeladores        Boolean?
+  racks               Boolean?
+  cortinas            Boolean?
+  patines             Boolean?
+  basculas            Boolean?
+  observaciones       String?  @db.MediumText
+  estado              Estado   @default(creado)
+
+  usuarioEmisor                                  usuarios      @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
+  usuarioSupervisor                              usuarios?     @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
+  areaBitacoraLimpiezaAlimentoCompartido         areas         @relation(fields: [idArea], references: [id])
+  recordatorioBitacoraLimpiezaAlimentoCompartido recordatorios @relation(fields: [idRecordatorio], references: [id])
+}
+
+model bitacoraLimpiezaRecibos {
+  id                  Int      @id @default(autoincrement())
+  idUsuarioEmisor     Int
+  idUsuarioSupervisor Int?
+  idArea              Int
+  idRecordatorio      Int      @unique
+  nombre              String   @db.VarChar(100)
+  dia                 Int
+  fechaHora           DateTime @default(now())
+  areaArmado          Boolean?
+  areaRecibo          Boolean?
+  patio               Boolean?
+  rampas              Boolean?
+  cuartosFrios        Boolean?
+  congelador          Boolean?
+  transporte          Boolean?
+  observaciones       String?  @db.MediumText
+  estado              Estado   @default(creado)
+
+  usuarioEmisor                       usuarios      @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
+  usuarioSupervisor                   usuarios?     @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
+  areaBitacoraLimpiezaRecibos         areas         @relation(fields: [idArea], references: [id])
+  recordatorioBitacoraLimpiezaRecibos recordatorios @relation(fields: [idRecordatorio], references: [id])
+}
+
+model bitacoraLimpiezaEmpaques {
+  id                  Int      @id @default(autoincrement())
+  idUsuarioEmisor     Int
+  idUsuarioSupervisor Int?
+  idArea              Int
+  idRecordatorio      Int      @unique
+  nombre              String   @db.VarChar(100)
+  dia                 Int
+  fechaHora           DateTime @default(now())
+  pisos               Boolean?
+  mesas               Boolean?
+  selladores          Boolean?
+  basculas            Boolean?
+  rampas              Boolean?
+  estantes            Boolean?
+  bandejas            Boolean?
+  patines             Boolean?
+  observaciones       String?  @db.MediumText
+  estado              Estado   @default(creado)
+
+  usuarioEmisor                        usuarios      @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
+  usuarioSupervisor                    usuarios?     @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
+  areaBitacoraLimpiezaEmpaques         areas         @relation(fields: [idArea], references: [id])
+  recordatorioBitacoraLimpiezaEmpaques recordatorios @relation(fields: [idRecordatorio], references: [id])
+}
+
+model bitacoraLimpiezaCribasFV {
+  id                  Int      @id @default(autoincrement())
+  idUsuarioEmisor     Int
+  idUsuarioSupervisor Int?
+  idArea              Int
+  idRecordatorio      Int      @unique
+  nombre              String   @db.VarChar(100)
+  dia                 Int
+  fechaHora           DateTime @default(now())
+  pisos               Boolean?
+  mesas               Boolean?
+  patio               Boolean?
+  basculas            Boolean?
+  rampas              Boolean?
+  rejillas            Boolean?
+  patines             Boolean?
+  observaciones       String?  @db.MediumText
+  estado              Estado   @default(creado)
+
+  usuarioEmisor                        usuarios      @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
+  usuarioSupervisor                    usuarios?     @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
+  areaBitacoraLimpiezaCribasFVs        areas         @relation(fields: [idArea], references: [id])
+  recordatorioBitacoraLimpiezaCribasFV recordatorios @relation(fields: [idRecordatorio], references: [id])
+}
+
+model bitacoraLimpiezaAlmacenes {
+  id                  Int      @id @default(autoincrement())
+  idUsuarioEmisor     Int
+  idUsuarioSupervisor Int?
+  idArea              Int
+  idRecordatorio      Int      @unique
+  nombre              String   @db.VarChar(100)
+  dia                 Int
+  fechaHora           DateTime @default(now())
+  pisos               Boolean?
+  pasillos            Boolean?
+  extintores          Boolean?
+  cuartosFrios        Boolean?
+  puertas             Boolean?
+  muros               Boolean?
+  racks               Boolean?
+  cortinas            Boolean?
+  coladeras           Boolean?
+  rejillas            Boolean?
+  montacargas         Boolean?
+  patines             Boolean?
+  observaciones       String?  @db.MediumText
+  estado              Estado   @default(creado)
+
+  usuarioEmisor                         usuarios      @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
+  usuarioSupervisor                     usuarios?     @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
+  areaBitacoraLimpiezaAlmacenes         areas         @relation(fields: [idArea], references: [id])
+  recordatorioBitacoraLimpiezaAlmacenes recordatorios @relation(fields: [idRecordatorio], references: [id])
+}
+
+model bitacoraLimpiezaEntregas {
+  id                  Int      @id @default(autoincrement())
+  idUsuarioEmisor     Int
+  idUsuarioSupervisor Int?
+  idArea              Int
+  idRecordatorio      Int      @unique
+  nombre              String   @db.VarChar(100)
+  dia                 Int
+  fechaHora           DateTime @default(now())
+  pisos               Boolean?
+  cuartosFrios        Boolean?
+  basculas            Boolean?
+  racks               Boolean?
+  cortinas            Boolean?
+  rampas              Boolean?
+  patines             Boolean?
+  observaciones       String?  @db.MediumText
+  estado              Estado   @default(creado)
+
+  usuarioEmisor                        usuarios      @relation(fields: [idUsuarioEmisor], references: [id], name: "usuarioEmisor")
+  usuarioSupervisor                    usuarios?     @relation(fields: [idUsuarioSupervisor], references: [id], name: "usuarioSupervisor")
+  areaBitacoraLimpiezaEntregas         areas         @relation(fields: [idArea], references: [id])
+  recordatorioBitacoraLimpiezaEntregas recordatorios @relation(fields: [idRecordatorio], references: [id])
+}
+
+enum Estado {
+  creado
+  revisado
+  noRevisado
+  enRevision
+}
+
+enum Area {
+  recibo
+  cribaFV
+  empaque
+  almacen_comp
+  almacen
+  entrega
+  cuartos_frios
+}
+
+enum Rol {
+  administrador
+  coordinador
+  supervisor
+}
