@@ -19,8 +19,6 @@ export default function App() {
   const colorScheme = useColorScheme();
   const [loggedIn, role] = useAuth(verified);
 
-  console.log(role);
-
   if (!isLoadingComplete) {
     return null;
   } else {

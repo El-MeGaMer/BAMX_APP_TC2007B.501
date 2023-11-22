@@ -3,6 +3,7 @@ import otpGenerator from "otp-generator"
 import nodemailer from "nodemailer"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
+import bcrypt from "bcrypt"
 
 export const auth = (req, res) => {
 	dotenv.config();
@@ -34,7 +35,11 @@ export const genOTP =  async (req, res) => {
     });
 
     const date = new Date();
+
     date.setSeconds(date.getSeconds() + 120);
+
+	const salt = bcrypt.genSaltSync(10);
+	const hashedOTP = bcrypt.hashSync(OTP, salt);
 
     if (user) {
     await prisma.usuarios.update({
@@ -42,7 +47,7 @@ export const genOTP =  async (req, res) => {
             correo: req.body.email
         },
         data: {
-            otp: Number(OTP),
+            otp: hashedOTP,
             expiracion: date
         }
     });
@@ -103,9 +108,9 @@ export const verifyOTP = async(req, res) => {
 	    const OTP = user.otp;
 	    const expirationDate = user.expiracion;
 	    const currentDate = new Date();
-	
+
 	    // Check if OTP is equal to the one in database and has not expired
-	    if (inputOTP != OTP || expirationDate < currentDate) {
+	    if (!bcrypt.compareSync(inputOTP, OTP) || expirationDate < currentDate) {
 	        res.status(400).json({error: "Invalid OTP"});
 	    } else {
 			const token = jwt.sign({ email: userEmail, rol: user.idRol }, process.env.SECRET, { expiresIn: 100000 }); 
