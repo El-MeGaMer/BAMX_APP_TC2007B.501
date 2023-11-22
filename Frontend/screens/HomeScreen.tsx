@@ -76,7 +76,7 @@ export default class AgendaScreen extends Component<State> {
         testID={testIDs.agenda.CONTAINER}
         items={this.state.items}
         loadItemsForMonth={this.loadItems}
-        selected={"2023-11-10"}
+        selected={"2023-11-21"}
         renderItem={this.renderItem}
         renderEmptyDate={this.renderEmptyDate}
         rowHasChanged={this.rowHasChanged}
@@ -85,36 +85,38 @@ export default class AgendaScreen extends Component<State> {
     );
   }
 
-  loadItems = (day: DateData) => {
+  loadItems = async (day: DateData) => {
     const items = this.state.items || {};
 
-    setTimeout(() => {
-      for (let i = -15; i < 85; i++) {
-        const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-        const strTime = this.timeToString(time);
-
-        if (!items[strTime]) {
-          items[strTime] = [];
-
-          const numItems = Math.floor(Math.random() * 3 + 1);
-          for (let j = 0; j < numItems; j++) {
-            items[strTime].push({
-              name: "Item for " + strTime + " #" + j,
-              height: Math.max(50, Math.floor(Math.random() * 150)),
-              day: strTime,
-            });
-          }
+    try {
+      // Cambiar IP a donde se esta corriendo el Backend
+      const BACKEND_IP = "10.41.55.7";
+      const response = await fetch(`http://${BACKEND_IP}:3000/recordatorio/`, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json"
         }
-      }
+      });
+      const data = await response.json()
 
       const newItems: AgendaSchedule = {};
-      Object.keys(items).forEach((key) => {
-        newItems[key] = items[key];
+      Object(data).forEach((recordatorio) => {
+        const day = recordatorio.horaInicial.slice(0, 10);
+        if (newItems.hasOwnProperty(day)) {
+          newItems[day].push(recordatorio)
+        } else {
+          newItems[day] = [recordatorio]
+        }
       });
       this.setState({
         items: newItems,
       });
-    }, 1000);
+
+      console.log(items)
+    
+    }  catch(err) {
+      console.log(err);
+    }
   };
 
   renderDay = (day) => {
@@ -124,17 +126,17 @@ export default class AgendaScreen extends Component<State> {
     return <View style={styles.dayItem} />;
   };
 
-  renderItem = (reservation: AgendaEntry, isFirst: boolean) => {
+  renderItem = (recordatorio: AgendaEntry, isFirst: boolean) => {
     const fontSize = isFirst ? 16 : 14;
     const color = isFirst ? "black" : "#43515c";
 
     return (
       <TouchableOpacity
         testID={testIDs.agenda.ITEM}
-        style={[styles.item, { height: reservation.height }]}
-        onPress={() => Alert.alert(reservation.name)}
+        style={[styles.item, { height: recordatorio.height }]}
+        onPress={() => Alert.alert(recordatorio.descripcion)}
       >
-        <Text style={{ fontSize, color }}>{reservation.name}</Text>
+        <Text style={{ fontSize, color }}>{recordatorio.nombre}</Text>
       </TouchableOpacity>
     );
   };
