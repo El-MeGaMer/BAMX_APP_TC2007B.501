@@ -4,13 +4,14 @@ import * as SecureStore from 'expo-secure-store';
 
 export function useAuth(verified) {
 	const [loggedIn, setLoggedIn] = useState(false);
+	const [role, setRole] = useState("");
 
 	useEffect(() => {
 		async function checkLoggedIn() {
 			let result = await SecureStore.getItemAsync("token");
 
 			// put your ip here if testing
-			const serverIP = "" 
+			const serverIP = "10.41.38.109" 
 
 			if (result) {
 				fetch(`http://${serverIP}:3000/login/auth`, {
@@ -21,8 +22,12 @@ export function useAuth(verified) {
 					body: JSON.stringify({ token: result })
 				})
 					.then((res) => {
-						if (res.status == 200)
+						if (res.status == 200) {
 							setLoggedIn(true);
+							res.json().then((body) => {
+								setRole(body.rol);
+							});
+						}
 						else
 							console.log("Invalid token, request login again");
 					});
@@ -35,5 +40,5 @@ export function useAuth(verified) {
 
 	}, [verified]);
 
-	return loggedIn;
+	return [loggedIn, role];
 }

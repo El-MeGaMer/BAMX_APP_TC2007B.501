@@ -29,7 +29,7 @@ function Login({ setVerified }) {
   const url = Linking.useURL();
 
 	// put your ip here if testing
-  const serverIP = "" 
+  const serverIP = "10.41.38.109" 
 
   const onPress = () => {
 		// do authentication
@@ -59,8 +59,6 @@ function Login({ setVerified }) {
 					setVerified(true);
 				});
 			}
-			else
-				console.log("Invalid OTP");
 		})
   }
   

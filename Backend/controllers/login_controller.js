@@ -12,7 +12,7 @@ export const auth = (req, res) => {
 		if (err)
 			res.status(400).json({ error: "Invalid token" });
 		else
-			res.status(200).json({ error: "Valid token" });
+			res.status(200).json({ message: "Valid token", rol: decoded.rol });
 	});
 }
 
@@ -53,7 +53,7 @@ export const genOTP =  async (req, res) => {
     // Send email
 
     // put your ip here if you wish to test
-	const expoIP = "";
+	const expoIP = "10.41.38.109:8081";
     const emailMessage = `<a href='exp://${expoIP}/?otp=${OTP}&email=${req.body.email}'> Click para login </a>` ;
 
     const transporter = nodemailer.createTransport({
@@ -99,7 +99,6 @@ export const verifyOTP = async(req, res) => {
 
     if (!user) {
         res.status(400).json({error: "User not even registered!"});
-		console.log("invalid user");
 	} else {
 	    const OTP = user.otp;
 	    const expirationDate = user.expiracion;
@@ -108,10 +107,9 @@ export const verifyOTP = async(req, res) => {
 	    // Check if OTP is equal to the one in database and has not expired
 	    if (inputOTP != OTP || expirationDate < currentDate) {
 	        res.status(400).json({error: "Invalid OTP"});
-		console.log("invalid otp");
 	    } else {
-			const token = jwt.sign({ email: userEmail }, process.env.SECRET, { expiresIn: 100000 }); 
-	        res.status(200).json({ token });
+			const token = jwt.sign({ email: userEmail, rol: user.idRol }, process.env.SECRET, { expiresIn: 100000 }); 
+			res.status(200).json({ token });
         }
     }
 }
