@@ -111,8 +111,6 @@ export default class AgendaScreen extends Component<State> {
       this.setState({
         items: newItems,
       });
-
-      console.log(items)
     
     }  catch(err) {
       console.log(err);
