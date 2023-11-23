@@ -35,13 +35,13 @@ router.put("/Entrega/:idLog/:idUser", updateEntrega)
 router.put("/AlimentoCompartido/:idLog/:idUser", updateAlimentoCompartido)
 
 // Temperaturas Bitacora
-router.put("/Temperatura/:idLog/:idUser", updateTemperaturas)
+router.put("/Temperatura/:idLog", updateTemperaturas)
 
 // Criba FV Bitacora
 router.put("/CribaFV/:idLog/:idUser", updateCribaFV)
 
 // Extintores Bitacora
-router.put("/Extintor/:idLog/:idUser", updateExtinctor)
+router.put("/Extintor/:idLog", updateExtinctor)
 
 // Vizualizacion de bitacoras
 router.get("/pending", getBitacorasPending)         // muestra las bitacoras no revisadas y en revision
