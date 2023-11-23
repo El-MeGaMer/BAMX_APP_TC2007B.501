@@ -16,7 +16,7 @@ const upload = multer()
 const router = express.Router()
 
 //Incidentes Bitacoras
-router.post("/Incidente/create", upload.single('photo'), createIncidente)
+router.post("/Incidente/create/:id", upload.single('photo'), createIncidente)
 router.get("/Incidente/getBitacoras/:idArea", getIncidentes)
 
 //Recibo Bitacoras
