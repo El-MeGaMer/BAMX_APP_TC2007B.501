@@ -1,0 +1,12 @@
+{
+  "a": [
+    ["Campo 1", "checkbox"],
+    ["Campo 2", "checkbox"],
+    ["Campo 3", "checkbox"]
+  ],
+  "b": [
+    ["TableB-Row 1, Cell 1", "checkbox"],
+    ["TableB-Row 2, Cell 1", "checkbox"],
+    ["TableB-Row 3, Cell 1", "checkbox"]
+  ]
+}

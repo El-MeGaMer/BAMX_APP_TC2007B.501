@@ -5,6 +5,7 @@ import {
   seedNotificaciones,
   seedAreas,
   seedUsuarios,
+  seedAreasUsuarios,
   seedNotificacionesUsuarios,
   seedBitacorasExtintores,
   seedBitacoraIncidentes,
@@ -18,27 +19,6 @@ import {
 } from "./data.js";
 
 const prisma = new PrismaClient();
-
-// async function deleteAllData() {
-//   // Eliminar datos de tablas dependientes
-//   await prisma.usuarios.deleteMany({});
-//   await prisma.notificacionesUsuarios.deleteMany({});
-//   await prisma.bitacoraExtintores.deleteMany({});
-//   await prisma.bitacoraIncidentes.deleteMany({});
-//   await prisma.bitacoraTemperaturas.deleteMany({});
-//   await prisma.bitacoraLimpiezaAlimentoCompartidos.deleteMany({});
-//   await prisma.bitacoraLimpiezaRecibos.deleteMany({});
-//   await prisma.bitacoraLimpiezaCribasFV.deleteMany({});
-//   await prisma.bitacoraLimpiezaAlmacenes.deleteMany({});
-//   await prisma.bitacoraLimpiezaEmpaques.deleteMany({});
-//   await prisma.bitacoraLimpiezaEntregas.deleteMany({});
-
-//   // Eliminar datos de la tabla recordatorios
-//   await prisma.recordatorios.deleteMany({});
-//   await prisma.roles.deleteMany({});
-//   await prisma.areas.deleteMany({});
-//   await prisma.notificaciones.deleteMany({});
-// }
 
 async function seedRecordatorioDB() {
   try {
@@ -89,6 +69,17 @@ async function seedUsuariosDB() {
   try {
     const seed = await prisma.usuarios.createMany({
       data: seedUsuarios
+    })
+    console.log("Usuarios Seed Successful: ", { seed });
+  } catch (error) {
+    console.log("Error sending data: ", error);
+  }
+}
+
+async function seedAreasUsuariosDB() {
+  try {
+    const seed = await prisma.areasUsuario.createMany({
+      data: seedAreasUsuarios
     })
     console.log("Usuarios Seed Successful: ", { seed });
   } catch (error) {
@@ -223,6 +214,7 @@ async function main() {
   
   // Siembra las tablas dependientes 
   await seedUsuariosDB();
+  await seedAreasUsuariosDB();
   await seedNotificacionesUsuariosDB();
   await seedBitacorasExtintoresDB();
   await seedBitacoraIncidentesDB();
