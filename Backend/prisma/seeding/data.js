@@ -94,7 +94,7 @@ for (let i = 0; i < 7; i++) {
         ultimaRevision: faker.date.past(),
         proximaRecarga: faker.date.soon(),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
+        estado: estados[i%3]
     })
 }
 
@@ -108,7 +108,7 @@ for (let i = 0; i < 7; i++) {
         fechaHora: faker.date.recent(),
         descripcion: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal']),
         imagen: faker.helpers.arrayElement([null]),
-        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
+        estado: estados[i%3]
     })
 }
 
@@ -126,7 +126,7 @@ for (let i = 0; i < 7; i++) {
         camaraConservacionB: faker.number.int({min: -15, max: 50}),
         camaraConservacionC: faker.number.int({min: -15, max: 50}),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
+        estado: estados[i%3]
     })
 }
 
@@ -149,7 +149,7 @@ for (let i = 0; i < 7; i++) {
         patines: faker.helpers.arrayElement([true, false]),
         basculas: faker.helpers.arrayElement([true, false]),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
+        estado: estados[i%3]
     })
 }
 
@@ -171,7 +171,7 @@ for (let i = 0; i < 7; i++) {
         congelador: faker.helpers.arrayElement([true, false]),
         transporte: faker.helpers.arrayElement([true, false]),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
+        estado: estados[i%3]
     })
 }
 
@@ -194,7 +194,7 @@ for (let i = 0; i < 7; i++) {
         bandejas: faker.helpers.arrayElement([true, false]),
         patines: faker.helpers.arrayElement([true, false]),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
+        estado: estados[i%3]
     })
 }
 
@@ -216,7 +216,7 @@ for (let i = 0; i < 7; i++) {
         rejillas: faker.helpers.arrayElement([true, false]),
         patines: faker.helpers.arrayElement([true, false]),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
+        estado: estados[i%3]
     })
 } 
 
@@ -243,8 +243,7 @@ for (let i = 0; i < 7; i++) {
         montacargas: faker.helpers.arrayElement([true, false]),
         patines: faker.helpers.arrayElement([true, false]),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
-      
+        estado: estados[i%3]
     })
 }
 
@@ -266,7 +265,7 @@ for (let i = 0; i < 7; i++) {
         rampas: faker.helpers.arrayElement([true, false]),
         patines: faker.helpers.arrayElement([true, false]),
         observaciones: faker.helpers.arrayElement(['no hay observaciones', 'bien', 'mal', null]),
-        estado: faker.helpers.arrayElement([estados[0], estados[1], estados[2]])
+        estado: estados[i%3]
     })
 }
 
