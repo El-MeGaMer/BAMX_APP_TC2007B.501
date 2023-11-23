@@ -35,7 +35,7 @@ router.put("/Entrega/:idLog/:idUser", updateEntrega)
 router.put("/AlimentoCompartido/:idLog/:idUser", updateAlimentoCompartido)
 
 // Temperaturas Bitacora
-router.put("/Temperatura/:idLog/:idUser", updateTemperaturas)
+router.put("/Temperatura/:idLog", updateTemperaturas)
 
 // Criba FV Bitacora
 router.put("/CribaFV/:idLog/:idUser", updateCribaFV)
