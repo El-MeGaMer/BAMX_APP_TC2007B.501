@@ -81,7 +81,7 @@ async function seedAreasUsuariosDB() {
     const seed = await prisma.areasUsuario.createMany({
       data: seedAreasUsuarios
     })
-    console.log("Usuarios Seed Successful: ", { seed });
+    console.log("Areas usuarios Seed Successful: ", { seed });
   } catch (error) {
     console.log("Error sending data: ", error);
   }
