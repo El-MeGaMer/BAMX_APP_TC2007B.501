@@ -3,9 +3,9 @@ const URL = "http://localhost:3000"
 
 // Create Log for "Incidente" ---------------------------------------
 
-export async function CreateIncidente(area, desc, img){
+export async function CreateIncidente(idUser, area, desc, img){
 
-    const url = URL + "/bitacoras/Incidente/create";
+    const url = URL + "/bitacoras/Incidente/create" + String(idUser);
 
     const formData = new FormData();
     formData.append('area', area);
