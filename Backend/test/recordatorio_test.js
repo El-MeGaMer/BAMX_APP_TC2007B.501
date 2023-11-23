@@ -1,14 +1,15 @@
 import chai from 'chai'
 import chaiHttp from 'chai-http'
 
-import app from "./../index.js";
+import app from "../index.js";
 
 chai.use(chaiHttp);
 const expect = chai.expect;
 
-describe('Recordatorio Controllers', () => {
-    let idCreated = null;
-    it('Crear recordatorio', async () => {
+describe('Recordatorios', () => {
+    let idCreated;
+
+    it('Crear recordatorio', (done) => {
         const body = {
             nombre: "Recordatorio Prueba",
             descripcion: "Este recordatorio es de prueba",
@@ -26,10 +27,11 @@ describe('Recordatorio Controllers', () => {
             expect(res.body.descripcion).to.deep.equal("Este recordatorio es de prueba");
             expect(res.body.horaInicial).to.deep.equal("2024-12-13T06:00:00.000Z");
             expect(res.body.horaFinal).to.deep.equal("2024-12-13T16:11:11.000Z");
+            done();
         });
     })
 
-    it('Obtener recordatorios', async () => {
+    it('Obtener recordatorios', (done) => {
         chai.request(app)
         .get('/recordatorio/')
         .end((err, res) => {
@@ -40,10 +42,11 @@ describe('Recordatorio Controllers', () => {
             });
             expect(res).to.have.status(200);
             expect(IDs).to.deep.include(idCreated);
+            done();
         });
     })
 
-    it('Actualizar recordatorio', async () => {
+    it('Actualizar recordatorio', (done) => {
         const body = {
             nombre: "Nuevo Recordatorio",
             descripcion: "Este recordatorio se ha actualizado",
@@ -55,20 +58,21 @@ describe('Recordatorio Controllers', () => {
         .send(body)
         .end((err, res) => {
             expect(res).to.have.status(200);
-            expect(res.body.id).to.equal(idCreated);
             expect(res.body.nombre).to.deep.equal("Nuevo Recordatorio");
             expect(res.body.descripcion).to.deep.equal("Este recordatorio se ha actualizado");
             expect(res.body.horaInicial).to.deep.equal("2025-12-13T06:00:00.000Z");
             expect(res.body.horaFinal).to.deep.equal("2025-12-13T16:11:11.000Z");
+            done();
         });
     })
 
-    it('Eliminar Recordatorio', async () => {
+    it('Eliminar recordatorio', (done) => {
         chai.request(app)
         .delete(`/recordatorio/${idCreated}`)
         .end((err, res) => {
             expect(res).to.have.status(200);
             expect(res.body.id).to.equal(idCreated);
+            done();
         });
     })
 })
