@@ -30,9 +30,10 @@ const styles = {
 
 
 const DualCheck = (props) => {
-  const staticData: ICheckboxButton[] = [
+  const staticData: ICheckboxButton[]  | string | number= [
     {
-      id: 0,
+      id: "false",
+      isChecked : true,
       fillColor: "#ff7473",
       unfillColor: "#fbbfbb",
       iconStyle: _iconStyle("#fbbfbb"),
@@ -46,7 +47,7 @@ const DualCheck = (props) => {
     },
   
     {
-      id: 1,
+      id: "true",
       fillColor: "#00CA94",
       unfillColor: "#rgba(0, 201, 148, 0.70)",
       iconStyle: _iconStyle("#afb5f5"),
@@ -59,6 +60,7 @@ const DualCheck = (props) => {
   ];
 
   return (
+    
     <BouncyCheckboxGroup
       style={{ alignSelf: "center" }}
       data={staticData}
