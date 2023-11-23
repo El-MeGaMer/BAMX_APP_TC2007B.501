@@ -1,13 +1,9 @@
 import React, { useState, Component } from "react";
 import { StyleSheet, Alert, Text, View, TouchableOpacity } from "react-native";
 
-import EditScreenInfo from "../components/EditScreenInfo";
-//import { Text, View } from "../components/Themed";
-import Container from "../components/Container";
-import Background from "../components/Background";
+import { styled } from "nativewind";
+
 import {
-  Calendar,
-  CalendarList,
   Agenda,
   LocaleConfig,
   DateData,
@@ -63,22 +59,28 @@ LocaleConfig.defaultLocale = "es";
 
 interface State {
   items?: AgendaSchedule;
+  isCalendarOpen: boolean;
 }
 
 export default class AgendaScreen extends Component<State> {
   state: State = {
     items: undefined,
+    isCalendarOpen: false,
   };
 
   render() {
+    const currentDate = new Date();
+    const selectedDate = currentDate.toISOString();
+
     return (
       <Agenda
         testID={testIDs.agenda.CONTAINER}
         items={this.state.items}
         loadItemsForMonth={this.loadItems}
-        selected={"2023-11-21"}
+        selected={selectedDate}
+        renderEmptyData={this.renderEmptyData}
         renderItem={this.renderItem}
-        renderEmptyDate={this.renderEmptyDate}
+        onCalendarToggled={this.onCalendarToggled}
         rowHasChanged={this.rowHasChanged}
         showClosingKnob={true}
       />
@@ -90,47 +92,40 @@ export default class AgendaScreen extends Component<State> {
 
     try {
       // Cambiar IP a donde se esta corriendo el Backend
-      const BACKEND_IP = "10.41.55.7";
+      const BACKEND_IP = "10.41.34.161";
       const response = await fetch(`http://${BACKEND_IP}:3000/recordatorio/`, {
         method: "GET",
         headers: {
-          "Content-type": "application/json"
-        }
+          "Content-type": "application/json",
+        },
       });
-      const data = await response.json()
+      const data = await response.json();
 
       const newItems: AgendaSchedule = {};
       Object(data).forEach((recordatorio) => {
         const day = recordatorio.horaInicial.slice(0, 10);
         if (newItems.hasOwnProperty(day)) {
-          newItems[day].push(recordatorio)
+          newItems[day].push(recordatorio);
         } else {
-          newItems[day] = [recordatorio]
+          newItems[day] = [recordatorio];
         }
       });
+
       this.setState({
         items: newItems,
       });
-    
-    }  catch(err) {
+    } catch (err) {
       console.log(err);
     }
-  };
-
-  renderDay = (day) => {
-    if (day) {
-      return <Text style={styles.customDay}>{day.getDay()}</Text>;
-    }
-    return <View style={styles.dayItem} />;
   };
 
   renderItem = (recordatorio: AgendaEntry, isFirst: boolean) => {
     const fontSize = isFirst ? 16 : 14;
     const color = isFirst ? "black" : "#43515c";
+    console.log("holis");
 
     return (
       <TouchableOpacity
-        testID={testIDs.agenda.ITEM}
         style={[styles.item, { height: recordatorio.height }]}
         onPress={() => Alert.alert(recordatorio.descripcion)}
       >
@@ -139,12 +134,27 @@ export default class AgendaScreen extends Component<State> {
     );
   };
 
-  renderEmptyDate = () => {
+  renderEmptyData = () => {
     return (
       <View style={styles.emptyDate}>
-        <Text>This is empty date!</Text>
+        <Text style={styles.emptyDateText}>
+          ¡No hay tareas pendientes por hoy!
+        </Text>
       </View>
     );
+  };
+
+  onCalendarToggled = (isCalendarOpen: boolean) => {
+    // Handle calendar toggle event
+    console.log("Calendar is now", isCalendarOpen ? "open" : "closed");
+
+    // You can perform additional actions based on the calendar state
+    // For example, you might want to fetch data when the calendar is opened
+    if (!isCalendarOpen) {
+      console.log(isCalendarOpen);
+      this.renderEmptyData();
+    }
+    this.setState({ isCalendarOpen });
   };
 
   rowHasChanged = (r1: AgendaEntry, r2: AgendaEntry) => {
@@ -167,9 +177,13 @@ const styles = StyleSheet.create({
     marginTop: 17,
   },
   emptyDate: {
-    height: 15,
+    display: "flex",
     flex: 1,
-    paddingTop: 30,
+    alignSelf: "center",
+    justifyContent: "center",
+  },
+  emptyDateText: {
+    fontSize: 25,
   },
   customDay: {
     margin: 10,
