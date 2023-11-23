@@ -69,9 +69,7 @@ describe('Bitacoras', () => {
         .send(body)
         .end((err, res) => {
             expect(res).to.have.status(200);
-            expect(res.body.observaciones).to.deep.equal("Se actualizo");
-            expect(res.body.capacidad).to.equal(false);
-            expect(res.body.ultimaRevision).to.equal(currDate.toISOString());
+            expect(res.body).to.deep.equal("Esta bitacora ya fue revisada");
             done();
         });
     })
@@ -82,7 +80,7 @@ describe('Bitacoras', () => {
             area: 'empaque'
         }
         chai.request(app)
-        .post('/bitacoras/Incidente/create')
+        .post('/bitacoras/Incidente/create/1')
         .field('area', body.area)
         .field('descripcion', body.descripcion)
         .attach('photo', "test\\test_photo.jpg")
