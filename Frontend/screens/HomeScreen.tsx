@@ -92,7 +92,8 @@ export default class AgendaScreen extends Component<State> {
 
     try {
       // Cambiar IP a donde se esta corriendo el Backend
-      const BACKEND_IP = "10.41.34.161";
+      // 10.41.55.7
+      const BACKEND_IP = "10.41.55.7";
       const response = await fetch(`http://${BACKEND_IP}:3000/recordatorio/`, {
         method: "GET",
         headers: {
@@ -122,14 +123,17 @@ export default class AgendaScreen extends Component<State> {
   renderItem = (recordatorio: AgendaEntry, isFirst: boolean) => {
     const fontSize = isFirst ? 16 : 14;
     const color = isFirst ? "black" : "#43515c";
-    console.log("holis");
+    const horaInicial = recordatorio.horaInicial.slice(11, 16);
 
     return (
       <TouchableOpacity
         style={[styles.item, { height: recordatorio.height }]}
         onPress={() => Alert.alert(recordatorio.descripcion)}
       >
-        <Text style={{ fontSize, color }}>{recordatorio.nombre}</Text>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Text style={{ fontSize, color, marginRight: 8 }}>{horaInicial}</Text>
+          <Text style={{ fontSize, color }}>{recordatorio.nombre}</Text>
+        </View>
       </TouchableOpacity>
     );
   };
@@ -146,12 +150,10 @@ export default class AgendaScreen extends Component<State> {
 
   onCalendarToggled = (isCalendarOpen: boolean) => {
     // Handle calendar toggle event
-    console.log("Calendar is now", isCalendarOpen ? "open" : "closed");
 
     // You can perform additional actions based on the calendar state
     // For example, you might want to fetch data when the calendar is opened
     if (!isCalendarOpen) {
-      console.log(isCalendarOpen);
       this.renderEmptyData();
     }
     this.setState({ isCalendarOpen });
