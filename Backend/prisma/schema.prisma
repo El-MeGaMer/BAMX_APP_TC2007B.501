@@ -83,11 +83,11 @@ model usuarios {
 }
 
 model areasUsuario {
-  idArea    Int
   idUsuario Int
+  idArea    Int
 
-  userArea         areas             @relation(fields: [idArea], references: [id])
-  usuario          usuarios          @relation(fields: [idUsuario], references: [id])
+  userArea areas    @relation(fields: [idArea], references: [id])
+  usuario  usuarios @relation(fields: [idUsuario], references: [id])
 
   @@id([idArea, idUsuario])
 }
