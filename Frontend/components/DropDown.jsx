@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import RNPickerSelect from 'react-native-picker-select';
 import { DB_FILTERS } from '../constants/DB_constants';
-import { MdDoneOutline } from 'react-icons/md';
+import ModalComponent from './ModalComponent';
 import Container from "./Container";
 
 const DropDown = () => {
@@ -202,21 +202,7 @@ const DropDown = () => {
                         <Text style={styles.buttonText}>Enviar Reporte</Text>
                     </TouchableOpacity>
 
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={isModalVisible}
-                    >
-                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                            <View style={styles.modal}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
-                                    {submissionStatus
-                                        ? 'Reporte enviado con éxito'
-                                        : 'Error al enviar el reporte. Por favor, complete todos los campos.'}
-                                </Text>
-                            </View>
-                        </View>
-                    </Modal>
+                    <ModalComponent isVisible={isModalVisible} success={submissionStatus} />
                 </View>
             </Container>
         </View>
