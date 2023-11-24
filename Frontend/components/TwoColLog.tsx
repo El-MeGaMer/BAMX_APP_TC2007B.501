@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Table, Row, Rows } from "react-native-table-component";
 import { TableData, tableJson } from "../constants/TableData";
 import Background from "./Background";
-import { TouchableOpacity, View, Text } from "react-native";
+import { TouchableOpacity, View, Text, Button } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import Container from "./Container";
 import { styled } from "nativewind";
@@ -11,7 +11,7 @@ const StyledTouchableOpacity = styled(TouchableOpacity);
 const StyledView = styled(View);
 const StyledText = styled(Text);
 
-const TwoColLog = (props) => {
+const TwoColLog = (props, {navigation}) => {
   const tableHead = ["Concepto", "Hecho (N / s)"];
 
   const [form, setForm] = useState(tableJson[props.type]);
@@ -34,7 +34,6 @@ const TwoColLog = (props) => {
           <Row
             data={tableHead}
             style={{ height: 40, backgroundColor: "#f1f8ff" }}
-            textStyle={{ textAlign: "center", fontWeight: "bold" }}
           />
           <Rows
             data={TableData[props.type].data}

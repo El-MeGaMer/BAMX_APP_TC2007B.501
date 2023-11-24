@@ -3,9 +3,7 @@
 // this file is imported in the screens that use tables
 // Implementado por: andre castillo (principalmente) y marco montoya (escribista)
 
-import { Text, View, TextInput } from "react-native";
 import React, { useState } from "react";
-import { CheckBox } from "react-native-elements";
 import DualCheck from "../components/DualCheck";
 import { TableInitialValues } from "./TableInitialValues";
 import { LogsConstants, LogsNames } from "./LogsConstants";
@@ -13,7 +11,7 @@ import FormsText from "../components/FormsText";
 
 export const tableJson = TableInitialValues;
 
-function jsonUpdate(jsonToUpdate, id: string, value: string) {
+function jsonUpdate(jsonToUpdate, id: string, value: number | string | boolean) {
   jsonToUpdate[id] = value;
 }
 
