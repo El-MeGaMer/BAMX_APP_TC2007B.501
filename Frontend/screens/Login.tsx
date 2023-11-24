@@ -29,7 +29,7 @@ function Login({ setVerified }) {
   const url = Linking.useURL();
 
 	// put your ip here if testing
-  const serverIP = "10.41.38.109" 
+  const serverIP = "192.168.68.104" 
 
   const onPress = () => {
 		// do authentication

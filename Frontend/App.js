@@ -17,7 +17,7 @@ export default function App() {
   const [verified, setVerified] = useState(false);
   const isLoadingComplete = useLoadedAssets();
   const colorScheme = useColorScheme();
-  const [loggedIn, role] = useAuth(verified);
+  const [loggedIn, role, id] = useAuth(verified);
 
   if (!isLoadingComplete) {
     return null;
