@@ -112,3 +112,18 @@ export const updateCribaFV = async (req, res) => {
         }
     }
 }
+
+// Obtener datos por medio de idLog
+export const getCribaFV = async (req, res) => {
+    try {
+        const {idLog} = req.params
+        const result = await prisma.bitacoraLimpiezaCribasFV.findUnique({
+            where: {id: Number(idLog)}
+        })
+        res.json(result)
+    } catch (error) {
+        if (process.env.NODE_ENV !== 'test') {
+            console.log('Error! Entry not found:', error)
+        }
+    }
+}
