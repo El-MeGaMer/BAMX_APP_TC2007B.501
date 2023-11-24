@@ -51,7 +51,7 @@ model usuarios {
   apellido       String @db.VarChar(20)
   correo         String @db.VarChar(40)
   otp		 Int
-  expiracion	 DateTime @db.DateTime
+  expiracion	 DateTime @db.DateTime()
 
   notificaciones notificacionesUsuarios[]
   recordatorio   recordatorios            @relation(fields: [idRecordatorio], references: [id])

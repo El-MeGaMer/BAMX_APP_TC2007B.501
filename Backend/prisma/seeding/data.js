@@ -65,6 +65,8 @@ for (let i = 0; i < 7; i++) {
         nombre: faker.person.firstName(),
         apellido: faker.person.lastName(),
         correo: faker.internet.email(),
+        otp: faker.number.int({min:1, max:20}),
+        expiracion: faker.date.recent(),
     })
 }
 
