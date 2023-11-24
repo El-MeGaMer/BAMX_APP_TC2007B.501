@@ -1,13 +1,13 @@
-import { StyleSheet } from "react-native";
+// This screen is used to visalize the uploaded logs, destinated to
+// users that review the logs
+// role: area_supervisor
 
-import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
 import Container from "../components/Container";
 
 import { styled } from "nativewind";
 
 import Background from "../components/Background";
-import SelectLogButton from "../components/SelectLogButton";
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
@@ -17,25 +17,11 @@ export default function LogsScreen() {
     <StyledView className="flex-1 ">
       <Background>
         <Container className>
-          <SelectLogButton text = "Bitacora Limpieza Recibo" destinatedLog = "bitacora_limpiezaRecibo"/>
-          <SelectLogButton text = "Bitacora Limpieza" destinatedLog = "bitacora_limpieza"/>
+          <StyledText className="text-black  text-xl font-bold">
+            Bitacoras
+          </StyledText>
         </Container>
       </Background>
     </StyledView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});
