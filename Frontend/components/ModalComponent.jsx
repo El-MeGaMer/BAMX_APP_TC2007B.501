@@ -3,8 +3,8 @@ import { View, Text, Modal } from 'react-native';
 
 const ModalComponent = ({ isVisible, success }) => {
     const message = success
-        ? 'Reporte enviado con éxito'
-        : 'Error al enviar el reporte. Por favor, complete todos los campos.';
+        ? 'Formulario enviado con éxito'
+        : 'Error al enviar el formulario. Por favor, complete todos los campos.';
 
     return (
         <Modal
