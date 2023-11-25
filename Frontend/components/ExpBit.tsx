@@ -7,18 +7,20 @@ import * as FileSystem from 'expo-file-system';
 export default function ExpBit() {
   const [userData, setUserData] = useState([]);
   const [columnNames, setColumnNames] = useState([]);
-  const [fileName, setFileName] = useState('defaultFileName.pdf');
+  const [fileName, setFileName] = useState('Bitacora_Semana_');
   useEffect(() => {
     fetchUserData();
   }, []);
 
   const fetchUserData = async () => {
     try {
-      const response = await fetch('http://192.168.1.130:3000/bitacoras/export');
+      const response = await fetch('http://10.41.53.118:3000/bitacoras/export');
 
       const data = await response.json();
-      const userData = Object.values(data)?.[0]?.["47"];
+      
+      const userData = Object.values(data)?.[0];      
       const columns = Object.keys(userData);
+      console.log(columns);
   
       setColumnNames(columns);
       setUserData([userData]);
@@ -134,7 +136,7 @@ export default function ExpBit() {
 
   
   return (
-    <View style={styles.container}>
+    <View>
       <Button title="Generate PDF" onPress={generatePdf} />
     </View>
   );
