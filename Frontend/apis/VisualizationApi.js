@@ -1,4 +1,4 @@
-const URL = "http://10.41.34.161:3000"
+const URL = "http://localhost:3000"
 
 // Returns all the logs separated by year, week and type
 
