@@ -34,6 +34,9 @@ export async function getLogsAvailable(id){
     const url = URL + '/bitacoras/display/' + userId;
     const options = {
         method: "GET",
+        headers: {
+            "Content-type": "application/json"
+        }
     }
     const rawResponse = await fetch(url, options)
     const response = await rawResponse.json()

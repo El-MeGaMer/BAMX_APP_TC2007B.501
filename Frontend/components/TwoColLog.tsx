@@ -6,6 +6,7 @@ import { TouchableOpacity, View, Text, Button } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import Container from "./Container";
 import { styled } from "nativewind";
+import { LogsUpdateRef } from "../constants/LogsConstants";
 
 const StyledTouchableOpacity = styled(TouchableOpacity);
 const StyledView = styled(View);
@@ -22,6 +23,7 @@ const TwoColLog = (props, {navigation}) => {
     console.log(props.type);
     setForm(tableJson[props.type]);
     console.log(form);
+    LogsUpdateRef[props.logName](props.id, 1, form)
   };
 
   return (
