@@ -8,6 +8,7 @@ const seedRoles = [];
 const seedAreas = [];
 const seedNotificaciones = [];
 const seedUsuarios = [];
+const seedAreasUsuarios = [];
 const seedNotificacionesUsuarios = [];
 const seedBitacorasExtintores = [];
 const seedBitacoraIncidentes = [];
@@ -58,13 +59,23 @@ for (let i = 0; i < 7; i++) {
 
 // Usuarios
 for (let i = 0; i < 7; i++) {
+    const numberRandom = Math.floor(100000 + Math.random() * 900000).toString();
     seedUsuarios.push({
         idRecordatorio: i + 1,
         idRol: faker.number.int({min: 1, max: 3}),
-        idArea: i + 1,
         nombre: faker.person.firstName(),
         apellido: faker.person.lastName(),
         correo: faker.internet.email(),
+        otp: numberRandom,
+        expiracion: faker.date.recent(),
+    })
+}
+
+// Areas Usuarios
+for (let i = 0; i < 7; i++) {
+    seedAreasUsuarios.push({
+        idUsuario: i + 1,  
+        idArea: faker.number.int({ min: 1, max: 7 })  
     })
 }
 
@@ -276,6 +287,7 @@ export {
     seedNotificaciones,
     seedAreas,
     seedUsuarios,
+    seedAreasUsuarios,
     seedNotificacionesUsuarios,
     seedBitacorasExtintores,
     seedBitacoraIncidentes,
