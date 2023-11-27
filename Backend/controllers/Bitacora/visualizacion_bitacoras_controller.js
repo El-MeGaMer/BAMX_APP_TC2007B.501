@@ -215,8 +215,8 @@ export const getBitacorasPending = async (req, res) => {
         ];
 
         // filtramos para que muestre las bitacoras que no estan revisadas o en revision
-        const bitacorasRevisadas = combinedResult.filter(item => item.estado == "enRevision")
-        const bitacotasNoRevisadas = combinedResult.filter(item => item.estado == "noRevisado")
+        const bitacorasRevisadas = combinedResult.filter(item => item.estado == "revisado")
+        const bitacotasNoRevisadas = combinedResult.filter(item => item.estado == "enRevision")
 
         const bitacorasPerState = [bitacorasRevisadas, bitacotasNoRevisadas]
 
