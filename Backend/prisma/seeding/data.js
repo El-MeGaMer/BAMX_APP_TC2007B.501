@@ -59,12 +59,15 @@ for (let i = 0; i < 7; i++) {
 
 // Usuarios
 for (let i = 0; i < 7; i++) {
+    const numberRandom = Math.floor(100000 + Math.random() * 900000).toString();
     seedUsuarios.push({
         idRecordatorio: i + 1,
         idRol: faker.number.int({min: 1, max: 3}),
         nombre: faker.person.firstName(),
         apellido: faker.person.lastName(),
         correo: faker.internet.email(),
+        otp: numberRandom,
+        expiracion: faker.date.recent(),
     })
 }
 
