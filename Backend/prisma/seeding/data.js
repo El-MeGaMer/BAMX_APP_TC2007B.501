@@ -94,7 +94,7 @@ for (let i = 0; i < 7; i++) {
         idUsuarioEmisor: i + 1,
         idArea: i + 1,                      // cualquier area 
         idRecordatorio: i + 1,
-        nombre: 'Bitácora de Extintonres',
+        nombre: 'Bitácora de Extintores',
         capacidad: faker.helpers.arrayElement([true, false]),
         manometro: faker.helpers.arrayElement([true, false]),
         estadoFisico: faker.helpers.arrayElement([true, false]),
