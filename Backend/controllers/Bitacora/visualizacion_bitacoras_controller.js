@@ -43,7 +43,7 @@ export const getBitacorasState = async (req, res) => {
 
     try {
         // llamamos la funcion para cada una de las bitacoras
-        const incidnetes =  createCondition('area', nombreArea)
+        const incidentes =  createCondition('area', nombreArea)
         const extintores = createCondition('areaBitacoraExtintor', nombreArea)
         const alimentosCompartido = createCondition('areaBitacoraLimpiezaAlimentoCompartido', nombreArea)
         const temperatura = createCondition('areaBitacoraTemperatura', nombreArea)
@@ -53,7 +53,7 @@ export const getBitacorasState = async (req, res) => {
         const limpiezaAlmacenes = createCondition('areaBitacoraLimpiezaAlmacenes', nombreArea)
         const limpiezaEntregas = createCondition('areaBitacoraLimpiezaEntregas', nombreArea)
 
-        const bitacoraIn = await prisma.bitacoraIncidentes.findMany(incidnetes)
+        const bitacoraIn = await prisma.bitacoraIncidentes.findMany(incidentes)
         const bitacoraExt = await prisma.bitacoraExtintores.findMany(extintores);
         const bitacoraAliCom = await prisma.bitacoraLimpiezaAlimentoCompartidos.findMany(alimentosCompartido);
         const bitacoraTem = await prisma.bitacoraTemperaturas.findMany(temperatura);
