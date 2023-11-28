@@ -13,6 +13,7 @@ const upload = multer({ storage: storage })
 
 export const createIncidente = async (req, res) => {
     try {
+        const {id} = req.params;
         const fechaActual = new Date().toISOString()
         const { 
             area,
@@ -38,8 +39,8 @@ export const createIncidente = async (req, res) => {
             where: { idRol: 2 }
         })
 
-        const usuarioConMismoId = await prisma.usuarios.findFirst({
-            where: { idRol: seeArea.id }
+        const usuarioConMismoId = await prisma.areasUsuario.findFirst({
+            where: { idArea: seeArea.id }
         })
 
         // Makes the link to all the users found with the id related to the role "coordinador"
@@ -57,18 +58,22 @@ export const createIncidente = async (req, res) => {
         }
 
         // Links the notification to the user in charge of the respective area
-        const areaResponsable = await prisma.notificacionesUsuarios.create({
-            data: {
-                idNotificacion: createNotificacion.id,
-                idUsuario: usuarioConMismoId.id,
-                estado: "noRevisado"
-            }
-        })
+        if (usuarioConMismoId.length > 0) {
+            usuarioConMismoId.forEach(async (usuario) => {
+                await prisma.notificacionesUsuarios.create({
+                data: {
+                    idNotificacion: createNotificacion.id,
+                    idUsuario: usuario.id,
+                    estado: "noRevisado"
+                }
+                })
+            })
+        }
 
         // Creates the log for "Incidentes"
         const result = await prisma.bitacoraIncidentes.create({
             data: {
-                idUsuarioEmisor: usuarioConMismoId.id,
+                idUsuarioEmisor: Number(id),
                 idArea: seeArea.id,
                 nombre: "Incidente-" + area + "-" + fechaActual.slice(0, 10),
                 fechaHora: new Date(),
@@ -78,13 +83,13 @@ export const createIncidente = async (req, res) => {
             }
         })
 
-        res.json(result)
+        res.json({ status: 'success', message: 'El reporte ha sido enviada' })
 
     } catch (error) {
         if (process.env.NODE_ENV !== 'test') {
             console.log('Error! Could not add the entry:', error)
         }
-        res.status(500).json({ error: 'Error' })
+        res.json({ status: 'error', message: 'Hubo un error al mandar la bitacora'})
     }
 }
 
