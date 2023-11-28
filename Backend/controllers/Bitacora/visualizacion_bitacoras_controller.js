@@ -43,7 +43,7 @@ export const getBitacorasState = async (req, res) => {
 
     try {
         // llamamos la funcion para cada una de las bitacoras
-        const incidentes =  createCondition('area', nombreArea)
+        const incidentes = createCondition('area', nombreArea)
         const extintores = createCondition('areaBitacoraExtintor', nombreArea)
         const alimentosCompartido = createCondition('areaBitacoraLimpiezaAlimentoCompartido', nombreArea)
         const temperatura = createCondition('areaBitacoraTemperatura', nombreArea)
@@ -111,7 +111,6 @@ export const getBitacorasPerDay = async (req, res) => {
 
     try {
         // llamamos la funcion para cada una de las bitacoras
-        const incidentes = bitacoraPerDay('area')
         const extintores = bitacoraPerDay('areaBitacoraExtintor')
         const temperatura = bitacoraPerDay('areaBitacoraTemperatura')
         const alimentosCompartido = bitacoraPerDay('areaBitacoraLimpiezaAlimentoCompartido');
@@ -121,7 +120,6 @@ export const getBitacorasPerDay = async (req, res) => {
         const limpiezaAlmacenes = bitacoraPerDay('areaBitacoraLimpiezaAlmacenes')
         const limpiezaEntregas = bitacoraPerDay('areaBitacoraLimpiezaEntregas')
 
-        const bitacoraIn = await prisma.bitacoraIncidentes.findMany(incidentes)
         const bitacoraExt = await prisma.bitacoraExtintores.findMany(extintores)
         const bitacoraTem = await prisma.bitacoraTemperaturas.findMany(temperatura)
         const bitacoraAliCom = await prisma.bitacoraLimpiezaAlimentoCompartidos.findMany(alimentosCompartido)
@@ -133,7 +131,6 @@ export const getBitacorasPerDay = async (req, res) => {
 
         // unimos las bitacoras en un json
         const combinedResult = [
-            ...bitacoraIn,
             ...bitacoraExt,
             ...bitacoraTem,
             ...bitacoraAliCom,
@@ -145,7 +142,7 @@ export const getBitacorasPerDay = async (req, res) => {
         ];
 
         // filtramos la bitacora para que no muestre las bitacoras revisadas
-        const bitacorasFiltrada = combinedResult.filter(item => item.estado !== "revisado");
+        const bitacorasFiltrada = combinedResult.filter(item => item.estado == "noRevisado");
 
         res.json(bitacorasFiltrada)
     } catch (error) {
