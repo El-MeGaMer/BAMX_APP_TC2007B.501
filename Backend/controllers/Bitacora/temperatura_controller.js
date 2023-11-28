@@ -47,7 +47,7 @@ export const updateTemperaturas = async (req, res) => {
         //Solo mandamos una respuesta de que ya se reviso
         if (seeBitStatus.estado == "revisado"){
 
-            response = "Esta bitacora ya fue revisada"
+            response = { status: 'error', message: 'La bitacora ya fue revisada' }
 
         }
 
@@ -144,7 +144,7 @@ export const updateTemperaturas = async (req, res) => {
                 console.log(incidente)
             }
             
-            response = 'Enviado exitosamente'
+            response = { status: 'success', message: 'La bitacora ha sido enviada' }
 
         }
 
@@ -153,6 +153,7 @@ export const updateTemperaturas = async (req, res) => {
         if (process.env.NODE_ENV !== 'test') {
             console.log(error)
         }
+        res.json({ status: 'error', message: 'Hubo un error al mandar la bitacora'})
     }
 }
 
