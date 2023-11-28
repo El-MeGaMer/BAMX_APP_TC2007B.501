@@ -77,13 +77,13 @@ export const updateAlmacen = async (req, res) => {
                 data: {...convertedData, estado: 'enRevision'}
             })
 
-            result = 'Entry sent'
+            result = { status: 'success', message: 'La bitacora ha sido enviada' }
 
             // In order to prevent further changes to the logs itself
             // this stops the user from making changes
         } else if (seeBitStatus.estado == 'revisado') {
 
-            result = 'Log already reviewed'
+            result = { status: 'error', message: 'La bitacora ya fue revisada' }
 
             // Signature or checkmark for the role "Coordinador"
         } else if (seeBitStatus.estado == 'enRevision') {
@@ -93,7 +93,7 @@ export const updateAlmacen = async (req, res) => {
                 data: {...convertedData, estado: 'revisado', idUsuarioSupervisor: parseInt(idUser) }
             })
 
-            result = 'Entry sent'
+            result = { status: 'success', message: 'La bitacora ha sido aprovada' }
         }
 
         res.json(result)
@@ -102,7 +102,7 @@ export const updateAlmacen = async (req, res) => {
         if (process.env.NODE_ENV !== 'test') {
             console.log('Error! Entry not found')
         }
-        res.status(500).json({ error: 'Error' })
+        res.json({ status: 'error', message: 'Hubo un error al mandar la bitacora'})
     }
 }
 
