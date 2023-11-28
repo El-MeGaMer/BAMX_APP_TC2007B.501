@@ -26,6 +26,7 @@ export const getRecordatorio = async (req, res) => {
         const startOfDay = new Date().toLocaleDateString('se-SE')
         // Solo devolver los recordatorios futuros
         const result = await prisma.recordatorios.findMany({
+            orderBy: {horaInicial: 'asc'},
             where: {
                 horaInicial: {
                     gte: new Date(startOfDay)

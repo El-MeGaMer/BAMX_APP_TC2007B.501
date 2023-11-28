@@ -18,7 +18,6 @@ export async function getNotificacionesUsuario(req, res){
                 titulo: true,
                 descripcion: true,
                 fechaHora: true,
-                estado: true
             }
         })
         res.json(result)
