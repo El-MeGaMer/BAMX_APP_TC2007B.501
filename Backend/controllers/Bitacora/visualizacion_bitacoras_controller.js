@@ -111,7 +111,7 @@ export const getBitacorasPerDay = async (req, res) => {
 
     try {
         // llamamos la funcion para cada una de las bitacoras
-        const incidnetes = bitacoraPerDay('area')
+        const incidentes = bitacoraPerDay('area')
         const extintores = bitacoraPerDay('areaBitacoraExtintor')
         const temperatura = bitacoraPerDay('areaBitacoraTemperatura')
         const alimentosCompartido = bitacoraPerDay('areaBitacoraLimpiezaAlimentoCompartido');
@@ -121,7 +121,7 @@ export const getBitacorasPerDay = async (req, res) => {
         const limpiezaAlmacenes = bitacoraPerDay('areaBitacoraLimpiezaAlmacenes')
         const limpiezaEntregas = bitacoraPerDay('areaBitacoraLimpiezaEntregas')
 
-        const bitacoraIn = await prisma.bitacoraIncidentes.findMany(incidnetes)
+        const bitacoraIn = await prisma.bitacoraIncidentes.findMany(incidentes)
         const bitacoraExt = await prisma.bitacoraExtintores.findMany(extintores)
         const bitacoraTem = await prisma.bitacoraTemperaturas.findMany(temperatura)
         const bitacoraAliCom = await prisma.bitacoraLimpiezaAlimentoCompartidos.findMany(alimentosCompartido)
@@ -181,7 +181,7 @@ export const getBitacorasPending = async (req, res) => {
 
     try {
         // llamamos la funcion para cada una de las bitacoras
-        const incidnetes = bitacoraPending('area')
+        const incidentes = bitacoraPending('area')
         const extintores = bitacoraPending('areaBitacoraExtintor')
         const temperatura = bitacoraPending('areaBitacoraTemperatura')
         const alimentosCompartido = bitacoraPending('areaBitacoraLimpiezaAlimentoCompartido');
@@ -191,7 +191,7 @@ export const getBitacorasPending = async (req, res) => {
         const limpiezaAlmacenes = bitacoraPending('areaBitacoraLimpiezaAlmacenes')
         const limpiezaEntregas = bitacoraPending('areaBitacoraLimpiezaEntregas')
 
-        const bitacoraIn = await prisma.bitacoraIncidentes.findMany(incidnetes)
+        const bitacoraIn = await prisma.bitacoraIncidentes.findMany(incidentes)
         const bitacoraExt = await prisma.bitacoraExtintores.findMany(extintores)
         const bitacoraTem = await prisma.bitacoraTemperaturas.findMany(temperatura)
         const bitacoraAliCom = await prisma.bitacoraLimpiezaAlimentoCompartidos.findMany(alimentosCompartido)
