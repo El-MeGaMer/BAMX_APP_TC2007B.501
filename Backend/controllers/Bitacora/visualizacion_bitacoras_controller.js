@@ -267,7 +267,7 @@ export const getBitacorasExport = async (req, res) => {
         } else if (bitacora.areaBitacoraLimpiezaEntregas) {
             return 'bitacoraLimpiezaEntregas';
         } else if (bitacora.area) {
-            return 'bitacoraIndicentes'
+            return 'bitacoraIncidentes'
         }
     }
 
