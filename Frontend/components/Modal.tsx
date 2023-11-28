@@ -1,76 +1,81 @@
-import React, { useState } from 'react';
-import { StyleSheet, Image, Platform } from 'react-native';
-import { Modal, Text, View, TouchableHighlight } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Image, Platform, Modal, Text, View, TouchableOpacity } from 'react-native';
 import Background from "../components/Background";
-import Container from './Container';
+import { styled } from 'nativewind';
+import { useNavigation } from '@react-navigation/native';
+import HomeScreen from "../screens/HomeScreen";
+
+
+const StyledText = styled(Text);
 
 const checkmarkImage = require('../assets/images/checkmark.png');
 const crossmarkImage = require('../assets/images/crossmark.png');
 
 export default function ModalConfirm({ result }) {
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [showCheckmark, setShowCheckmark] = useState(true);
+    const { status, message } = result || {status: 'error', message: 'Hubo un error al mandar la bitacora'};
+    const [isModalVisible, setIsModalVisible] = useState(true);
+    const [showCheckmark, setShowCheckmark] = useState(false);
+    const navigation = useNavigation();
 
     const toggleModal = () => {
         setIsModalVisible(!isModalVisible);
     };
-
-    const toggleImage = () => {
-        setShowCheckmark(!showCheckmark);
+    
+    const handleHideModal = () => {
+        toggleModal();
+        navigation.navigate('HomeScreen');
     };
 
-    return (
-        <Background style={styles.container}>
-            <Container style={styles.content}>
-                <TouchableHighlight onPress={toggleModal}>
-                    <Text>Show Modal</Text>
-                </TouchableHighlight>
+    useEffect(() => {
+        setIsModalVisible(true);
+        if (status == 'success') {
+            setShowCheckmark(true);
+        } else {
+            setShowCheckmark(false);
+        }
+    }, [status])
 
-                <Modal
-                    animationType="fade"
-                    transparent={true}
-                    visible={isModalVisible}
-                    onRequestClose={() => {
-                        setIsModalVisible(!isModalVisible);
-                    }}
-                >
-                    <View style={styles.modalView}>
-                        <View style={styles.modalContent}>
-                            {showCheckmark ? (
-                                <Image source={checkmarkImage} style={[styles.image, { tintColor: 'green' }]} />
-                            ) : (
-                                <Image source={crossmarkImage} style={[styles.image, { tintColor: 'red' }]} />
-                            )}
-                            <Text style={styles.textModal}>
-                                Bitacoras
-                            </Text>
-                            <TouchableHighlight onPress={toggleModal}>
-                                <Text>Hide Modal</Text>
-                            </TouchableHighlight>
-                            <TouchableHighlight onPress={toggleImage}>
-                                <Text>Toggle Image</Text>
-                            </TouchableHighlight>
-                        </View>
-                    </View>
-                </Modal>
-            </Container>
-        </Background>
+    return (
+        <Modal
+            animationType="fade"
+            transparent={true}
+            visible={isModalVisible}
+            onRequestClose={() => {
+                setIsModalVisible(!isModalVisible);
+            }}
+        >
+            <View style={styles.modalView}>
+                <View style={styles.modalContent}>
+                    {showCheckmark ? (
+                        <Image source={checkmarkImage} style={[styles.image, { tintColor: 'green' }]} />
+                    ) : (
+                        <Image source={crossmarkImage} style={[styles.image, { tintColor: 'red' }]} />
+                    )}
+                    <StyledText style={styles.textModal} className="text-black  text-xl font-bold">
+                        {message}
+                    </StyledText>
+                    <TouchableOpacity onPress={handleHideModal} style={styles.button}>
+                        <Text style={styles.buttonText}>Regresar!</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        </Modal>
     );
 };
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'flex-end',
+    button: {
         backgroundColor: 'black',
+        padding: 10,
+        borderRadius: 5,
+        marginTop: 20,
     },
-    content: {
-        height: 200,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        backgroundColor: 'black',
-        paddingVertical: 20,
+    buttonText: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
     image: {
         width: 180,
@@ -78,36 +83,38 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     textModal: {
-        marginBottom: '100%',
+        marginBottom: '90%',
+        textAlign: 'center'
     },
     modalView: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0)', // Fondo del modal
+        backgroundColor: 'rgba(0, 0, 0, 0)',
     },
     modalContent: {
         backgroundColor: 'white',
         width: '88.4%',
-        padding: '30%',
+        paddingTop: '30%',
+        padding: '20%',
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 8, // Ajusta el radio para esquinas redondeadas
+        borderRadius: 8,
         overflow: 'hidden',
         borderWidth: 1,
         borderColor: 'transparent',
         ...Platform.select({
             ios: {
-                shadowColor: 'black', // Color de la sombra para iOS
-                shadowOpacity: 0.5, // Opacidad de la sombra para iOS
-                shadowRadius: 8, // Radio de difuminado para iOS
+                shadowColor: 'black',
+                shadowOpacity: 0.5,
+                shadowRadius: 8,
                 shadowOffset: {
                     width: 0,
                     height: 4,
                 },
             },
             android: {
-                elevation: 5, // Elevación para dispositivos Android
+                elevation: 5,
             },
         }),
     },
