@@ -4,12 +4,14 @@ const prisma = new PrismaClient
 
 export async function getNotificacionesUsuario(req, res){
     try {
-        const {id} = req.params
+        const {id} = Number(req.params)
         const result = await prisma.notificaciones.findMany({
             where :{
                 usuarios: {
                     some: {
-                        idUsuario: parseInt(id)
+                        idUsuario: {
+                            equals: id
+                        }
                     }
                 }
             },
