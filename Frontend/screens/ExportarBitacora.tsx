@@ -4,7 +4,6 @@ import Background from "../components/Background";
 import Container from "../components/Container";
 import { Text } from "react-native";
 import { styled } from "nativewind";
-import ExpBit from "../components/ExpBit";
 import ExpBit_Semana from "../components/ExpBit_Semana";
 
 const StyledView = styled(View);
@@ -17,7 +16,7 @@ export default function ExportarBitacoras() {
           <Text style={{ fontSize: 20, fontWeight: "bold" ,}}>
             2023
           </Text>
-          <ExpBit_Semana />
+          <ExpBit_Semana/>
         </Container>
       </Background>
     </StyledView>
