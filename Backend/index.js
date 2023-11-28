@@ -31,3 +31,5 @@ initScheduledJobs()
 app.listen(PORT, HOST, ()=>{
     console.log(`Server ready at port ${HOST}:${PORT}`)
 })
+
+export default app;
