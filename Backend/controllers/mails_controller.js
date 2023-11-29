@@ -1,12 +1,12 @@
 import nodemailer from "nodemailer"
 
 export const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
+    host: "mail.bahermosillo.org.mx",
     port: 465,
     secure: true,
     auth: {
         // TODO: replace `user` and `pass` values from <https://forwardemail.net>
-        user: 'banmxprueba@gmail.com',
+        user: 'bahermos_system@bahermosillo.org.mx',
         pass: process.env.MAIL_PASSWORD
     }
 });
@@ -26,7 +26,7 @@ export async function sendNotifMail(notif) {
         }
 
         const info = await transporter.sendMail({
-            from: '"Bamx" <banmxprueba@gmail.com>', // sender address
+            from: '"Bamx" <bahermos_system@bahermosillo.org.mx>', // sender address
             to: destination, // list of receivers
             subject: notif.titulo, // Subject line
             text: notif.descripcion, // plain text body
