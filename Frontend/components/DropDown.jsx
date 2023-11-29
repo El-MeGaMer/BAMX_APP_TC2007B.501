@@ -81,7 +81,6 @@ const DropDown = () => {
                 );
                 showModal(true);
             } catch (error) {
-                console.error('Error submitting incident:', error);
                 showModal(false);
             }
         } else {
