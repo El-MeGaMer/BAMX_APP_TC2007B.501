@@ -46,11 +46,11 @@ export async function UpdateLogEmpaque(idUser, idLog, body){
 // Function to fill Logs for the "Almacen" area
 
 export async function UpdateLogAlmacen(idUser, idLog, body){
-
+    
     const userId = String(idUser); 
     const logId = String(idLog);
 
-    const url = URL + '/bitacoras/Empaque/' + logId + "/" + userId;
+    const url = URL + '/bitacoras/Almacen/' + logId + "/" + userId;
     const options = {
         method: "PUT",
         headers: {
@@ -67,11 +67,10 @@ export async function UpdateLogAlmacen(idUser, idLog, body){
 
 export async function UpdateLogRecibo(idLog, idUser, body){
     try{
-console.log("tuki")
         const userId = String(idUser); 
         const logId = String(idLog);
     
-        const url = URL + '/bitacoras/Empaque/' + logId + "/" + userId;
+        const url = URL + '/bitacoras/Recibo/' + logId + "/" + userId;
         const options = {
             method: "PUT",
             headers: {
