@@ -111,27 +111,30 @@ const HomeStack = createStackNavigator();
 
 function HomeNavigator({navigation}) {
   return (
-    <HomeStack.Navigator>
+    <HomeStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#FF8000",
+          elevation: 0,
+          shadowOpacity: 0,
+          borderBottomWidth: 0,
+        },
+        headerTitleStyle: {
+          fontWeight: "bold",
+          color: "white",
+        },
+      }}
+    >
       <HomeStack.Screen
         name="HomeScreen"
         component={HomeScreen}
         options={{
           headerTitle: "Home Title",
-          headerStyle: {
-            backgroundColor: "#FF8000",
-            elevation: 0,
-            shadowOpacity: 0,
-            borderBottomWidth: 0,
-          },
-          headerTitleStyle: {
-            fontWeight: "bold",
-            color: "white",
-          },
           headerRight: () => (
             <TouchableOpacity
               style={{ marginRight: 15 }}
               onPress={() => {
-                navigation.navigate("NotificationScreen")
+                navigation.navigate("NotificationHome")
               }}
             >
               <TabBarIcon name="bell-outline" color="white" />
@@ -140,20 +143,10 @@ function HomeNavigator({navigation}) {
         }}
       />
       <HomeStack.Screen
-        name="NotificationScreen"
+        name="NotificationHome"
         component={NotificationScreen}
         options={{
           headerTitle: "Notificaciones",
-          headerStyle: {
-            backgroundColor: "#FF8000",
-            elevation: 0,
-            shadowOpacity: 0,
-            borderBottomWidth: 0,
-          },
-          headerTitleStyle: {
-            fontWeight: "bold",
-            color: "white",
-          },
           headerLeft: () => (
             <TouchableOpacity
               style={{ marginLeft: 15 }}
@@ -172,24 +165,54 @@ function HomeNavigator({navigation}) {
 
 const IncidentStack = createStackNavigator();
 
-function IncidentNavigator() {
+function IncidentNavigator({navigation}) {
   return (
-    <IncidentStack.Navigator>
+    <IncidentStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#FF8000",
+          elevation: 0,
+          shadowOpacity: 0,
+          borderBottomWidth: 0,
+        },
+        headerTitleStyle: {
+          fontWeight: "bold",
+          color: "white",
+        },
+      }}
+    >
       <IncidentStack.Screen
         name="IncidentScreen"
         component={IncidentScreen}
         options={{
           headerTitle: "Incidentes",
-          headerStyle: {
-            backgroundColor: "#FF8000",
-            elevation: 0,
-            shadowOpacity: 0,
-            borderBottomWidth: 0,
-          },
-          headerTitleStyle: {
-            fontWeight: "bold",
-            color: "white",
-          },
+          headerRight: () => (
+            <TouchableOpacity
+              style={{ marginRight: 15 }}
+              onPress={() => {
+                navigation.navigate("NotificationIncident")
+              }}
+            >
+              <TabBarIcon name="bell-outline" color="white" />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <IncidentStack.Screen
+        name="NotificationIncident"
+        component={NotificationScreen}
+        options={{
+          headerTitle: "Notificaciones",
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{ marginLeft: 15 }}
+              onPress={() => {
+                navigation.navigate("IncidentScreen")
+              }}
+            >
+              <TabBarIcon name="arrow-left" color="white" />
+            </TouchableOpacity>
+          ),
         }}
       />
     </IncidentStack.Navigator>
@@ -198,24 +221,54 @@ function IncidentNavigator() {
 
 const LogsStack = createStackNavigator();
 
-function LogsNavigator() {
+function LogsNavigator({navigation}) {
   return (
-    <LogsStack.Navigator>
+    <LogsStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#FF8000",
+          elevation: 0,
+          shadowOpacity: 0,
+          borderBottomWidth: 0,
+        },
+        headerTitleStyle: {
+          fontWeight: "bold",
+          color: "white",
+        },
+      }}
+    >
       <LogsStack.Screen
         name="LogsScreen"
         component={LogsScreen}
         options={{
           headerTitle: "Bitácoras",
-          headerStyle: {
-            backgroundColor: "#FF8000",
-            elevation: 0,
-            shadowOpacity: 0,
-            borderBottomWidth: 0,
-          },
-          headerTitleStyle: {
-            fontWeight: "bold",
-            color: "white",
-          },
+          headerRight: () => (
+            <TouchableOpacity
+              style={{ marginRight: 15 }}
+              onPress={() => {
+                navigation.navigate("NotificationLogs")
+              }}
+            >
+              <TabBarIcon name="bell-outline" color="white" />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <LogsStack.Screen
+        name="NotificationLogs"
+        component={NotificationScreen}
+        options={{
+          headerTitle: "Notificaciones",
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{ marginLeft: 15 }}
+              onPress={() => {
+                navigation.navigate("LogsScreen")
+              }}
+            >
+              <TabBarIcon name="arrow-left" color="white" />
+            </TouchableOpacity>
+          ),
         }}
       />
     </LogsStack.Navigator>
@@ -224,24 +277,54 @@ function LogsNavigator() {
 
 const CreateLogStack = createStackNavigator();
 
-function CreateLogsNavigator() {
+function CreateLogsNavigator({navigation}) {
   return (
-    <CreateLogStack.Navigator>
+    <CreateLogStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#FF8000",
+          elevation: 0,
+          shadowOpacity: 0,
+          borderBottomWidth: 0,
+        },
+        headerTitleStyle: {
+          fontWeight: "bold",
+          color: "white",
+        },
+      }}
+    >
       <CreateLogStack.Screen
         name="CreateLogScreen"
         component={CreateLogScreen}
         options={{
           headerTitle: "Crear Bitácora",
-          headerStyle: {
-            backgroundColor: "#FF8000",
-            elevation: 0,
-            shadowOpacity: 0,
-            borderBottomWidth: 0,
-          },
-          headerTitleStyle: {
-            fontWeight: "bold",
-            color: "white",
-          },
+          headerRight: () => (
+            <TouchableOpacity
+              style={{ marginRight: 15 }}
+              onPress={() => {
+                navigation.navigate("NotificationCreateLogs")
+              }}
+            >
+              <TabBarIcon name="bell-outline" color="white" />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <CreateLogStack.Screen
+        name="NotificationCreateLogs"
+        component={NotificationScreen}
+        options={{
+          headerTitle: "Notificaciones",
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{ marginLeft: 15 }}
+              onPress={() => {
+                navigation.navigate("CreateLogScreen")
+              }}
+            >
+              <TabBarIcon name="arrow-left" color="white" />
+            </TouchableOpacity>
+          ),
         }}
       />
     </CreateLogStack.Navigator>
@@ -250,24 +333,54 @@ function CreateLogsNavigator() {
 
 const UserStack = createStackNavigator();
 
-function UserNavigator() {
+function UserNavigator({navigation}) {
   return (
-    <UserStack.Navigator>
+    <UserStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#FF8000",
+          elevation: 0,
+          shadowOpacity: 0,
+          borderBottomWidth: 0,
+        },
+        headerTitleStyle: {
+          fontWeight: "bold",
+          color: "white",
+        },
+      }}
+    >
       <UserStack.Screen
         name="UserScreen"
         component={UserScreen}
         options={{
           headerTitle: "Usuario",
-          headerStyle: {
-            backgroundColor: "#FF8000",
-            elevation: 0,
-            shadowOpacity: 0,
-            borderBottomWidth: 0,
-          },
-          headerTitleStyle: {
-            fontWeight: "bold",
-            color: "white",
-          },
+          headerRight: () => (
+            <TouchableOpacity
+              style={{ marginRight: 15 }}
+              onPress={() => {
+                navigation.navigate("NotificationUser")
+              }}
+            >
+              <TabBarIcon name="bell-outline" color="white" />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <UserStack.Screen
+        name="NotificationUser"
+        component={NotificationScreen}
+        options={{
+          headerTitle: "Notificaciones",
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{ marginLeft: 15 }}
+              onPress={() => {
+                navigation.navigate("UserScreen")
+              }}
+            >
+              <TabBarIcon name="arrow-left" color="white" />
+            </TouchableOpacity>
+          ),
         }}
       />
     </UserStack.Navigator>
