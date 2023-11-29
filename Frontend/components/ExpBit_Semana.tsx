@@ -64,10 +64,8 @@ export default function ExpBit_Semana() {
         const tables = columnNames.map((columnName, data) => {
             const columnValues = userData.map((rowObject) => {
                 const value = rowObject[data];
-                console.log(value);
                 if (typeof value === 'object') {
                     const subTableRows = Object.entries(value).map(([key, val]) => {
-                        console.log(key);
                         if (typeof val === 'object') {
                             const nestedTableRows = Object.entries(val).map(([nestedKey, nestedVal]) => {
                                 if (!valoresAExcluir.has(nestedKey)) {
@@ -103,7 +101,7 @@ export default function ExpBit_Semana() {
 
                             return `
                     <table class="nested-table">
-                      <tr><th colspan="2">día ${Number(key) + 1}</th></tr>
+                      <tr><td colspan="2" id = "dias" >día ${Number(key) + 1}</td></tr>
                       ${nestedTableRows.join('')}
                     </table>
                   `;
@@ -143,6 +141,8 @@ export default function ExpBit_Semana() {
                   border-collapse: collapse;
                   width: 100%;
                   margin-bottom: 20px;
+                  color: #000000;
+                  
                 }
                 table.nested-table {
                   border-collapse: collapse;
@@ -151,13 +151,18 @@ export default function ExpBit_Semana() {
                   margin-bottom: 10px;
                 }
                 th, td {
-                  border: 2px solid #dddddd;
+                  border: 2px solid;
                   text-align: left;
                   padding: 8px;
+                  
                 }
                 th {
-                  background-color: #4CAF50;
-                  color: white;
+                  border: 2px solid #FF8001;
+                  color: black;
+                  text-align: center;
+                }
+                #dias{
+                    text-align: center;
                 }
               </style>
             </head>
