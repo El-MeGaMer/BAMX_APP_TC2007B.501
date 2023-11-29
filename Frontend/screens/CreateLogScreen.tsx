@@ -14,18 +14,20 @@ import { useEffect, useState } from "react";
 import { getLogsAvailable } from "../apis/VisualizationApi";
 
 import { LogsNames, LogsUpdateRef } from "../constants/LogsConstants";
+import { useIsFocused } from "@react-navigation/native";
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
 
 export default function CreateLogScreen() {
+  const isFocused = useIsFocused();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
 
   const callAPI = async () => {
     try {
-      const response = await getLogsAvailable(1);
+      const response = await getLogsAvailable(2);
       setData(response);
       console.log(data);
       setLoading(false);
@@ -35,9 +37,11 @@ export default function CreateLogScreen() {
   };
 
   useEffect(() => {
-    callAPI();
+    if (isFocused) {
+      callAPI();
+    }
     console.log(data);
-  }, []);
+  }, [isFocused]);
 
   if (loading || !data.length) {
     return (
@@ -65,7 +69,7 @@ export default function CreateLogScreen() {
                 return(
 
                   <SelectLogButton
-                    text={log[bitacora].nombreArea}
+                    text={log["nombre"]}
                     destinatedLog={LogsNames[bitacora]}
                     id = {log.id}
                     logName ={bitacora}

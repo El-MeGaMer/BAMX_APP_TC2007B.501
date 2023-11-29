@@ -7,6 +7,7 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import Container from "./Container";
 import { styled } from "nativewind";
 import { LogsUpdateRef } from "../constants/LogsConstants";
+import { StyleSheet } from "react-native";
 
 const StyledTouchableOpacity = styled(TouchableOpacity);
 const StyledView = styled(View);
@@ -30,12 +31,15 @@ const TwoColLog = (props, {navigation}) => {
     <Background>
       <Container notCenter="true">
         <StyledView className="items-center pb-2">
-          <StyledText className="text-black text-lg">{props.title? props.title : "Enviar Bitácora"}</StyledText>
+          <StyledText className="text-black text-lg font-semibold">{props.title? props.title : "Enviar Bitácora"}</StyledText>
         </StyledView>
-        <Table borderStyle={{ borderWidth: 2, borderColor: "#BBC2CF" }}>
+        <StyledView className=" p-3">
+
+        <Table borderStyle={{ borderWidth: 1, borderColor: "#BBC2CF" }}>
           <Row
             data={tableHead}
-            style={{ height: 40, backgroundColor: "#f1f8ff" }}
+            style={{ height: 40, backgroundColor: "#D9D9D9" }}
+            textStyle={{ textAlign: "center", alignItems: "center" }}
           />
           <Rows
             data={TableData[props.type].data}
@@ -43,6 +47,7 @@ const TwoColLog = (props, {navigation}) => {
             textStyle={{ textAlign: "center", alignItems: "center" }}
           />
         </Table>
+        </StyledView>
         <StyledView className=" pt-5 items-center">
           <BouncyCheckbox
             disableBuiltInState
@@ -73,5 +78,12 @@ const TwoColLog = (props, {navigation}) => {
     </Background>
   );
 };
+
+const styles = StyleSheet.create({
+  container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: "#fff" },
+  head: { height: 40, backgroundColor: "#D9D9D9" },
+  text: { margin: 7 },
+  textTitle: { margin: 6, fontWeight: "bold" },
+});
 
 export default TwoColLog;

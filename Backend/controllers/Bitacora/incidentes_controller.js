@@ -83,13 +83,13 @@ export const createIncidente = async (req, res) => {
             }
         })
 
-        res.json(result)
+        res.json({ status: 'success', message: 'El reporte ha sido enviada' })
 
     } catch (error) {
         if (process.env.NODE_ENV !== 'test') {
             console.log('Error! Could not add the entry:', error)
         }
-        res.status(500).json({ error: 'Error' })
+        res.json({ status: 'error', message: 'Hubo un error al mandar la bitacora'})
     }
 }
 
