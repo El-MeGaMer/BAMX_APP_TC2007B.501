@@ -27,7 +27,7 @@ export default function CreateLogScreen() {
 
   const callAPI = async () => {
     try {
-      const response = await getLogsAvailable(1);
+      const response = await getLogsAvailable(2);
       setData(response);
       console.log(data);
       setLoading(false);
@@ -69,7 +69,7 @@ export default function CreateLogScreen() {
                 return(
 
                   <SelectLogButton
-                    text={log[bitacora].nombreArea}
+                    text={log["nombre"]}
                     destinatedLog={LogsNames[bitacora]}
                     id = {log.id}
                     logName ={bitacora}
