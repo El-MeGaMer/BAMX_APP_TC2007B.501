@@ -41,7 +41,6 @@ router.get("/AlimentoCompartido/:idLog", getAlimentoCompartido)
 
 // Temperaturas Bitacora
 router.put("/Temperatura/:idLog", updateTemperaturas)
-router.get("/Temperatura/:idLog", getTemperaturas)
 
 // Criba FV Bitacora
 router.put("/CribaFV/:idLog/:idUser", updateCribaFV)
