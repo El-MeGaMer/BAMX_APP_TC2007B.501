@@ -25,7 +25,8 @@ export const getBitacorasState = async (req, res) => {
                 id: true,
                 idUsuarioEmisor: true,
                 idArea: true,
-                idRecordatorio: true,
+                nombre: true,
+                // idRecordatorio: true,
                 estado: true,
                 fechaHora: true,
                 [areaFieldName]: true
@@ -42,8 +43,9 @@ export const getBitacorasState = async (req, res) => {
 
     try {
         // llamamos la funcion para cada una de las bitacoras
-        const extintores = createCondition('areaBitacoraExtintor', nombreArea);
-        const alimentosCompartido = createCondition('areaBitacoraLimpiezaAlimentoCompartido', nombreArea);
+        const incidentes = createCondition('area', nombreArea)
+        const extintores = createCondition('areaBitacoraExtintor', nombreArea)
+        const alimentosCompartido = createCondition('areaBitacoraLimpiezaAlimentoCompartido', nombreArea)
         const temperatura = createCondition('areaBitacoraTemperatura', nombreArea)
         const limpiezaRecibos = createCondition('areaBitacoraLimpiezaRecibos', nombreArea)
         const limpiezaEmpaques = createCondition('areaBitacoraLimpiezaEmpaques', nombreArea)
@@ -51,6 +53,7 @@ export const getBitacorasState = async (req, res) => {
         const limpiezaAlmacenes = createCondition('areaBitacoraLimpiezaAlmacenes', nombreArea)
         const limpiezaEntregas = createCondition('areaBitacoraLimpiezaEntregas', nombreArea)
 
+        const bitacoraIn = await prisma.bitacoraIncidentes.findMany(incidentes)
         const bitacoraExt = await prisma.bitacoraExtintores.findMany(extintores);
         const bitacoraAliCom = await prisma.bitacoraLimpiezaAlimentoCompartidos.findMany(alimentosCompartido);
         const bitacoraTem = await prisma.bitacoraTemperaturas.findMany(temperatura);
@@ -62,6 +65,7 @@ export const getBitacorasState = async (req, res) => {
 
         // unimos las bitacoras en un json
         const combinedResult = [
+            ...bitacoraIn,
             ...bitacoraExt,
             ...bitacoraAliCom,
             ...bitacoraTem,
@@ -95,6 +99,7 @@ export const getBitacorasPerDay = async (req, res) => {
                 }
             }, select: {
                 id: true,
+                nombre: true,
                 idUsuarioEmisor: true,
                 estado: true,
                 fechaHora: true,
@@ -115,29 +120,29 @@ export const getBitacorasPerDay = async (req, res) => {
         const limpiezaAlmacenes = bitacoraPerDay('areaBitacoraLimpiezaAlmacenes')
         const limpiezaEntregas = bitacoraPerDay('areaBitacoraLimpiezaEntregas')
 
-        const bitacoraExtPD = await prisma.bitacoraExtintores.findMany(extintores)
-        const bitacoraTemPD = await prisma.bitacoraTemperaturas.findMany(temperatura)
-        const bitacoraAliComPD = await prisma.bitacoraLimpiezaAlimentoCompartidos.findMany(alimentosCompartido)
-        const bitacoraLimRecPD = await prisma.bitacoraLimpiezaRecibos.findMany(limpiezaRecibos)
-        const bitacoraLimEmpPD = await prisma.bitacoraLimpiezaEmpaques.findMany(limpiezaEmpaques)
-        const bitacoraLimCFVPD = await prisma.bitacoraLimpiezaCribasFV.findMany(limpiezaCribas)
-        const bitacoraLimAlPD = await prisma.bitacoraLimpiezaAlmacenes.findMany(limpiezaAlmacenes)
-        const bitacoraLimEntPD = await prisma.bitacoraLimpiezaEntregas.findMany(limpiezaEntregas)
+        const bitacoraExt = await prisma.bitacoraExtintores.findMany(extintores)
+        const bitacoraTem = await prisma.bitacoraTemperaturas.findMany(temperatura)
+        const bitacoraAliCom = await prisma.bitacoraLimpiezaAlimentoCompartidos.findMany(alimentosCompartido)
+        const bitacoraLimRec = await prisma.bitacoraLimpiezaRecibos.findMany(limpiezaRecibos)
+        const bitacoraLimEmp = await prisma.bitacoraLimpiezaEmpaques.findMany(limpiezaEmpaques)
+        const bitacoraLimCFV = await prisma.bitacoraLimpiezaCribasFV.findMany(limpiezaCribas)
+        const bitacoraLimAl = await prisma.bitacoraLimpiezaAlmacenes.findMany(limpiezaAlmacenes)
+        const bitacoraLimEnt = await prisma.bitacoraLimpiezaEntregas.findMany(limpiezaEntregas)
 
         // unimos las bitacoras en un json
         const combinedResult = [
-            ...bitacoraExtPD,
-            ...bitacoraTemPD,
-            ...bitacoraAliComPD,
-            ...bitacoraLimRecPD,
-            ...bitacoraLimEmpPD,
-            ...bitacoraLimCFVPD,
-            ...bitacoraLimAlPD,
-            ...bitacoraLimEntPD
+            ...bitacoraExt,
+            ...bitacoraTem,
+            ...bitacoraAliCom,
+            ...bitacoraLimRec,
+            ...bitacoraLimEmp,
+            ...bitacoraLimCFV,
+            ...bitacoraLimAl,
+            ...bitacoraLimEnt
         ];
 
         // filtramos la bitacora para que no muestre las bitacoras revisadas
-        const bitacorasFiltrada = combinedResult.filter(item => item.estado !== "revisado");
+        const bitacorasFiltrada = combinedResult.filter(item => item.estado == "noRevisado");
 
         res.json(bitacorasFiltrada)
     } catch (error) {
@@ -173,6 +178,7 @@ export const getBitacorasPending = async (req, res) => {
 
     try {
         // llamamos la funcion para cada una de las bitacoras
+        const incidentes = bitacoraPending('area')
         const extintores = bitacoraPending('areaBitacoraExtintor')
         const temperatura = bitacoraPending('areaBitacoraTemperatura')
         const alimentosCompartido = bitacoraPending('areaBitacoraLimpiezaAlimentoCompartido');
@@ -182,6 +188,7 @@ export const getBitacorasPending = async (req, res) => {
         const limpiezaAlmacenes = bitacoraPending('areaBitacoraLimpiezaAlmacenes')
         const limpiezaEntregas = bitacoraPending('areaBitacoraLimpiezaEntregas')
 
+        const bitacoraIn = await prisma.bitacoraIncidentes.findMany(incidentes)
         const bitacoraExt = await prisma.bitacoraExtintores.findMany(extintores)
         const bitacoraTem = await prisma.bitacoraTemperaturas.findMany(temperatura)
         const bitacoraAliCom = await prisma.bitacoraLimpiezaAlimentoCompartidos.findMany(alimentosCompartido)
@@ -193,6 +200,7 @@ export const getBitacorasPending = async (req, res) => {
 
         // unimos las bitacoras en un json
         const combinedResult = [
+            ...bitacoraIn,
             ...bitacoraExt,
             ...bitacoraTem,
             ...bitacoraAliCom,
@@ -205,7 +213,7 @@ export const getBitacorasPending = async (req, res) => {
 
         // filtramos para que muestre las bitacoras que no estan revisadas o en revision
         const bitacorasRevisadas = combinedResult.filter(item => item.estado == "revisado")
-        const bitacotasNoRevisadas = combinedResult.filter(item => item.estado == "noRevisado")
+        const bitacotasNoRevisadas = combinedResult.filter(item => item.estado == "enRevision")
 
         const bitacorasPerState = [bitacorasRevisadas, bitacotasNoRevisadas]
 
@@ -255,11 +263,14 @@ export const getBitacorasExport = async (req, res) => {
             return 'BitacoraLimpiezaAlmacenes';
         } else if (bitacora.areaBitacoraLimpiezaEntregas) {
             return 'bitacoraLimpiezaEntregas';
+        } else if (bitacora.area) {
+            return 'bitacoraIncidentes'
         }
     }
 
     try {
         // llamamos la funcion para cada una de las bitacoras
+        const incidentes = bitacotarasExport('area')
         const extintores = bitacotarasExport('areaBitacoraExtintor')
         const alimentosCompartido = bitacotarasExport('areaBitacoraLimpiezaAlimentoCompartido')
         const temperatura = bitacotarasExport('areaBitacoraTemperatura')
@@ -269,6 +280,7 @@ export const getBitacorasExport = async (req, res) => {
         const limpiezaAlmacenes = bitacotarasExport('areaBitacoraLimpiezaAlmacenes')
         const limpiezaEntregas = bitacotarasExport('areaBitacoraLimpiezaEntregas')
 
+        const bitacoraIn = await prisma.bitacoraIncidentes.findMany(incidentes)
         const bitacoraExt = await prisma.bitacoraExtintores.findMany(extintores)
         const bitacoraAliCom = await prisma.bitacoraLimpiezaAlimentoCompartidos.findMany(alimentosCompartido)
         const bitacoraTem = await prisma.bitacoraTemperaturas.findMany(temperatura)
@@ -280,6 +292,7 @@ export const getBitacorasExport = async (req, res) => {
 
         // unimos las bitacoras en un json
         const combinedResult = [
+            ...bitacoraIn,
             ...bitacoraExt,
             ...bitacoraAliCom,
             ...bitacoraTem,

@@ -59,12 +59,15 @@ for (let i = 0; i < 7; i++) {
 
 // Usuarios
 for (let i = 0; i < 7; i++) {
+    const numberRandom = Math.floor(100000 + Math.random() * 900000).toString();
     seedUsuarios.push({
         idRecordatorio: i + 1,
         idRol: faker.number.int({min: 1, max: 3}),
         nombre: faker.person.firstName(),
         apellido: faker.person.lastName(),
         correo: faker.internet.email(),
+        otp: numberRandom,
+        expiracion: faker.date.recent(),
     })
 }
 
@@ -91,7 +94,7 @@ for (let i = 0; i < 7; i++) {
         idUsuarioEmisor: i + 1,
         idArea: i + 1,                      // cualquier area 
         idRecordatorio: i + 1,
-        nombre: 'Bitácora de Extintonres',
+        nombre: 'Bitácora de Extintores',
         capacidad: faker.helpers.arrayElement([true, false]),
         manometro: faker.helpers.arrayElement([true, false]),
         estadoFisico: faker.helpers.arrayElement([true, false]),
