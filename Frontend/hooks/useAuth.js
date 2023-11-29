@@ -12,7 +12,7 @@ export function useAuth(verified) {
 			let result = await SecureStore.getItemAsync("token");
 
 			// put your ip here if testing
-			const serverIP = "192.168.68.104" 
+			const serverIP = "10.41.33.24" 
 
 			if (result) {
 				fetch(`http://${serverIP}:3000/login/auth`, {

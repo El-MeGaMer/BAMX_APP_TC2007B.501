@@ -25,11 +25,12 @@ const footer = "../assets/images/footer.png";
 
 function Login({ setVerified }) {
   const [email, setEmail] = useState("");
+  const [errorMessage, setNotification] = useState("");
 
   const url = Linking.useURL();
 
 	// put your ip here if testing
-  const serverIP = "192.168.68.104" 
+  const serverIP = "10.41.33.24" 
 
   const onPress = () => {
 		// do authentication
@@ -40,7 +41,14 @@ function Login({ setVerified }) {
 			},
 		  body: JSON.stringify({email})
 		})
-			.then((res) => console.log("OTP Sent"));
+			.then((res) => {
+				if (res.status == 200)
+					setNotification("OTP Sent to email");
+				else {
+					res.json().then((body) => setNotification(body.error));
+					console.log("Bad request");
+				}
+			});
 	};
 
   const verifyOTP = (data) => {
@@ -85,6 +93,7 @@ function Login({ setVerified }) {
         <StyledText className="my-6 font-bold text-2xl text-white mb-12">
           Iniciar Sesión
         </StyledText>
+		 <StyledText className="text-white font-bold text-md">{ errorMessage }</StyledText>
           
           <StyledTextInput
             className="bg-white p-3 rounded-xl shadow px-8 pt-4 pb-4 mb-4 w-full max-w-xs mt-3"

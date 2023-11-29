@@ -4,6 +4,8 @@ import nodemailer from "nodemailer"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
 import bcrypt from "bcrypt"
+import validator from 'validator';
+
 
 export const auth = (req, res) => {
 	dotenv.config();
@@ -18,7 +20,6 @@ export const auth = (req, res) => {
 }
 
 export const genOTP =  async (req, res) => {
-
     // Generate OTP
     const OTP = otpGenerator.generate(6, 
       {lowerCaseAlphabets: false, 
@@ -27,6 +28,11 @@ export const genOTP =  async (req, res) => {
 
     // Store in database under email and add expiration date of 120s
     const prisma = new PrismaClient();
+
+	if (!req.body || !req.body.email || !validator.isEmail(req.body.email)) {
+		res.status(400).json({error : "Invalid email"});
+		return;
+	}
 
     const user = await prisma.usuarios.findUnique({
         where : {
@@ -53,12 +59,13 @@ export const genOTP =  async (req, res) => {
     });
     } else {
         res.status(400).json({error : "User does not exist"});
+		return;
     }
 
     // Send email
 
     // put your ip here if you wish to test
-	const expoIP = "192.168.68.104:8081";
+	const expoIP = "10.41.33.24:8081";
     const emailMessage = `<a href='exp://${expoIP}/?otp=${OTP}&email=${req.body.email}'> Click para login </a>` ;
 
     const transporter = nodemailer.createTransport({
@@ -76,12 +83,12 @@ export const genOTP =  async (req, res) => {
         from: "John Fahldo <johnlikesboneless@zohomail.com",
         to: req.body.email,
         subject: "OTP",
-        text: emailMessage 
+        html: emailMessage 
     }
 
     transporter.sendMail(mailOptions, (error) => {
         if (error) {
-            res.status(400).json({error});
+			res.status(400).json({error});
         } else {
             res.status(200).json({message: "Success"});
         }
