@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import RNPickerSelect from 'react-native-picker-select';
 import { DB_FILTERS } from '../constants/DB_constants';
+import { CreateIncidente } from '../apis/LogApi';
 import ModalComponent from './ModalComponent';
 import Container from "./Container";
 
