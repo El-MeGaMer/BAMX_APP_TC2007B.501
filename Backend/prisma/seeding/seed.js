@@ -178,7 +178,7 @@ async function seedBitacoraLimpiezaCribasFVDB() {
 async function seedBitacoraLimpiezaAlmacenesDB() {
   try {
     const seed = await prisma.bitacoraLimpiezaAlmacenes.createMany({
-    data: seedBitacoraLimpiezaAlmacenes
+      data: seedBitacoraLimpiezaAlmacenes
     })
     console.log("Bitacoras limpieza almacenes Seed Successful: ", { seed });
   } catch (error) {
@@ -189,7 +189,7 @@ async function seedBitacoraLimpiezaAlmacenesDB() {
 async function seedBitacoraLimpiezaEntregasDB() {
   try {
     const seed = await prisma.bitacoraLimpiezaEntregas.createMany({
-    data: seedBitacoraLimpiezaEntregas
+      data: seedBitacoraLimpiezaEntregas
     })
     console.log("Bitacoras limpieza entregas Seed Successful: ", { seed });
   } catch (error) {
@@ -197,21 +197,66 @@ async function seedBitacoraLimpiezaEntregasDB() {
   }
 }
 
+async function deleteAllData() {
+  try {
+    await prisma.$executeRaw`SET foreign_key_checks = 0`;
+    await prisma.bitacoraLimpiezaEntregas.deleteMany();
+    await prisma.bitacoraLimpiezaAlmacenes.deleteMany();
+    await prisma.bitacoraLimpiezaCribasFV.deleteMany();
+    await prisma.bitacoraLimpiezaEmpaques.deleteMany();
+    await prisma.bitacoraLimpiezaRecibos.deleteMany();
+    await prisma.bitacoraLimpiezaAlimentoCompartidos.deleteMany();
+    await prisma.bitacoraTemperaturas.deleteMany();
+    await prisma.bitacoraIncidentes.deleteMany();
+    await prisma.bitacoraExtintores.deleteMany();
+    await prisma.notificacionesUsuarios.deleteMany();
+    await prisma.areasUsuario.deleteMany();
+    await prisma.usuarios.deleteMany();
+
+    await prisma.notificaciones.deleteMany();
+    await prisma.areas.deleteMany();
+    await prisma.roles.deleteMany();
+    await prisma.recordatorios.deleteMany();
+    await prisma.$executeRaw`SET foreign_key_checks = 1`;
+
+    await prisma.$executeRaw`ALTER TABLE recordatorios AUTO_INCREMENT = 1`;
+    await prisma.$executeRaw`ALTER TABLE roles AUTO_INCREMENT = 1`;
+    await prisma.$executeRaw`ALTER TABLE notificaciones AUTO_INCREMENT = 1`;
+    await prisma.$executeRaw`ALTER TABLE usuarios AUTO_INCREMENT = 1`;
+    await prisma.$executeRaw`ALTER TABLE areas AUTO_INCREMENT = 1`;
+
+    await prisma.$executeRaw`ALTER TABLE bitacoraLimpiezaEntregas AUTO_INCREMENT = 1`;
+    await prisma.$executeRaw`ALTER TABLE bitacoraLimpiezaAlmacenes AUTO_INCREMENT = 1`;
+    await prisma.$executeRaw`ALTER TABLE bitacoraLimpiezaCribasFV AUTO_INCREMENT = 1`;
+    await prisma.$executeRaw`ALTER TABLE bitacoraLimpiezaEmpaques AUTO_INCREMENT = 1`;
+    await prisma.$executeRaw`ALTER TABLE bitacoraLimpiezaRecibos AUTO_INCREMENT = 1`;
+    await prisma.$executeRaw`ALTER TABLE bitacoraLimpiezaAlimentoCompartidos AUTO_INCREMENT = 1`;
+    await prisma.$executeRaw`ALTER TABLE bitacoraTemperaturas AUTO_INCREMENT = 1`;
+    await prisma.$executeRaw`ALTER TABLE bitacoraIncidentes AUTO_INCREMENT = 1`;
+    await prisma.$executeRaw`ALTER TABLE bitacoraExtintores AUTO_INCREMENT = 1`;
+
+    console.log("All data deleted successfully");
+  } catch (error) {
+    console.log("Error deleting data: ", error);
+  }
+}
 
 async function main() {
-  // const isLocal = process.env.NODE_ENV === 'local';
-
-  // if (isLocal) {
-  //   await deleteAllData();
-  //   console.log(isLocal);
-  // }
-
+  if (process.env.NODE_ENV === 'local' &&
+    prisma.usuarios.findFirst() !== null) {
+    console.log("Local environment. Executed seeding")
+    await deleteAllData()
+  } else if (process.env.NODE_ENV === undefined) {
+    console.log("Not in local environment. You are not able to doing a reseeding.")
+    console.log("Check if you have the environment specified in the .env file.")
+    console.log('Like this: NODE_ENV="local"')
+    return
+  }
   // Siembra las tablas no dependiente primero
   await seedRecordatorioDB();
   await seedRolesDB();
   await seedAreasDB();
   await seedNotificacionesDB();
-  
   // Siembra las tablas dependientes 
   await seedUsuariosDB();
   await seedAreasUsuariosDB();
