@@ -14,11 +14,13 @@ import { useEffect, useState } from "react";
 import { getLogsAvailable } from "../apis/VisualizationApi";
 
 import { LogsNames, LogsUpdateRef } from "../constants/LogsConstants";
+import { useIsFocused } from "@react-navigation/native";
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
 
 export default function CreateLogScreen() {
+  const isFocused = useIsFocused();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
@@ -35,9 +37,11 @@ export default function CreateLogScreen() {
   };
 
   useEffect(() => {
-    callAPI();
+    if (isFocused) {
+      callAPI();
+    }
     console.log(data);
-  }, []);
+  }, [isFocused]);
 
   if (loading || !data.length) {
     return (
