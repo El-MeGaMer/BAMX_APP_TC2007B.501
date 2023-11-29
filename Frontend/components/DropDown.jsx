@@ -74,7 +74,7 @@ const DropDown = () => {
         if (selectedArea && incidentDescription && imageAttachment !== null) {
             try {
                 await CreateIncidente(
-                    'userId',
+                    userID,
                     selectedArea,
                     incidentDescription,
                     imageAttachment
