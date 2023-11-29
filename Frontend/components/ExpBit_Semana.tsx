@@ -4,6 +4,7 @@ import { Button } from 'react-native-elements';
 import { printToFileAsync } from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 import * as FileSystem from 'expo-file-system';
+import { format } from 'date-fns';
 
 export default function ExpBit_Semana() {
     const [BitSemana, setBitSemana] = useState([]);
@@ -15,6 +16,11 @@ export default function ExpBit_Semana() {
         fetchUserData();
     }, []);
 
+    const formatDate = (dateTimeString) => {
+        const date = new Date(dateTimeString);
+        return format(date, 'yyyy-MM-dd');
+    };
+    
     const fetchUserData = async () => {
         try {
             const response = await fetch('http://192.168.1.130:3000/bitacoras/export');
@@ -31,9 +37,7 @@ export default function ExpBit_Semana() {
 
     const generatePdf = async (selectedWeekData, columnName) => {
         try {
-            // Verificar si selectedWeekData es una matriz
             const dataToUse = Object.values(selectedWeekData);
-
 
             const file = await printToFileAsync({
                 html: generateHtml(dataToUse),
@@ -57,39 +61,33 @@ export default function ExpBit_Semana() {
         }
 
         const Data = Object.values(selectedWeekData)?.[0];
-        const userData = Object.values(Data);
+        const userData = [Object.values(Data)];
         const columnNames = Object.keys(Data);
 
         const valoresAExcluir = new Set(['id', 'idArea', 'idUsuarioEmisor', 'nombre', 'idRecordatorio']);
 
-        const tables = columnNames.map((columnName) => {
+        const tables = columnNames.map((columnName, data) => {
             const columnValues = userData.map((rowObject) => {
-                const value = rowObject;
-
+                const value = rowObject[data];
+                console.log(value);
                 if (typeof value === 'object') {
                     const subTableRows = Object.entries(value).map(([key, val]) => {
+                        console.log(key);
                         if (typeof val === 'object') {
                             const nestedTableRows = Object.entries(val).map(([nestedKey, nestedVal]) => {
                                 if (!valoresAExcluir.has(nestedKey)) {
-                                    
                                     const formattedNestedValue =  nestedVal;
                                     if (formattedNestedValue === null) {
                                         return `<tr><td>${nestedKey}</td><td>Sin datos</td></tr>`;
                                     } else if (typeof formattedNestedValue === 'object') {
-                                        // Aquí quieres hacer algo con el objeto
                                         const filteredObject = Object.fromEntries(
                                             Object.entries(formattedNestedValue).filter(([key, val]) => !valoresAExcluir.has(key))
                                         );
-                                    
                                         const formattedNestedValueHtml = Object.entries(filteredObject).map(([key, val]) => {
                                             return `<tr><td>${nestedKey}</td><td>${val}</td></tr>`;
                                         }).join('');
-                                    
                                         return formattedNestedValueHtml;
                                     }
-                                    
-                        
-                                    
                                     const formattedValue =
                                         formattedNestedValue === true
                                             ? 'hecho'
@@ -120,8 +118,7 @@ export default function ExpBit_Semana() {
                 </table>
               `;
                 } else {
-                    const formattedValue =
-                        value === true ? 'hecho' : value === false ? 'no hecho' : value;
+                    const formattedValue = formatDate(value);
                     return `<tr><td>${columnName}</td><td style="white-space: pre-line;">${formattedValue}</td></tr>`;
                 }
             });
@@ -177,13 +174,12 @@ export default function ExpBit_Semana() {
         generatePdf(selectedWeekData, columnName);
     };
 
-
     return (
         <View>
             {BitColumnNames.map((columnName, index) => (
                 <Button
                     key={index}
-                    title={`Semana ${columnName}`}
+                    title={`Semana ${formatDate(columnName)}`}
                     onPress={() => handleButtonClick(columnName)}
                     buttonStyle={styles.button}
                 />
