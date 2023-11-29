@@ -1,5 +1,7 @@
 import { UpdateLogAlmacen, UpdateLogEmpaque, updateLogAlimentoCompartido, updateLogCribaFV, UpdateLogRecibo, updateLogEntrega, updateLogExtintor, updateLogTemperatura } from "../apis/LogApi";
 
+import { getRecibo, getAlimentoCompartido, getAlmacen, getCribaFV, getEmpaque, getEntrega, getExtintor, getTemperatura } from "../apis/VisualizationApi";
+
 export const LogsConstants = Object.freeze({
   BITACORA_LIMPIEZA_RECIBOS: {
     AREA_ARMADO: "areaArmado",
@@ -116,4 +118,16 @@ export const LogsUpdateRef = Object.freeze({
   areaBitacoraTemperatura: updateLogTemperatura,
   BITACORA_INCIDENTES: "",
   areaBitacoraExtintor: updateLogExtintor
+})
+
+export const GetTableFunctions = Object.freeze({
+  areaBitacoraLimpiezaRecibos: getRecibo,
+  areaBitacoraLimpiezaEmpaques: getEmpaque,
+  areaBitacoraLimpiezaCribasFVs: getCribaFV,
+  areaBitacoraLimpiezaAlmacenes: getAlmacen,
+  areaBitacoraLimpiezaEntregas: getEntrega,
+  areaBitacoraLimpiezaAlimentoCompartido: getAlimentoCompartido,
+  areaBitacoraTemperatura: getTemperatura,
+  BITACORA_INCIDENTES: "",
+  areaBitacoraExtintor: getExtintor
 })
