@@ -30,7 +30,7 @@ function Login({ setVerified }) {
   const url = Linking.useURL();
 
 	// put your ip here if testing
-  const serverIP = "10.41.33.24" 
+  const serverIP = "" 
 
   const onPress = () => {
 		// do authentication
@@ -43,7 +43,7 @@ function Login({ setVerified }) {
 		})
 			.then((res) => {
 				if (res.status == 200)
-					setNotification("OTP Sent to email");
+					setNotification("OTP enviado a su correo");
 				else {
 					res.json().then((body) => setNotification(body.error));
 					console.log("Bad request");

@@ -30,7 +30,7 @@ export const genOTP =  async (req, res) => {
     const prisma = new PrismaClient();
 
 	if (!req.body || !req.body.email || !validator.isEmail(req.body.email)) {
-		res.status(400).json({error : "Invalid email"});
+		res.status(400).json({error : "Correo inválido"});
 		return;
 	}
 
@@ -58,14 +58,14 @@ export const genOTP =  async (req, res) => {
         }
     });
     } else {
-        res.status(400).json({error : "User does not exist"});
+        res.status(400).json({error : "Usuario no existe"});
 		return;
     }
 
     // Send email
 
-    // put your ip here if you wish to test
-	const expoIP = "10.41.33.24:8081";
+	// put your ip here if you wish to test. for installed apps maybe 127.0.0.1? or expo link if published
+	const expoIP = "";
     const emailMessage = `<a href='exp://${expoIP}/?otp=${OTP}&email=${req.body.email}'> Click para login </a>` ;
 
     const transporter = nodemailer.createTransport({
