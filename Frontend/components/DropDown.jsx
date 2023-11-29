@@ -70,18 +70,24 @@ const DropDown = () => {
         }, 2000);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (selectedArea && incidentDescription && imageAttachment !== null) {
-            console.log({
-                area: selectedArea,
-                description: incidentDescription,
-                image: imageAttachment,
-            });
-            showModal(true); 
+            try {
+                await CreateIncidente(
+                    'userId',
+                    selectedArea,
+                    incidentDescription,
+                    imageAttachment
+                );
+                showModal(true);
+            } catch (error) {
+                console.error('Error submitting incident:', error);
+                showModal(false);
+            }
         } else {
-            showModal(false); 
+            showModal(false);
         }
-    };
+    };    
 
     const styles = {
         imageButton: {
