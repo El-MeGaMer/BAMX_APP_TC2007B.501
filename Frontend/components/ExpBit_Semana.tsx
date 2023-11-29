@@ -4,7 +4,6 @@ import { Button } from 'react-native-elements';
 import { printToFileAsync } from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 import * as FileSystem from 'expo-file-system';
-import { format } from 'date-fns';
 
 export default function ExpBit_Semana() {
     const [BitSemana, setBitSemana] = useState([]);
@@ -16,14 +15,9 @@ export default function ExpBit_Semana() {
         fetchUserData();
     }, []);
 
-    const formatDate = (dateTimeString) => {
-        const date = new Date(dateTimeString);
-        return format(date, 'yyyy-MM-dd');
-    };
-    
     const fetchUserData = async () => {
         try {
-            const response = await fetch('http://192.168.1.130:3000/bitacoras/export');
+            const response = await fetch('http://10.41.55.139:3000/bitacoras/export');
             const data = await response.json();
             const bitSemanaData = Object.values(data);
             const bitSemanaColumnNames = Object.keys(bitSemanaData[0]);
@@ -38,6 +32,7 @@ export default function ExpBit_Semana() {
     const generatePdf = async (selectedWeekData, columnName) => {
         try {
             const dataToUse = Object.values(selectedWeekData);
+
 
             const file = await printToFileAsync({
                 html: generateHtml(dataToUse),
@@ -76,6 +71,7 @@ export default function ExpBit_Semana() {
                         if (typeof val === 'object') {
                             const nestedTableRows = Object.entries(val).map(([nestedKey, nestedVal]) => {
                                 if (!valoresAExcluir.has(nestedKey)) {
+                                    
                                     const formattedNestedValue =  nestedVal;
                                     if (formattedNestedValue === null) {
                                         return `<tr><td>${nestedKey}</td><td>Sin datos</td></tr>`;
@@ -83,11 +79,16 @@ export default function ExpBit_Semana() {
                                         const filteredObject = Object.fromEntries(
                                             Object.entries(formattedNestedValue).filter(([key, val]) => !valoresAExcluir.has(key))
                                         );
+                                    
                                         const formattedNestedValueHtml = Object.entries(filteredObject).map(([key, val]) => {
                                             return `<tr><td>${nestedKey}</td><td>${val}</td></tr>`;
                                         }).join('');
+                                    
                                         return formattedNestedValueHtml;
                                     }
+                                    
+                        
+                                    
                                     const formattedValue =
                                         formattedNestedValue === true
                                             ? 'hecho'
@@ -118,7 +119,8 @@ export default function ExpBit_Semana() {
                 </table>
               `;
                 } else {
-                    const formattedValue = formatDate(value);
+                    const formattedValue =
+                        value === true ? 'hecho' : value === false ? 'no hecho' : value;
                     return `<tr><td>${columnName}</td><td style="white-space: pre-line;">${formattedValue}</td></tr>`;
                 }
             });
@@ -149,7 +151,7 @@ export default function ExpBit_Semana() {
                   margin-bottom: 10px;
                 }
                 th, td {
-                  border: 1px solid #dddddd;
+                  border: 2px solid #dddddd;
                   text-align: left;
                   padding: 8px;
                 }
@@ -174,12 +176,13 @@ export default function ExpBit_Semana() {
         generatePdf(selectedWeekData, columnName);
     };
 
+
     return (
         <View>
             {BitColumnNames.map((columnName, index) => (
                 <Button
                     key={index}
-                    title={`Semana ${formatDate(columnName)}`}
+                    title={`Semana ${columnName}`}
                     onPress={() => handleButtonClick(columnName)}
                     buttonStyle={styles.button}
                 />
