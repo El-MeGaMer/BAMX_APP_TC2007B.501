@@ -47,17 +47,16 @@ model usuarios {
   id             Int    @id @default(autoincrement())
   idRecordatorio Int
   idRol          Int
-  idArea         Int
   nombre         String @db.VarChar(20)
   apellido       String @db.VarChar(20)
-  correo         String @unique @db.VarChar(40)
-  otp		 Int
-  expiracion	 DateTime @db.DateTime
+  correo         String @db.VarChar(40)
+  otp		         String @db.VarChar(100)
+  expiracion	  DateTime @db.DateTime()
 
   notificaciones notificacionesUsuarios[]
   recordatorio   recordatorios            @relation(fields: [idRecordatorio], references: [id])
   rolUsuario     roles                    @relation(fields: [idRol], references: [id])
-  areaUsuario    areas                    @relation(fields: [idArea], references: [id])
+  areasAsignadas areasUsuario[]
 
   usuarioEmisorBitacoraIncidentes     bitacoraIncidentes[] @relation("usuarioEmisor")
   usuarioSupervisorBitacoraIncidentes bitacoraIncidentes[] @relation("usuarioSupervisor")
@@ -85,6 +84,16 @@ model usuarios {
   usuarioSupervisorBitacoraLimpiezaAlmacenes bitacoraLimpiezaAlmacenes[] @relation("usuarioSupervisor")
 }
 
+model areasUsuario {
+  idUsuario Int
+  idArea    Int
+
+  userArea areas    @relation(fields: [idArea], references: [id])
+  usuario  usuarios @relation(fields: [idUsuario], references: [id])
+
+  @@id([idArea, idUsuario])
+}
+
 model notificacionesUsuarios {
   idNotificacion Int
   idUsuario      Int
@@ -100,7 +109,7 @@ model areas {
   id         Int  @id @default(autoincrement())
   nombreArea Area
 
-  areaUsuario                            usuarios[]
+  areaUsuario                            areasUsuario[]
   areaBitacoraIncidentes                 bitacoraIncidentes[]
   areaBitacoraExtintor                   bitacoraExtintores[]
   areaBitacoraLimpiezaAlimentoCompartido bitacoraLimpiezaAlimentoCompartidos[]
