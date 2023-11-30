@@ -35,7 +35,7 @@ export const updateEntrega = async (req, res) => {
         //Solo mandamos una respuesta de que ya se reviso
         if (seeBitStatus.estado == "revisado"){
 
-            response = "Esta bitacora ya fue revisada"
+            response = { status: 'error', message: 'La bitacora ya fue revisada' }
 
         }
 
@@ -85,7 +85,7 @@ export const updateEntrega = async (req, res) => {
             await Promise.all(createRelation)
             
 
-            response = 'Enviado exitosamente'
+            response = { status: 'success', message: 'La bitacora ha sido enviada' }
 
         }
 
@@ -101,7 +101,7 @@ export const updateEntrega = async (req, res) => {
             })
 
             //res.json(update)
-            response = 'Revisada exitosamente'
+            response = { status: 'success', message: 'La bitacora ha sido aprovada' }
         }
 
 
@@ -109,6 +109,22 @@ export const updateEntrega = async (req, res) => {
     } catch (error) {
         if (process.env.NODE_ENV !== 'test') {
             console.log(error)
+        }
+        res.json({ status: 'error', message: 'Hubo un error al mandar la bitacora'})
+    }
+}
+
+// Obtener datos por medio de idLog
+export const getEntrega = async (req, res) => {
+    try {
+        const {idLog} = req.params
+        const result = await prisma.bitacoraLimpiezaEntregas.findUnique({
+            where: {id: Number(idLog)}
+        })
+        res.json(result)
+    } catch (error) {
+        if (process.env.NODE_ENV !== 'test') {
+            console.log('Error! Entry not found:', error)
         }
     }
 }
