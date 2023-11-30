@@ -187,7 +187,7 @@ export default function ExpBit_Semana() {
             {BitColumnNames.map((columnName, index) => (
                 <Button
                     key={index}
-                    title={`Semana ${columnName}`}
+                    title={`Bitacoras semana-${columnName}`}
                     onPress={() => handleButtonClick(columnName)}
                     buttonStyle={styles.button}
                 />
@@ -198,7 +198,12 @@ export default function ExpBit_Semana() {
 
 const styles = StyleSheet.create({
     button: {
-        marginVertical: 10,
         backgroundColor: '#FF8001',
+        paddingTop: 11,
+        paddingBottom: 11,
+        borderRadius: 10, 
+        marginVertical: 10,
+        width: '100%',
+
     },
 });

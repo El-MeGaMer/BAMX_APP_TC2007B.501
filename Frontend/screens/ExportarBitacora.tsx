@@ -13,7 +13,7 @@ export default function ExportarBitacoras() {
     <StyledView className="flex-1">
       <Background>
         <Container>
-          <Text style={{ fontSize: 20, fontWeight: "bold" ,}}>
+          <Text style={{ fontSize: 20, fontWeight: "bold" , marginBottom: 10,}}>
             2023
           </Text>
           <ExpBit_Semana/>
