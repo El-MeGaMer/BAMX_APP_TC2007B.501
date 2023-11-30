@@ -1,7 +1,6 @@
-// App.js
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
-import { getLogPending } from "../apis/VisualizationApi"; // Ajusta la ruta según tu estructura de carpetas
+import { getLogPending } from "../apis/VisualizationApi";
 import Background from "../components/Background";
 import Container from "../components/Container";
 import { formatDistanceToNow } from "date-fns";
@@ -24,17 +23,15 @@ class Item extends React.PureComponent<{ item: LogItem }> {
 
     const hora = new Date(item.fechaHora);
     console.log(hora);
-    console.log(hora.getUTCHours());
-    const horaAjustada = new Date(hora);
+    const ms = hora.getTime();
+    const subsms = 420 * 60000;
+    const horaAjustada = new Date(ms + subsms);
     console.log(horaAjustada);
-    console.log(horaAjustada.getUTCHours());
-    // horaAjustada.setHours(hora.getHours() - 7);
-    // console.log(horaAjustada);
 
     const timeAgo = formatDistanceToNow(horaAjustada, {
       addSuffix: true,
       locale: es,
-      includeSeconds: false, // Exclude seconds from the output
+      includeSeconds: false,
     });
 
     console.log(typeof hora);
@@ -55,7 +52,6 @@ const LogsScreen = () => {
     const fetchData = async () => {
       try {
         const result = await getLogPending();
-        // Combina los subarrays en un solo array para FlatList
         setData(result.flat());
       } catch (error) {
         console.error("Error fetching data:", error.message);
@@ -93,8 +89,6 @@ const LogsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //marginTop: 20,
-    //marginHorizontal: 16,
   },
   item: {
     padding: 20,
