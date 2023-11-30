@@ -66,7 +66,7 @@ export const genOTP =  async (req, res) => {
 
 	// put your ip (with expo port) here if you wish to test. for installed apps maybe 127.0.0.1? or expo link if published
 	const expoIP = "";
-    const emailMessage = `<a href='exp://${expoIP}/?otp=${OTP}&email=${req.body.email}'> Click para login </a>` ;
+    const emailMessage = `<a href='exp://${expoIP}/?otp=${OTP}&email=${req.body.email}'> Click para iniciar sesion </a>` ;
 
 	console.log(emailMessage);
     const transporter = nodemailer.createTransport({
