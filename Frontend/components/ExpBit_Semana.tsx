@@ -4,6 +4,7 @@ import { Button } from 'react-native-elements';
 import { printToFileAsync } from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 import * as FileSystem from 'expo-file-system';
+import { getLogExport } from '../apis/VisualizationApi';
 
 export default function ExpBit_Semana() {
     const [BitSemana, setBitSemana] = useState([]);
@@ -17,15 +18,14 @@ export default function ExpBit_Semana() {
 
     const fetchUserData = async () => {
         try {
-            const response = await fetch('http://10.41.55.139:3000/bitacoras/export');
-            const data = await response.json();
+            const data = await getLogExport();
             const bitSemanaData = Object.values(data);
             const bitSemanaColumnNames = Object.keys(bitSemanaData[0]);
             setBitSemana(bitSemanaData);
             setBitColumnNames(bitSemanaColumnNames);
-
+    
         } catch (error) {
-            console.error('Error al obtener datos:', error);
+            console.error('Error al obtener datos:', error.message);
         }
     };
 
