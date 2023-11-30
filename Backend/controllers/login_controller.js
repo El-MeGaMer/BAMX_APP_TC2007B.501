@@ -64,23 +64,23 @@ export const genOTP =  async (req, res) => {
 
     // Send email
 
-	// put your ip here if you wish to test. for installed apps maybe 127.0.0.1? or expo link if published
+	// put your ip (with expo port) here if you wish to test. for installed apps maybe 127.0.0.1? or expo link if published
 	const expoIP = "";
     const emailMessage = `<a href='exp://${expoIP}/?otp=${OTP}&email=${req.body.email}'> Click para login </a>` ;
 
+	console.log(emailMessage);
     const transporter = nodemailer.createTransport({
-        host: "smtp.zoho.com",
-        port: 465,
-        secure: true,
-        auth: {
-          user: "johnlikesboneless@zohomail.com",
-          pass: "ryLkF[6t?s%YSU.NQvG~R:"
-        }
+		host: "smtp.gmail.com",
+		port: 465,
+		secure: true,
+		auth: {
+			user: 'banmxprueba@gmail.com',
+			pass: process.env.MAIL_PASSWORD
+		}
     });
 
-    // text -> html when fixed
     const mailOptions = {
-        from: "John Fahldo <johnlikesboneless@zohomail.com",
+		from: "BAMX <lider_area_test_bamx@bahermosillo.org.mx>",
         to: req.body.email,
         subject: "OTP",
         html: emailMessage 
@@ -88,7 +88,7 @@ export const genOTP =  async (req, res) => {
 
     transporter.sendMail(mailOptions, (error) => {
         if (error) {
-			res.status(400).json({error});
+			res.status(400).json({error: "Error enviando correo. Intente de nuevo."});
         } else {
             res.status(200).json({message: "Success"});
         }
@@ -115,8 +115,6 @@ export const verifyOTP = async(req, res) => {
 	    const OTP = user.otp;
 	    const expirationDate = user.expiracion;
 	    const currentDate = new Date();
-
-		console.log(user);
 
 	    // Check if OTP is equal to the one in database and has not expired
 	    if (!bcrypt.compareSync(inputOTP, OTP) || expirationDate < currentDate) {
