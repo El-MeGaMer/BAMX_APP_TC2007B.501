@@ -20,19 +20,19 @@ export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
   // TO CHANGE:
-  // Set user role 
+  // Set user role
   // this needs to be changed to a global variable that will be used in props
   // to determine the role of the user
   // example
   // let user = this.props.user
   // user.isAdmin
   let isAdmin: boolean = false;
-  let isAreaSupervisor: boolean = true;
-  let isOpsSupervisor: boolean = false;
+  let isAreaSupervisor: boolean = false;
+  let isOpsSupervisor: boolean = true;
 
   // Function that returns the bottom tab navigator
   return (
-    <BottomTab.Navigator 
+    <BottomTab.Navigator
       initialRouteName="Home"
       screenOptions={{ tabBarActiveTintColor: Colors[colorScheme].tint }}
     >
@@ -83,6 +83,18 @@ export default function BottomTabNavigator() {
           }}
         />
       )}
+      {isOpsSupervisor && (
+        <BottomTab.Screen
+          name="Logs"
+          component={LogsNavigator}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ color }) => (
+              <TabBarIcon name="format-list-bulleted-type" color={color} />
+            ),
+          }}
+        />
+      )}
       <BottomTab.Screen
         name="User"
         component={UserNavigator}
@@ -109,7 +121,7 @@ function TabBarIcon(props) {
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const HomeStack = createStackNavigator();
 
-function HomeNavigator({navigation}) {
+function HomeNavigator({ navigation }) {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
@@ -131,7 +143,7 @@ function HomeNavigator({navigation}) {
             <TouchableOpacity
               style={{ marginRight: 15 }}
               onPress={() => {
-                navigation.navigate("NotificationScreen")
+                navigation.navigate("NotificationScreen");
               }}
             >
               <TabBarIcon name="bell-outline" color="white" />
@@ -158,7 +170,7 @@ function HomeNavigator({navigation}) {
             <TouchableOpacity
               style={{ marginLeft: 15 }}
               onPress={() => {
-                navigation.navigate("HomeScreen")
+                navigation.navigate("HomeScreen");
               }}
             >
               <TabBarIcon name="arrow-left" color="white" />
