@@ -1,3 +1,7 @@
+import { UpdateLogAlmacen, UpdateLogEmpaque, updateLogAlimentoCompartido, updateLogCribaFV, UpdateLogRecibo, updateLogEntrega, updateLogExtintor, updateLogTemperatura } from "../apis/LogApi";
+
+import { getRecibo, getAlimentoCompartido, getAlmacen, getCribaFV, getEmpaque, getEntrega, getExtintor, getTemperatura } from "../apis/VisualizationApi";
+
 export const LogsConstants = Object.freeze({
   BITACORA_LIMPIEZA_RECIBOS: {
     AREA_ARMADO: "areaArmado",
@@ -93,13 +97,37 @@ export const LogsConstants = Object.freeze({
 });
 
 export const LogsNames = Object.freeze({
-  BITACORA_LIMPIEZA_RECIBOS: "bitacoraLimpiezaRecibos",
-  BITACORA_LIMPIEZA_EMPAQUES: "bitacoraLimpiezaEmpaques",
-  BITACORA_LIMPIEZA_CRIBAS_FV: "bitacoraLimpiezaCribasFV",
-  BITACORA_LIMPIEZA_ALMACENES: "bitacoraLimpiezaAlmacenes",
-  BITACORA_LIMPIEZA_ENTREGAS: "bitacoraLimpiezaEntregas",
-  BITACORA_LIMPIEZA_ALIMENTOS: "bitacoraLimpiezaAlimentoCompartidos",
-  BITACORA_TEMPERATURAS: "bitacoraTemperaturas",
+  areaBitacoraLimpiezaRecibos: "bitacoraLimpiezaRecibos",
+  areaBitacoraLimpiezaEmpaques: "bitacoraLimpiezaEmpaques",
+  areaBitacoraLimpiezaCribasFVs: "bitacoraLimpiezaCribasFV",
+  areaBitacoraLimpiezaAlmacenes: "bitacoraLimpiezaAlmacenes",
+  areaBitacoraLimpiezaEntregas: "bitacoraLimpiezaEntregas",
+  areaBitacoraLimpiezaAlimentoCompartido: "bitacoraLimpiezaAlimentoCompartidos",
+  areaBitacoraTemperatura: "bitacoraTemperaturas",
   BITACORA_INCIDENTES: "bitacoraIncidentes",
-  BITACORA_EXTINTORES: "bitacoraExtintores"
+  areaBitacoraExtintor: "bitacoraExtintores"
+})
+
+export const LogsUpdateRef = Object.freeze({
+  areaBitacoraLimpiezaRecibos: UpdateLogRecibo,
+  areaBitacoraLimpiezaEmpaques: UpdateLogEmpaque,
+  areaBitacoraLimpiezaCribasFVs: updateLogCribaFV,
+  areaBitacoraLimpiezaAlmacenes: UpdateLogAlmacen,
+  areaBitacoraLimpiezaEntregas: updateLogEntrega,
+  areaBitacoraLimpiezaAlimentoCompartido: updateLogAlimentoCompartido,
+  areaBitacoraTemperatura: updateLogTemperatura,
+  BITACORA_INCIDENTES: "",
+  areaBitacoraExtintor: updateLogExtintor
+})
+
+export const GetTableFunctions = Object.freeze({
+  areaBitacoraLimpiezaRecibos: getRecibo,
+  areaBitacoraLimpiezaEmpaques: getEmpaque,
+  areaBitacoraLimpiezaCribasFVs: getCribaFV,
+  areaBitacoraLimpiezaAlmacenes: getAlmacen,
+  areaBitacoraLimpiezaEntregas: getEntrega,
+  areaBitacoraLimpiezaAlimentoCompartido: getAlimentoCompartido,
+  areaBitacoraTemperatura: getTemperatura,
+  BITACORA_INCIDENTES: "",
+  areaBitacoraExtintor: getExtintor
 })

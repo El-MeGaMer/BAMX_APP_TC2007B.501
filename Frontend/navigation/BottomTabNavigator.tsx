@@ -4,14 +4,16 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useColorScheme } from "react-native";
+import { useColorScheme, TouchableOpacity } from "react-native";
 
 import Colors from "../constants/Colors";
 import HomeScreen from "../screens/HomeScreen";
 import IncidentScreen from "../screens/IncidentScreen";
 import LogsScreen from "../screens/LogsScreen";
 import UserScreen from "../screens/UserScreen";
+import NotificationScreen from "../screens/NotificationScreen";
 import CreateLogScreen from "../screens/CreateLogScreen";
+import ExportarBitacoras from "../screens/ExportarBitacora";
 
 const BottomTab = createBottomTabNavigator();
 
@@ -82,6 +84,20 @@ export default function BottomTabNavigator() {
           }}
         />
       )}
+      {isOpsSupervisor && (
+        <BottomTab.Screen
+          name="Logs"
+          component={ExBitNavigator}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ color }) => (
+              <TabBarIcon name="format-list-bulleted-type" color={color} />
+            ),
+          }}
+        />
+      )}
+
+      {/* Renders the user screen */}
       <BottomTab.Screen
         name="User"
         component={UserNavigator}
@@ -108,7 +124,7 @@ function TabBarIcon(props) {
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const HomeStack = createStackNavigator();
 
-function HomeNavigator() {
+function HomeNavigator({navigation}) {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
@@ -126,6 +142,43 @@ function HomeNavigator() {
             fontWeight: "bold",
             color: "white",
           },
+          headerRight: () => (
+            <TouchableOpacity
+              style={{ marginRight: 15 }}
+              onPress={() => {
+                navigation.navigate("NotificationScreen")
+              }}
+            >
+              <TabBarIcon name="bell-outline" color="white" />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <HomeStack.Screen
+        name="NotificationScreen"
+        component={NotificationScreen}
+        options={{
+          headerTitle: "Notificaciones",
+          headerStyle: {
+            backgroundColor: "#FF8000",
+            elevation: 0,
+            shadowOpacity: 0,
+            borderBottomWidth: 0,
+          },
+          headerTitleStyle: {
+            fontWeight: "bold",
+            color: "white",
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{ marginLeft: 15 }}
+              onPress={() => {
+                navigation.navigate("HomeScreen")
+              }}
+            >
+              <TabBarIcon name="arrow-left" color="white" />
+            </TouchableOpacity>
+          ),
         }}
       />
     </HomeStack.Navigator>
@@ -233,5 +286,29 @@ function UserNavigator() {
         }}
       />
     </UserStack.Navigator>
+  );
+}
+
+function ExBitNavigator() {
+  return (
+    <IncidentStack.Navigator>
+      <IncidentStack.Screen
+        name="ExportarBitacora"
+        component={ExportarBitacoras}
+        options={{
+          headerTitle: "Exportar Datos",
+          headerStyle: {
+            backgroundColor: "#FF8000",
+            elevation: 0,
+            shadowOpacity: 0,
+            borderBottomWidth: 0,
+          },
+          headerTitleStyle: {
+            fontWeight: "bold",
+            color: "white",
+          },
+        }}
+      />
+    </IncidentStack.Navigator>
   );
 }

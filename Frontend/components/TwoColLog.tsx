@@ -2,16 +2,18 @@ import React, { useState } from "react";
 import { Table, Row, Rows } from "react-native-table-component";
 import { TableData, tableJson } from "../constants/TableData";
 import Background from "./Background";
-import { TouchableOpacity, View, Text } from "react-native";
+import { TouchableOpacity, View, Text, Button } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import Container from "./Container";
 import { styled } from "nativewind";
+import { LogsUpdateRef } from "../constants/LogsConstants";
+import { StyleSheet } from "react-native";
 
 const StyledTouchableOpacity = styled(TouchableOpacity);
 const StyledView = styled(View);
 const StyledText = styled(Text);
 
-const TwoColLog = (props) => {
+const TwoColLog = (props, {navigation}) => {
   const tableHead = ["Concepto", "Hecho (N / s)"];
 
   const [form, setForm] = useState(tableJson[props.type]);
@@ -22,19 +24,22 @@ const TwoColLog = (props) => {
     console.log(props.type);
     setForm(tableJson[props.type]);
     console.log(form);
+    LogsUpdateRef[props.logName](props.id, 1, form)
   };
 
   return (
     <Background>
       <Container notCenter="true">
         <StyledView className="items-center pb-2">
-          <StyledText className="text-black text-lg">{props.title? props.title : "Enviar Bitácora"}</StyledText>
+          <StyledText className="text-black text-lg font-semibold">{props.title? props.title : "Enviar Bitácora"}</StyledText>
         </StyledView>
-        <Table borderStyle={{ borderWidth: 2, borderColor: "#BBC2CF" }}>
+        <StyledView className=" p-3">
+
+        <Table borderStyle={{ borderWidth: 1, borderColor: "#BBC2CF" }}>
           <Row
             data={tableHead}
-            style={{ height: 40, backgroundColor: "#f1f8ff" }}
-            textStyle={{ textAlign: "center", fontWeight: "bold" }}
+            style={{ height: 40, backgroundColor: "#D9D9D9" }}
+            textStyle={{ textAlign: "center", alignItems: "center" }}
           />
           <Rows
             data={TableData[props.type].data}
@@ -42,6 +47,7 @@ const TwoColLog = (props) => {
             textStyle={{ textAlign: "center", alignItems: "center" }}
           />
         </Table>
+        </StyledView>
         <StyledView className=" pt-5 items-center">
           <BouncyCheckbox
             disableBuiltInState
@@ -72,5 +78,12 @@ const TwoColLog = (props) => {
     </Background>
   );
 };
+
+const styles = StyleSheet.create({
+  container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: "#fff" },
+  head: { height: 40, backgroundColor: "#D9D9D9" },
+  text: { margin: 7 },
+  textTitle: { margin: 6, fontWeight: "bold" },
+});
 
 export default TwoColLog;
