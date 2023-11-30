@@ -83,7 +83,7 @@ export const createIncidente = async (req, res) => {
             }
         })
 
-        res.json({ status: 'success', message: 'El reporte ha sido enviada' })
+        res.json({ status: 'success', message: 'El reporte ha sido enviado' })
 
     } catch (error) {
         if (process.env.NODE_ENV !== 'test') {

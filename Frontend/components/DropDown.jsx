@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Image } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import RNPickerSelect from 'react-native-picker-select';
 import { DB_FILTERS } from '../constants/DB_constants';
 import ModalComponent from './ModalComponent';
 import Container from "./Container";
+import { CreateIncidente } from '../apis/LogApi';
 
 const DropDown = () => {
     const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
@@ -47,15 +48,31 @@ const DropDown = () => {
             quality: 1,
         });
     
-        if (result && !result.canceled && result.assets && result.assets.length > 0) {
-            const selectedImage = result.assets[0];
-            setImageAttachment(selectedImage.uri);
+        if (!result.cancelled && result.uri) {
+            const selectedImage = result.uri;
+            setImageAttachment(selectedImage);
+        }
+    };
+    
+    const handleSubmit = async () => {
+        if (selectedArea && incidentDescription && imageAttachment !== '') {
+            try {
+                const response = await CreateIncidente(1, selectedArea, incidentDescription, imageAttachment);
+                console.log(response);
+                console.log({
+                    area: selectedArea,
+                    description: incidentDescription,
+                    image: imageAttachment,
+                });
+                showModal(true);
+            } catch (error) {
+                console.error('Error al enviar el incidente:', error);
+                showModal(false);
+            }
+        } else {
+            showModal(false);
         }
     };    
-
-    if (hasGalleryPermission === null) {
-        return <Text>Requesting for camera permission</Text>;
-    }
 
     const showModal = (success) => {
         setSubmissionStatus(success);
@@ -65,22 +82,13 @@ const DropDown = () => {
             setSelectedArea('');
             setIncidentDescription('');
             setImageAttachment('');
-            setSubmissionStatus(null); 
+            setSubmissionStatus(null);
         }, 2000);
     };
 
-    const handleSubmit = () => {
-        if (selectedArea && incidentDescription && imageAttachment !== null) {
-            console.log({
-                area: selectedArea,
-                description: incidentDescription,
-                image: imageAttachment,
-            });
-            showModal(true); 
-        } else {
-            showModal(false); 
-        }
-    };
+    if (hasGalleryPermission === null) {
+        return <Text>Requesting for camera permission</Text>;
+    }
 
     const styles = {
         imageButton: {
@@ -188,6 +196,7 @@ const DropDown = () => {
                     />
     
                     <Text style={{ fontWeight: 'bold', marginBottom: 11 }}>Adjuntar imagen</Text>
+
                     <TouchableOpacity
                         onPress={handleImageAttachment}
                         style={styles.imageButton}
