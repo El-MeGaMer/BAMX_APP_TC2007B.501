@@ -12,6 +12,7 @@ import {
 } from "react-native-calendars";
 
 import testIDs from "../test/testIDs";
+import { getRecordatorios } from "../apis/VisualizationApi";
 
 LocaleConfig.locales["es"] = {
   monthNames: [
@@ -91,16 +92,7 @@ export default class AgendaScreen extends Component<State> {
     const items = this.state.items || {};
 
     try {
-      // Cambiar IP a donde se esta corriendo el Backend
-      // 10.41.55.7
-      const BACKEND_IP = "10.41.55.7";
-      const response = await fetch(`http://${BACKEND_IP}:3000/recordatorio/`, {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-        },
-      });
-      const data = await response.json();
+      const data = await getRecordatorios();
 
       const newItems: AgendaSchedule = {};
       Object(data).forEach((recordatorio) => {

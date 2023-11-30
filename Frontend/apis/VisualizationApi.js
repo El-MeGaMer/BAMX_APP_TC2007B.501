@@ -144,3 +144,16 @@ export async function getCribaFV(logId) {
     const response = await res.json();
     return response;
 }
+
+// Get recordatorios
+export async function getRecordatorios() {
+    const url = `${URL}/recordatorio/`;
+    const res = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+        },
+    })
+    const response = await res.json();
+    return response;
+}
