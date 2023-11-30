@@ -1,5 +1,5 @@
 import express from 'express'
-import bitacoraRoutes from "./bitacora_routes.js"
+import bitacoraRoutes from "./Bitacora_routes.js"
 import recordatorioRoutes from "./recordatorio_routes.js"
 import notificacionesRoutes from "./notificaciones_routes.js"
 
