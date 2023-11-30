@@ -84,6 +84,20 @@ export default function BottomTabNavigator() {
           }}
         />
       )}
+      {isOpsSupervisor && (
+        <BottomTab.Screen
+          name="Logs"
+          component={ExBitNavigator}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ color }) => (
+              <TabBarIcon name="format-list-bulleted-type" color={color} />
+            ),
+          }}
+        />
+      )}
+
+      {/* Renders the user screen */}
       <BottomTab.Screen
         name="User"
         component={UserNavigator}
