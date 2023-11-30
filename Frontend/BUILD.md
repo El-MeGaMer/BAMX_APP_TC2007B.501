@@ -3,6 +3,11 @@
 npm install
 ```
 
+### Sistema sirviendo
+Tenemos que saber que nuestro sistema funciona antes de hacerlo apk, ya que es un proceso tardado, podemos usar Expo Go para ver que este no tiene fallas.
+
+[Información para correr sistema en expo go](./RUNNING.md)
+
 ### Cuenta EAS-cli
 Para poder subir nuestra build, necesitamos utilizar la herramienta eas-cli, por lo que necesitamos tener una cuenta en Expo Go 
 
@@ -67,5 +72,7 @@ eas build:run -p android
 Este comando empezará un proceso de subir la app y crear un link para nosotros descargarla.
 Al terminar la instalación, se nos mostrará en consola un mensaje que dice si queremos instalar la app en un emulador, podemos seleccionar `no`.
 Al terminar, la consola nos dará un link con terminación `.apk`, podemos ingresar este link en un celular android para instalar la app.
+
+_CREAR NUESTRO APK TIENE UN LÍMITE DE 1 ARCHIVO POR HORA, POR LO QUE TENEMOS QUE ESTAR SEGUROS DE QUE SIRVE NUESTRO PROGRAMA ANTES CON EXPO GO_
 
 [Información sobre la instalación de la build](https://docs.expo.dev/build-reference/apk/)
