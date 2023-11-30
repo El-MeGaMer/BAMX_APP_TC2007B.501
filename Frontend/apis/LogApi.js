@@ -46,11 +46,11 @@ export async function UpdateLogEmpaque(idUser, idLog, body){
 // Function to fill Logs for the "Almacen" area
 
 export async function UpdateLogAlmacen(idUser, idLog, body){
-
+    
     const userId = String(idUser); 
     const logId = String(idLog);
 
-    const url = URL + '/bitacoras/Empaque/' + logId + "/" + userId;
+    const url = URL + '/bitacoras/Almacen/' + logId + "/" + userId;
     const options = {
         method: "PUT",
         headers: {
@@ -65,22 +65,26 @@ export async function UpdateLogAlmacen(idUser, idLog, body){
 
 // Function to fill Logs for the "Recibo" area
 
-export async function UpdateLogRecibo(idUser, idLog, body){
-
-    const userId = String(idUser); 
-    const logId = String(idLog);
-
-    const url = URL + '/bitacoras/Empaque/' + logId + "/" + userId;
-    const options = {
-        method: "PUT",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
+export async function UpdateLogRecibo(idLog, idUser, body){
+    try{
+        const userId = String(idUser); 
+        const logId = String(idLog);
+    
+        const url = URL + '/bitacoras/Recibo/' + logId + "/" + userId;
+        const options = {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        }
+        const rawResponse = await fetch(url, options)
+        const response = await rawResponse.json();
+        console.log(response)
+        return response;
+    } catch(error){
+        console.log(error)
     }
-    const rawResponse = await fetch(url, options)
-    const response = await rawResponse.json();
-    return response;
 }
 
 // Actualizar Bitacora de Extintores
@@ -144,17 +148,22 @@ export async function updateLogEntrega(idLog, idUser, body){
 }
 
 // Actualizar Bitacora de Temperaturas
-export async function updateLogExtintor(idLog, body) {
-    const url = URL + '/bitacoras/Temperatura/' + idLog;
-    const options = {
-        method: "PUT",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
+export async function updateLogTemperatura(idLog, idUser, body) {
+    try {
+        console.log("tuki")
+        const url = URL + '/bitacoras/Temperatura/' + String(idLog);
+        const options = {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        }
+        const rawResponse = await fetch(url, options)
+        const response = await rawResponse.json();
+        console.log(JSON.stringify(response))
+    } catch (error) {
+        console.log(error)
     }
-    const rawResponse = await fetch(url, options)
-    const response = await rawResponse.json();
-    console.log(JSON.stringify(response))
 }
 
