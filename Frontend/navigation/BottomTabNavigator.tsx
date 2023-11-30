@@ -50,7 +50,7 @@ export default function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Incident"
-        component={ExBitNavigator}
+        component={IncidentNavigator}
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => (
