@@ -68,19 +68,18 @@ export const genOTP =  async (req, res) => {
 	const expoIP = "";
     const emailMessage = `<a href='exp://${expoIP}/?otp=${OTP}&email=${req.body.email}'> Click para iniciar sesion </a>` ;
 
-	console.log(emailMessage);
     const transporter = nodemailer.createTransport({
-		host: "smtp.gmail.com",
+		host: "mail.bahermosillo.org.mx",
 		port: 465,
 		secure: true,
 		auth: {
-			user: 'banmxprueba@gmail.com',
-			pass: process.env.MAIL_PASSWORD
+			user: 'bahermos_system@bahermosillo.org.mx',
+			pass: 'bahermos_system' 
 		}
     });
 
     const mailOptions = {
-		from: "BAMX <lider_area_test_bamx@bahermosillo.org.mx>",
+		from: "BAMX <bahermos_system@bahermosillo.org.mx>",
         to: req.body.email,
         subject: "OTP",
         html: emailMessage 
@@ -88,6 +87,7 @@ export const genOTP =  async (req, res) => {
 
     transporter.sendMail(mailOptions, (error) => {
         if (error) {
+			console.log(error);
 			res.status(400).json({error: "Error enviando correo. Intente de nuevo."});
         } else {
             res.status(200).json({message: "Success"});
