@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Image, Platform, Modal, Text, View, TouchableOpacity } from 'react-native';
 import { styled } from 'nativewind';
 import { useNavigation } from '@react-navigation/native';
-import HomeScreen from "../screens/HomeScreen";
 
 
 const StyledText = styled(Text);

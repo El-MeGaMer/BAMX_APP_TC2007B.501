@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import RNPickerSelect from 'react-native-picker-select';
 import { DB_FILTERS } from '../constants/DB_constants';
-import ModalComponent from './ModalComponent';
 import Container from "./Container";
 import { CreateIncidente } from '../apis/LogApi';
 import ModalConfirm from './Modal';
@@ -15,6 +14,7 @@ const DropDown = () => {
     const [incidentDescription, setIncidentDescription] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [submissionStatus, setSubmissionStatus] = useState(null);
+    const [attachmentName, setAttachmentName] = useState('');
 
     const areas = [
         { label: 'Recibo', value: DB_FILTERS.AREA1 },
@@ -56,7 +56,10 @@ const DropDown = () => {
     
         if (!result.cancelled && result.uri) {
             const selectedImage = result.uri;
+            const imageName = selectedImage.split('/').pop();
+
             setImageAttachment(selectedImage);
+            setAttachmentName(imageName);
         }
     };
     
@@ -130,7 +133,7 @@ const DropDown = () => {
                 width: '100%',
                 height: 30,
                 padding: 10,
-                marginBottom: 11
+                marginBottom: 30
             },
             inputAndroid: {
                 backgroundColor: '#EBEBEB',
@@ -139,7 +142,7 @@ const DropDown = () => {
                 width: '100%',
                 height: 30,
                 padding: 10,
-                marginBottom: 11
+                marginBottom: 30
             }
         },
         imageText: {
@@ -169,7 +172,7 @@ const DropDown = () => {
     return (
         <View>
             <Container notCenter={true}>
-                <View style={{ paddingLeft: 22, paddingRight: 22, paddingBottom: 25 }}>
+                <View style={{ paddingLeft: 21, paddingRight: 22, paddingBottom: 25 }}>
                     <Text style={{ fontWeight: 'bold', marginBottom: 11 }}>Área involucrada</Text>
                     <RNPickerSelect
                         onValueChange={handleAreaChange}
@@ -197,7 +200,17 @@ const DropDown = () => {
                         onPress={handleImageAttachment}
                         style={styles.imageButton}
                     >
-                        <Text style={styles.imageText}>Seleccionar una foto</Text>
+                        {imageAttachment ? (
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Image
+                                    source={{ uri: imageAttachment }}
+                                    style={{ width: 50, height: 50, marginRight: 10 }}
+                                />
+                                <Text style={styles.imageText}>{attachmentName.length > 20 ? `${attachmentName.substring(0, 24)}...` : attachmentName}</Text>
+                            </View>
+                        ) : (
+                            <Text style={styles.imageText}>Seleccionar una foto</Text>
+                        )}
                     </TouchableOpacity>
     
                     <TouchableOpacity
