@@ -19,12 +19,17 @@ export default function App() {
   const colorScheme = useColorScheme();
   const [loggedIn, role, id] = useAuth(verified);
 
+  const user = {
+    rol: role,
+    id: id
+  }
+
   if (!isLoadingComplete) {
     return null;
   } else {
     return (
       <SafeAreaProvider>
-		  {loggedIn && <Navigation colorScheme={colorScheme} />}
+		  {loggedIn && id !== 0 && <Navigation colorScheme={colorScheme} userData={user}/>}
 		  {!loggedIn && <Login setVerified={ setVerified }/> }
         <StatusBar />
       </SafeAreaProvider>
