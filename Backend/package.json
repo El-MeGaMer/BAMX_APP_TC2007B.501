@@ -31,7 +31,6 @@
     "nodemailer": "^6.9.7",
     "node-cron": "^3.0.3",
     "nodemon": "^3.0.1",
-    "otp-generator": "^4.0.1",
     "sinon": "^17.0.0"
   }
 }

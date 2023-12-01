@@ -1,6 +1,8 @@
 import React, { useState, Component } from "react";
 import { StyleSheet, Alert, Text, View, TouchableOpacity } from "react-native";
 
+import { styled } from "nativewind";
+
 import {
   Agenda,
   LocaleConfig,
