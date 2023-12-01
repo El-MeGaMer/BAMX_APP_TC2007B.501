@@ -1,27 +1,25 @@
 import { StyleSheet, FlatList, Image } from "react-native";
 import { Text, View } from "../components/Themed";
+import { useEffect, useState } from "react";
 
 import { styled } from "nativewind";
+import { getNotifications } from "../apis/NotificacionesApi";
 
 export const IconI = require("../assets/images/favicon.png");
 
 const StyledView = styled(View);
 
 export default function NotificationScreen() {
-  const data=[
-    {
-      id: "1",
-      Image: IconI,
-      notiTitle: "Atención, temperatura elevada!",
-      notification: "Se detectó una temperatura mayor a la permitida en REFRIGERADOR 1",
-    },
-    {
-      id: "2",
-      Image: IconI,
-      notiTitle: "Atención, temperatura crítica!",
-      notification: "Se detectó una temperatura mucho mayor a la permitida en REFRIGERADOR 2",
-    }
-  ];
+  const [data,setData] = useState([]);
+
+  async function getNotifs() {
+    const response = await getNotifications(1);
+    setData(response)
+  }
+
+  useEffect(() => {
+    getNotifs();
+  }, [])
 
   return (
     <StyledView className="flex-1">
@@ -34,11 +32,11 @@ export default function NotificationScreen() {
               <View style={styles.Container}>
                 <Image
                   style={styles.Icon}
-                  source={item.Image}
+                  source={IconI}
                 />
                 <View style={styles.Text}>
-                  <Text style={styles.Title}>{item.notiTitle}</Text>
-                  <Text>{item.notification}</Text>
+                  <Text style={styles.Title}>{item.titulo}</Text>
+                  <Text>{item.descripcion}</Text>
                 </View>
               </View>
             );
