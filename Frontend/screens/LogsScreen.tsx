@@ -1,9 +1,4 @@
-// This screen is used to create a new log entry, destinated to
-// users that capture the information
-// role: area_supervisor
-
 import { View, Text } from "../components/Themed";
-import Container from "../components/Container";
 
 import { styled } from "nativewind";
 
