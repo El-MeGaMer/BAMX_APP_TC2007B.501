@@ -1,5 +1,5 @@
 
-const URL = "http://192.168.1.234:3000"
+const URL = "http://10.41.55.7:3000"
 
 // Create Log for "Incidente" ---------------------------------------
 
@@ -24,6 +24,7 @@ export async function CreateIncidente(idUser, area, desc, img){
 
     const rawResponse = await fetch(url, options);
     const response = await rawResponse.json();
+    return(response);
 }
 
 // Fill Logs APIs ----------------------------------------------------

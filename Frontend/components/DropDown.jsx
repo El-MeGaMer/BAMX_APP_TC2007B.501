@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Image } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import RNPickerSelect from 'react-native-picker-select';
@@ -6,6 +6,7 @@ import { DB_FILTERS } from '../constants/DB_constants';
 import ModalComponent from './ModalComponent';
 import Container from "./Container";
 import { CreateIncidente } from '../apis/LogApi';
+import ModalConfirm from './Modal';
 
 const DropDown = () => {
     const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
@@ -24,6 +25,11 @@ const DropDown = () => {
         { label: 'Almacen', value: DB_FILTERS.AREA6 },
         { label: 'Cuartos Frios', value: DB_FILTERS.AREA7 },
     ];
+
+    const handleHideModal = () => {
+        setIsModalVisible(false);
+        navigation.navigate('OtroComponente'); 
+    };
 
     const handleAreaChange = (area) => {
         setSelectedArea(area);
@@ -58,33 +64,23 @@ const DropDown = () => {
         if (selectedArea && incidentDescription && imageAttachment !== '') {
             try {
                 const response = await CreateIncidente(1, selectedArea, incidentDescription, imageAttachment);
-                console.log(response);
-                console.log({
-                    area: selectedArea,
-                    description: incidentDescription,
-                    image: imageAttachment,
-                });
-                showModal(true);
+                setSubmissionStatus(response);
             } catch (error) {
                 console.error('Error al enviar el incidente:', error);
-                showModal(false);
+                setSubmissionStatus({ status: 'error', message: 'Hubo un error al enviar el incidente.' });
             }
         } else {
-            showModal(false);
+            setSubmissionStatus({ status: 'error', message: 'Por favor, completa todos los campos.' });
         }
-    };    
-
-    const showModal = (success) => {
-        setSubmissionStatus(success);
-        setIsModalVisible(true);
-        setTimeout(() => {
-            setIsModalVisible(false);
-            setSelectedArea('');
-            setIncidentDescription('');
-            setImageAttachment('');
-            setSubmissionStatus(null);
-        }, 2000);
+        setIsModalVisible(true); 
+        setSelectedArea('');
+        setIncidentDescription('');
+        setImageAttachment('');
+        console.log('area: ' + selectedArea);
+        console.log('desc: ' + incidentDescription);
+        console.log('img: ' + imageAttachment);
     };
+     
 
     if (hasGalleryPermission === null) {
         return <Text>Requesting for camera permission</Text>;
@@ -182,7 +178,7 @@ const DropDown = () => {
                         style={styles.dropDownInput}
                         placeholder={{
                             label: 'Selecciona un área...',
-                            value: null,
+                            value: '',
                         }}
                     />
     
@@ -211,7 +207,7 @@ const DropDown = () => {
                         <Text style={styles.buttonText}>Enviar Reporte</Text>
                     </TouchableOpacity>
 
-                    <ModalComponent isVisible={isModalVisible} success={submissionStatus} />
+                    <ModalConfirm result={submissionStatus} isVisible={isModalVisible} setIsModalVisible={setIsModalVisible} handleHideModal={handleHideModal}/>
                 </View>
             </Container>
         </View>

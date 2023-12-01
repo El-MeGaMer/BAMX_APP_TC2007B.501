@@ -1,15 +1,5 @@
 {
   "expo": {
-    "plugins": [
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "usesCleartextTraffic": true
-          }
-        }
-      ]
-    ],
     "name": "testbamx",
     "slug": "expo-template-tabs",
     "version": "1.0.0",
@@ -35,16 +25,10 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "package": "com.mctuliomontoya.expotemplatetabs"
+      }
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "8edc6e73-e53e-4099-ab58-f94c8d8781bb"
-      }
     }
   }
 }
