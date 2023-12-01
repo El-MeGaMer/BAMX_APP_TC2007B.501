@@ -1,8 +1,5 @@
 import { Text, View, TouchableOpacity, Pressable } from "react-native";
 import React, { Component } from "react";
-import * as Updates from "expo-updates";
-import * as SecureStore from 'expo-secure-store';
-
 
 import { styled } from "nativewind";
 
@@ -16,9 +13,8 @@ const StyledPressable = styled(Pressable);
 import { useNavigation } from "@react-navigation/native";
 
 const LogoutButton = () => {
-  const logout = async () => {
-	await SecureStore.deleteItemAsync("token");
-	await Updates.reloadAsync();
+  const logout = () => {
+    console.log("Logged Out!");
   };
 
   return (
