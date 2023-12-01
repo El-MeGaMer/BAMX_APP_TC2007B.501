@@ -26,7 +26,6 @@ export default function PendingLogScreen() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-
   const callAPI = async () => {
     try {
       const response = await getLogPending();
@@ -45,75 +44,74 @@ export default function PendingLogScreen() {
     console.log(data);
   }, [isFocused]);
 
-
-
   if (loading || !data.length) {
     return (
       <StyledView className="flex-1 ">
         <Background>
           <ContainerAlert>
-            <StyledText className = "font-bold">No hay bitácoras para mostrar!</StyledText>
+            <StyledText className="font-bold">
+              ¡No hay bitácoras para mostrar!
+            </StyledText>
           </ContainerAlert>
         </Background>
       </StyledView>
     );
   }
+
   return (
     <>
       {!loading && (
         <StyledView className="flex-1 ">
           <Background>
-            <StyledView className= "bg-white">
-              <Text>Por revisar</Text>
+            <StyledView className="bg-white">
+              <Text className="p-3 shadow text-xl font-bold pt-4 pb-1 w-max items-left">
+                Por revisar
+              </Text>
 
               {data[1].map((log) => {
-                console.log(log)
+                console.log(log);
                 const keys = Object.keys(log);
                 const bitacora = keys[keys.length - 1];
-                console.log("BITACORA")
-                console.log(bitacora)
-                console.log(log.estado)
-                console.log(LogsNames[bitacora])
+                console.log("BITACORA");
+                console.log(bitacora);
+                console.log(log.estado);
+                console.log(LogsNames[bitacora]);
 
-                return(
-                  
-
+                return (
                   <LogRevisionItem
                     text={log["nombre"]}
                     destinatedLog={LogsNames[bitacora]}
-                    id = {log.id}
-                    logName ={bitacora}
-                    getType= {true}
-                    fecha= {log["fechaHora"]}
+                    id={log.id}
+                    logName={bitacora}
+                    getType={true}
+                    fecha={log["fechaHora"]}
                   />
-                ) }
-              )}
+                );
+              })}
 
-            <Text>Por revisar</Text>
-            {data[0].map((log) => {
-                console.log(log)
+              <Text className="p-3 shadow text-xl font-bold pt-4 pb-1 w-max items-left">
+                Revisados
+              </Text>
+              {data[0].map((log) => {
+                console.log(log);
                 const keys = Object.keys(log);
                 const bitacora = keys[keys.length - 1];
-                console.log("BITACORA")
-                console.log(bitacora)
-                console.log(log.estado)
-                console.log(LogsNames[bitacora])
+                console.log("BITACORA");
+                console.log(bitacora);
+                console.log(log.estado);
+                console.log(LogsNames[bitacora]);
 
-                return(
-                  
-
+                return (
                   <LogRevisionItem
                     text={log["nombre"]}
                     destinatedLog={LogsNames[bitacora]}
-                    id = {log.id}
-                    logName ={bitacora}
-                    getType= {true}
-                    fecha= {log["fechaHora"]}
+                    id={log.id}
+                    logName={bitacora}
+                    getType={true}
+                    fecha={log["fechaHora"]}
                   />
-                ) }
-                
-              )}
-
+                );
+              })}
             </StyledView>
           </Background>
         </StyledView>

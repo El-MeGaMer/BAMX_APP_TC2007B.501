@@ -14,6 +14,7 @@ import UserScreen from "../screens/UserScreen";
 import NotificationScreen from "../screens/NotificationScreen";
 import CreateLogScreen from "../screens/CreateLogScreen";
 import ExportarBitacoras from "../screens/ExportarBitacora";
+import PendingLogScreen from "../screens/PendingLogScreen";
 
 const BottomTab = createBottomTabNavigator();
 
