@@ -27,6 +27,8 @@
     "expo-status-bar": "~1.6.0",
     "expo-web-browser": "~12.3.2",
     "formik": "^2.4.5",
+    "metro-config": "^0.80.1",
+    "metro-core": "^0.80.1",
     "nativewind": "^2.0.11",
     "react": "18.2.0",
     "react-dom": "18.2.0",
