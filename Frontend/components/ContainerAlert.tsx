@@ -6,18 +6,14 @@ import { ImageBackground, SafeAreaView, StatusBar } from "react-native";
 const background = "../assets/images/background_rectangle.png";
 
 import { styled } from "nativewind";
-import { ScrollView } from "react-native-gesture-handler";
 
 const StyledView = styled(View);
-const StyledScrollView = styled(ScrollView);
 
-const Container = (props) => {
+const ContainerAlert = (props) => {
   return (
     <StyledView
       className={
-        props.notCenter
-          ? "flex-1 pt-6 justify-center m-6 mb-0 shadow"
-          : "flex-1 pt-6 items-center justify-center m-6 mb-0 shadow"
+           "flex-1 p-20 pl-0 pr-0 justify-center m-6 mb-0 shadow items-center"
       }
     >
       {props.children}
@@ -25,4 +21,4 @@ const Container = (props) => {
   );
 };
 
-export default Container;
+export default ContainerAlert;
