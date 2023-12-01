@@ -1,16 +1,21 @@
 
-const URL = "http://localhost:3000"
+const URL = "http://192.168.1.234:3000"
 
 // Create Log for "Incidente" ---------------------------------------
 
 export async function CreateIncidente(idUser, area, desc, img){
 
-    const url = URL + "/bitacoras/Incidente/create" + String(idUser);
-
+    const url = URL + "/bitacoras/Incidente/create/" + String(idUser);
+    
     const formData = new FormData();
     formData.append('area', area);
     formData.append('descripcion', desc);
-    formData.append('photo', img);
+    
+    if (typeof img === 'string') {
+        formData.append('photo', { uri: img, name: 'photo.jpg', type: 'image/jpg' });
+    } else {
+        formData.append('photo', img);
+    }
 
     const options = {
         method: "POST",
@@ -19,6 +24,7 @@ export async function CreateIncidente(idUser, area, desc, img){
 
     const rawResponse = await fetch(url, options);
     const response = await rawResponse.json();
+    return(response);
 }
 
 // Fill Logs APIs ----------------------------------------------------

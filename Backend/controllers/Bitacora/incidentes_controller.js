@@ -70,6 +70,7 @@ export const createIncidente = async (req, res) => {
             })
         }
 
+
         // Creates the log for "Incidentes"
         const result = await prisma.bitacoraIncidentes.create({
             data: {
@@ -83,7 +84,7 @@ export const createIncidente = async (req, res) => {
             }
         })
 
-        res.json({ status: 'success', message: 'El reporte ha sido enviada' })
+        res.json({ status: 'success', message: 'El reporte ha sido enviado' })
 
     } catch (error) {
         if (process.env.NODE_ENV !== 'test') {
