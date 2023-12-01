@@ -8,45 +8,66 @@ import Container from "./Container";
 import { styled } from "nativewind";
 import { LogsUpdateRef } from "../constants/LogsConstants";
 import { StyleSheet } from "react-native";
+import ModalComponent from "./ModalComponent";
+import ModalConfirm from "./Modal";
 
 const StyledTouchableOpacity = styled(TouchableOpacity);
 const StyledView = styled(View);
 const StyledText = styled(Text);
 
-const TwoColLog = (props, {navigation}) => {
+const TwoColLog = (props, { navigation }) => {
   const tableHead = ["Concepto", "Hecho (N / s)"];
 
   const [form, setForm] = useState(tableJson[props.type]);
   const [confirmation, setConfirmation] = useState(false);
+  const [submissionStatus, setSubmissionStatus] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const enviarFormulario = () => {
+  const enviarFormulario = async () => {
     console.log("envianding");
     console.log(props.type);
     setForm(tableJson[props.type]);
     console.log(form);
-    LogsUpdateRef[props.logName](props.id, 1, form)
+    try {
+      const response = await LogsUpdateRef[props.logName](props.id, 1, form);
+      setSubmissionStatus(response);
+      console.log(response)
+    } catch (error) {
+      console.error("Error al enviar el incidente:", error);
+      setSubmissionStatus({
+        status: "error",
+        message: "Hubo un error al enviar el incidente.",
+      });
+    }
+    setIsModalVisible(true); 
+  };
+
+  const handleHideModal = () => {
+    setIsModalVisible(false);
+    navigation.navigate("OtroComponente");
   };
 
   return (
     <Background>
       <Container notCenter="true">
         <StyledView className="items-center pb-2">
-          <StyledText className="text-black text-lg font-semibold">{props.title? props.title : "Enviar Bitácora"}</StyledText>
+          <StyledText className="text-black text-lg font-semibold">
+            {props.title ? props.title : "Enviar Bitácora"}
+          </StyledText>
         </StyledView>
         <StyledView className=" p-3">
-
-        <Table borderStyle={{ borderWidth: 1, borderColor: "#BBC2CF" }}>
-          <Row
-            data={tableHead}
-            style={{ height: 40, backgroundColor: "#D9D9D9" }}
-            textStyle={{ textAlign: "center", alignItems: "center" }}
-          />
-          <Rows
-            data={TableData[props.type].data}
-            style={{ height: 80 }}
-            textStyle={{ textAlign: "center", alignItems: "center" }}
-          />
-        </Table>
+          <Table borderStyle={{ borderWidth: 1, borderColor: "#BBC2CF" }}>
+            <Row
+              data={tableHead}
+              style={{ height: 40, backgroundColor: "#D9D9D9" }}
+              textStyle={{ textAlign: "center", alignItems: "center" }}
+            />
+            <Rows
+              data={TableData[props.type].data}
+              style={{ height: 80 }}
+              textStyle={{ textAlign: "center", alignItems: "center" }}
+            />
+          </Table>
         </StyledView>
         <StyledView className=" pt-5 items-center">
           <BouncyCheckbox
@@ -75,6 +96,12 @@ const TwoColLog = (props, {navigation}) => {
           </StyledView>
         </StyledView>
       </Container>
+        <ModalConfirm
+          result={submissionStatus}
+          isVisible={isModalVisible}
+          setIsModalVisible={setIsModalVisible}
+          handleHideModal={handleHideModal}
+        />
     </Background>
   );
 };
