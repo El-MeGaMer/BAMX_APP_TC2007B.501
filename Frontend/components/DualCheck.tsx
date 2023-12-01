@@ -50,7 +50,7 @@ const DualCheck = (props) => {
         iconImageStyle = {{width: "90%", height: "90%"}}
         checkIconImageSource = {require('../assets/images/checkmark.png')}
         fillColor= "#00CA94"
-        unfillColor= "#rgba(0, 201, 148, 0.70)"
+        unfillColor= "#rgba(0, 201, 148, 0.40)"
         onPress={() => {
           setValue(true);
           props.updateJson(props.value, props.id, true);

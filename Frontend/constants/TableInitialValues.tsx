@@ -76,7 +76,7 @@ export const TableInitialValues = {
     cuartoFrio1: 0,
     cuartoFrio2: 0,
     camaraConservacionB: 0,
-    camaraConservacionA: 0,
+    camaraConservacionC: 0,
     observaciones: "",
   },
   bitacoraIncidentes: {
