@@ -94,7 +94,7 @@ export async function UpdateLogRecibo(idLog, idUser, body){
 }
 
 // Actualizar Bitacora de Extintores
-export async function updateLogExtintor(idLog, body) {
+export async function updateLogExtintor(idLog, idUser, body) {
     const url = URL + '/bitacoras/Extintor/' + idLog;
     const options = {
         method: "PUT",
