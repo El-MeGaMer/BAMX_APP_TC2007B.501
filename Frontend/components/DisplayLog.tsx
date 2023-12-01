@@ -32,7 +32,7 @@ const DisplayLog = (props, { navigation }) => {
   const callAPI = async () => {
     try {
       // Gets the function from the LogsConstants file and calls it
-      const response = await GetTableFunctions[props.logRef](1); // TODO: Change the 1 to the actual ID
+      const response = await GetTableFunctions[props.logRef](props.id); // TODO: Change the 1 to the actual ID
       setData(response);
       console.log(response);
       console.log(reqData["nombre"]);
