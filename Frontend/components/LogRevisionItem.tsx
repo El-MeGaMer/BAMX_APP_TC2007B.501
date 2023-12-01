@@ -29,10 +29,12 @@ const LogRevisionItem = ({
   const horaAjustada = new Date(ms + subsms);
   console.log(horaAjustada);
   const timeAgo = formatDistanceToNow(horaAjustada, {
-    addSuffix: true,
+    addSuffix: false,
     locale: es,
     includeSeconds: false,
   });
+
+  const formattedTimeAgo = `hace ${timeAgo}`;
 
   //
   const showLog = () => {
@@ -59,7 +61,7 @@ const LogRevisionItem = ({
       <StyledText className="text-lg font-bold">
         {text ? text : "asdsd"}
       </StyledText>
-      <StyledText className=" text-lg">{fecha ? fecha : "asdsd"}</StyledText>
+      <StyledText className=" text-lg">{formattedTimeAgo}</StyledText>
     </StyledTouchableOpacity>
   );
 };
