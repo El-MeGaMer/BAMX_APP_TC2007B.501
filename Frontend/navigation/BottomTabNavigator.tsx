@@ -13,6 +13,7 @@ import LogsScreen from "../screens/LogsScreen";
 import UserScreen from "../screens/UserScreen";
 import NotificationScreen from "../screens/NotificationScreen";
 import CreateLogScreen from "../screens/CreateLogScreen";
+import ExportarBitacoras from "../screens/ExportarBitacora";
 
 const BottomTab = createBottomTabNavigator();
 
@@ -83,6 +84,20 @@ export default function BottomTabNavigator() {
           }}
         />
       )}
+      {isOpsSupervisor && (
+        <BottomTab.Screen
+          name="Logs"
+          component={ExBitNavigator}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ color }) => (
+              <TabBarIcon name="format-list-bulleted-type" color={color} />
+            ),
+          }}
+        />
+      )}
+
+      {/* Renders the user screen */}
       <BottomTab.Screen
         name="User"
         component={UserNavigator}
@@ -384,5 +399,29 @@ function UserNavigator({navigation}) {
         }}
       />
     </UserStack.Navigator>
+  );
+}
+
+function ExBitNavigator() {
+  return (
+    <IncidentStack.Navigator>
+      <IncidentStack.Screen
+        name="ExportarBitacora"
+        component={ExportarBitacoras}
+        options={{
+          headerTitle: "Exportar Datos",
+          headerStyle: {
+            backgroundColor: "#FF8000",
+            elevation: 0,
+            shadowOpacity: 0,
+            borderBottomWidth: 0,
+          },
+          headerTitleStyle: {
+            fontWeight: "bold",
+            color: "white",
+          },
+        }}
+      />
+    </IncidentStack.Navigator>
   );
 }
