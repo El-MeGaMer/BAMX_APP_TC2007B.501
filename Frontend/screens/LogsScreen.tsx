@@ -11,6 +11,7 @@ import NoScrollBackground from "../components/NoScrollBackground";
 import SelectLogButton from "../components/SelectLogButton";
 import { TableInitialValues } from "../constants/TableInitialValues";
 import { useNavigation } from "@react-navigation/native";
+import DisplayLogs from "../components/DisplayLogs";
 import Container from "../components/Container";
 import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
@@ -54,6 +55,7 @@ const Item = ({ item, onPress }) => {
 
 const LogsScreen = () => {
   const [data, setData] = useState<LogItem[]>([]);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,13 +75,13 @@ const LogsScreen = () => {
 
   const handleItemPress = (itemId) => {
     console.log(`Clic en el elemento con ID: ${itemId}`);
-    const navigation = useNavigation();
+
     navigation.navigate({
       name: "DisplayLogs",
       params: {
-        desiredLog: areaBitacora,
-        initialValues: TableInitialValues[destinatedLog],
-        logTitle: text,
+        desiredLog: Item.areaBitacora,
+        nameOfLog: Item.title,
+        getData: true,
       },
     } as never);
   };
