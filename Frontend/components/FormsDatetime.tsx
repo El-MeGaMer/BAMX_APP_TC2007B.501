@@ -20,7 +20,7 @@ const FormsDatetime = (props) => {
   };
 
   const handleConfirm = (date) => {
-    console.warn("A date has been picked: ", date);
+    date.setTime(date.getTime()- date.getTimezoneOffset()*60000)
     props.updateJson(props.value, props.id, date.toISOString());
     console.log(props.value);
     hideDatePicker();
