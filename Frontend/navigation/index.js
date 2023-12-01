@@ -18,7 +18,7 @@ export default function Navigation({ colorScheme, userData }) {
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
-      theme={colorScheme ===  "dark" ? DarkTheme : DefaultTheme}
+      theme={colorScheme ===  "dark" ? DefaultTheme : DefaultTheme}
     >
       <RootNavigator userData={userData}/>
     </NavigationContainer>
@@ -38,7 +38,8 @@ function RootNavigator({userData}) {
         component={NotFoundScreen}
         options={{ title: "Oops!" }}
       />
-      <Stack.Screen name="DisplayLogs" component={DisplayLogs} />
+      <Stack.Screen 
+      name="DisplayLogs" component={DisplayLogs} options={{headerShown: true,  headerTintColor: "white", headerTruncatedBackTitle: true,  headerTitle: "Bitácoras", headerStyle:{backgroundColor: "#FF8000"}, headerBackTitle: "Volver" }} />
     </Stack.Navigator>
   );
 }

@@ -9,20 +9,15 @@ import { styled } from "nativewind";
 import { ScrollView } from "react-native-gesture-handler";
 
 const StyledView = styled(View);
+const StyledText = styled(Text);
 const StyledScrollView = styled(ScrollView);
 
-const Container = (props) => {
+const DisplayBool = (props) => {
   return (
-    <StyledView
-      className={
-        props.notCenter
-          ? "flex-1 pt-6 justify-center m-6 mb-0 shadow"
-          : "flex-1 pt-6 items-center justify-center m-6 mb-0 shadow"
-      }
-    >
-      {props.children}
+    <StyledView className = "items-center">
+      <StyledText className ={props.value? "text-xl font-semibold text-green-600" : "text-lg font-semibold text-red-600"}>{props.value ? "Si" : "No"}</StyledText>
     </StyledView>
   );
 };
 
-export default Container;
+export default DisplayBool;
