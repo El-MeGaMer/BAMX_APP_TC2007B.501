@@ -2,13 +2,13 @@ import express from 'express'
 import multer from 'multer'
 
 import { createIncidente, getIncidentes } from "../controllers/Bitacora/incidentes_controller.js"
-import { updateRecibo, getRecibo} from "../controllers/Bitacora/recibo_controller.js"
+import { updateRecibo, getRecibo } from "../controllers/Bitacora/recibo_controller.js"
 import { updateEmpaque, getEmpaque } from "../controllers/Bitacora/empaque_controller.js"
 import { updateAlmacen, getAlmacen } from "../controllers/Bitacora/almacen_controller.js"
 import { updateExtinctor, getExtintor } from '../controllers/Bitacora/extintor_controller.js'
 import { updateEntrega, getEntrega } from '../controllers/Bitacora/entrega_controller.js'
 import { updateAlimentoCompartido, getAlimentoCompartido } from '../controllers/Bitacora/alimento_compartido_controller.js'
-import { updateTemperaturas, getTemperaturas} from '../controllers/Bitacora/temperatura_controller.js'
+import { updateTemperaturas, getTemperaturas } from '../controllers/Bitacora/temperatura_controller.js'
 import { updateCribaFV, getCribaFV } from '../controllers/Bitacora/cribaFV_controller.js'
 import { getBitacorasState, getBitacorasPending, getBitacorasExport, getBitacorasPerDay } from '../controllers/Bitacora/visualizacion_bitacoras_controller.js'
 

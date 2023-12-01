@@ -44,7 +44,7 @@ model notificaciones {
 }
 
 model usuarios {
-  id             Int    @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   idRecordatorio Int
   idRol          Int
   nombre         String @db.VarChar(20)
@@ -100,7 +100,7 @@ model notificacionesUsuarios {
 
   notificacion notificaciones @relation(fields: [idNotificacion], references: [id])
   usuario      usuarios       @relation(fields: [idUsuario], references: [id])
-  estado       String         @db.VarChar(10)
+  estado       Estado         @default(noRevisado)
 
   @@id([idNotificacion, idUsuario])
 }
