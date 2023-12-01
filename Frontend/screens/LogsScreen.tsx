@@ -1,135 +1,121 @@
-import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
-import { getLogPending } from "../apis/VisualizationApi";
-import NoScrollBackground from "../components/NoScrollBackground";
-import SelectLogButton from "../components/SelectLogButton";
-import { TableInitialValues } from "../constants/TableInitialValues";
-import { useNavigation } from "@react-navigation/native";
-import DisplayLogs from "../components/DisplayLogs";
+// This screen is used to create a new log entry, destinated to
+// users that capture the information
+// role: area_supervisor
+
+import { View, Text } from "../components/Themed";
 import Container from "../components/Container";
-import { formatDistanceToNow } from "date-fns";
-import { es } from "date-fns/locale";
 
-interface LogItem {
-  id: number;
-  estado: string;
-  fechaHora: string;
-  nombre: string;
-  areaBitacora?: {
-    id: number;
-    nombreArea: string;
+import { styled } from "nativewind";
+
+import Background from "../components/Background";
+import ContainerAlert from "../components/ContainerAlert";
+import SelectLogButton from "../components/SelectLogButton";
+import { useEffect, useState } from "react";
+import { getLogsAvailable } from "../apis/VisualizationApi";
+
+import { LogsNames, LogsUpdateRef } from "../constants/LogsConstants";
+import { useIsFocused } from "@react-navigation/native";
+import { getLogPending } from "../apis/VisualizationApi";
+import LogRevisionItem from "../components/LogRevisionItem";
+
+const StyledView = styled(View);
+const StyledText = styled(Text);
+
+export default function PendingLogScreen() {
+  const isFocused = useIsFocused();
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  const callAPI = async () => {
+    try {
+      const response = await getLogPending();
+      setData(response);
+      console.log(data[1]);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
   };
-}
-
-const Item = ({ item, onPress }) => {
-  const hora = new Date(item.fechaHora);
-  console.log(hora);
-  const ms = hora.getTime();
-  const subsms = 420 * 60000;
-  const horaAjustada = new Date(ms + subsms);
-  console.log(horaAjustada);
-
-  const timeAgo = formatDistanceToNow(horaAjustada, {
-    addSuffix: true,
-    locale: es,
-    includeSeconds: false,
-  });
-
-  console.log(typeof hora);
-  return (
-    <TouchableOpacity onPress={onPress ? () => onPress(item.id) : undefined}>
-      <View style={styles.item}>
-        <Text style={styles.title}>{item.nombre}</Text>
-        <Text>{timeAgo}</Text>
-        {item.areaBitacora && <Text>Área: {item.areaBitacora.nombreArea}</Text>}
-      </View>
-    </TouchableOpacity>
-  );
-};
-
-const LogsScreen = () => {
-  const [data, setData] = useState<LogItem[]>([]);
-  const navigation = useNavigation();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getLogPending();
-        setData(result.flat());
-      } catch (error) {
-        console.error("Error fetching data:", error.message);
-      }
-    };
+    if (isFocused) {
+      callAPI();
+    }
+    console.log(data);
+  }, [isFocused]);
 
-    fetchData();
-  }, []);
-
-  const porRevisar = data.filter((item) => item.estado === "enRevision");
-  const revisados = data.filter((item) => item.estado === "revisado");
-
-  const handleItemPress = (itemId) => {
-    console.log(`Clic en el elemento con ID: ${itemId}`);
-
-    navigation.navigate({
-      name: "DisplayLogs",
-      params: {
-        desiredLog: Item.areaBitacora,
-        nameOfLog: Item.title,
-        getData: true,
-      },
-    } as never);
-  };
+  if (loading || !data.length) {
+    return (
+      <StyledView className="flex-1 ">
+        <Background>
+          <ContainerAlert>
+            <StyledText className="font-bold">
+              ¡No hay bitácoras para mostrar!
+            </StyledText>
+          </ContainerAlert>
+        </Background>
+      </StyledView>
+    );
+  }
 
   return (
-    <NoScrollBackground>
-      <Container>
-        <View style={styles.container}>
-          <Text style={styles.subtitle}>- Por revisar -</Text>
-          <FlatList
-            data={porRevisar}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <Item item={item} onPress={handleItemPress} />
-            )}
-          />
-          <Text style={styles.subtitle}>- Revisados -</Text>
-          <FlatList
-            data={revisados}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => <Item item={item} />}
-          />
-        </View>
-      </Container>
-    </NoScrollBackground>
+    <>
+      {!loading && (
+        <StyledView className="flex-1 ">
+          <Background>
+            <StyledView className="bg-white">
+              <Text className="p-3 shadow text-xl font-bold pt-4 pb-1 w-max items-left">
+                Por revisar
+              </Text>
+
+              {data[1].map((log) => {
+                console.log(log);
+                const keys = Object.keys(log);
+                const bitacora = keys[keys.length - 1];
+                console.log("BITACORA");
+                console.log(bitacora);
+                console.log(log.estado);
+                console.log(LogsNames[bitacora]);
+
+                return (
+                  <LogRevisionItem
+                    text={log["nombre"]}
+                    destinatedLog={LogsNames[bitacora]}
+                    id={log.id}
+                    logName={bitacora}
+                    getType={true}
+                    fecha={log["fechaHora"]}
+                  />
+                );
+              })}
+
+              <Text className="p-3 shadow text-xl font-bold pt-4 pb-1 w-max items-left">
+                Revisados
+              </Text>
+              {data[0].map((log) => {
+                console.log(log);
+                const keys = Object.keys(log);
+                const bitacora = keys[keys.length - 1];
+                console.log("BITACORA");
+                console.log(bitacora);
+                console.log(log.estado);
+                console.log(LogsNames[bitacora]);
+
+                return (
+                  <LogRevisionItem
+                    text={log["nombre"]}
+                    destinatedLog={LogsNames[bitacora]}
+                    id={log.id}
+                    logName={bitacora}
+                    getType={true}
+                    fecha={log["fechaHora"]}
+                  />
+                );
+              })}
+            </StyledView>
+          </Background>
+        </StyledView>
+      )}
+    </>
   );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  item: {
-    padding: 20,
-    marginVertical: 8,
-  },
-  title: {
-    fontSize: 20,
-  },
-  subtitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    textTransform: "uppercase",
-    color: "gray",
-    borderBottomWidth: 2,
-    borderBottomColor: "gray",
-    paddingLeft: 20,
-  },
-});
-
-export default LogsScreen;
+}
