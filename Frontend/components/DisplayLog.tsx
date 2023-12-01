@@ -12,6 +12,8 @@ import { GetTableData } from "../constants/GetTableData";
 import DisplayBool from "./DisplayBool";
 import { GetTableFunctions } from "../constants/LogsConstants";
 import { StyleSheet } from "react-native";
+import { LogsUpdateRef } from "../constants/LogsConstants";
+import ModalConfirm from "./Modal";
 
 const StyledTouchableOpacity = styled(TouchableOpacity);
 const StyledView = styled(View);
@@ -20,6 +22,11 @@ const StyledText = styled(Text);
 const DisplayLog = (props, { navigation }) => {
   const [confirmation, setConfirmation] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [form, setForm] = useState(tableJson[props.type]);
+
+  const [submissionStatus, setSubmissionStatus] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const [reqData, setData] = useState([]);
 
   const callAPI = async () => {
@@ -33,6 +40,30 @@ const DisplayLog = (props, { navigation }) => {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const enviarFormulario = async () => {
+    console.log("envianding");
+    console.log(props.type);
+    setForm(tableJson[props.type]);
+    console.log(form);
+    try {
+      const response = await LogsUpdateRef[props.logName](props.id, 1);
+      setSubmissionStatus(response);
+      console.log(response)
+    } catch (error) {
+      console.error("Error al enviar el incidente:", error);
+      setSubmissionStatus({
+        status: "error",
+        message: "Hubo un error al enviar el incidente.",
+      });
+    }
+    setIsModalVisible(true); 
+  };
+
+  const handleHideModal = () => {
+    setIsModalVisible(false);
+    navigation.navigate("OtroComponente");
   };
 
   useEffect(() => {
@@ -118,6 +149,7 @@ const DisplayLog = (props, { navigation }) => {
                     : " bg-gray-400 p-3 rounded-xl shadow px-8 pt-4 pb-4 mb-4 w-4/5 items-center"
                 }
                 disabled={!confirmation}
+                onPress={enviarFormulario}
               >
                 <View>
                   <StyledText className="text-md text-white">
@@ -128,6 +160,12 @@ const DisplayLog = (props, { navigation }) => {
             </StyledView>
           </StyledView>
         </Container>
+        <ModalConfirm
+          result={submissionStatus}
+          isVisible={isModalVisible}
+          setIsModalVisible={setIsModalVisible}
+          handleHideModal={handleHideModal}
+        />
       </Background>
     );
   }
