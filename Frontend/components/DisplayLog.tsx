@@ -45,11 +45,12 @@ const DisplayLog = (props, { navigation }) => {
   const enviarFormulario = async () => {
     console.log("envianding");
     console.log(props.type);
-    setForm(tableJson[props.type]);
-    console.log(form);
     try {
-      const response = await LogsUpdateRef[props.logName](props.id, 1);
+      const response = await LogsUpdateRef[props.logRef](props.id, 1, {});
       setSubmissionStatus(response);
+      console.log("RESPONSE")
+      console.log(props.logRef)
+      console.log(props.id)
       console.log(response)
     } catch (error) {
       console.error("Error al enviar el incidente:", error);
