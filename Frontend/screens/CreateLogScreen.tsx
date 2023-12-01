@@ -73,6 +73,7 @@ export default function CreateLogScreen() {
                     destinatedLog={LogsNames[bitacora]}
                     id = {log.id}
                     logName ={bitacora}
+                    getType = {false}
                   />
                 )
                 }
