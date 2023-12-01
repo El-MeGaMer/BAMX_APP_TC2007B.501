@@ -39,13 +39,9 @@ export const createIncidente = async (req, res) => {
             where: { idRol: 2 }
         })
 
-        console.log(usuariosConMismoId);
-
         const usuarioConMismoId = await prisma.areasUsuario.findFirst({
             where: { idArea: seeArea.id }
         })
-
-        console.log(usuarioConMismoId);
 
         // Makes the link to all the users found with the id related to the role "coordinador"
         // and links them to the notification
@@ -87,7 +83,6 @@ export const createIncidente = async (req, res) => {
                 estado: "noRevisado"
             }
         })
-        console.log(area)
 
         res.json({ status: 'success', message: 'El reporte ha sido enviado' })
 
