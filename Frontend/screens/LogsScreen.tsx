@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { getLogPending } from "../apis/VisualizationApi";
-import Background from "../components/Background";
+import NoScrollBackground from "../components/NoScrollBackground";
+import SelectLogButton from "../components/SelectLogButton";
+import { TableInitialValues } from "../constants/TableInitialValues";
+import { useNavigation } from "@react-navigation/native";
 import Container from "../components/Container";
 import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
@@ -17,33 +26,31 @@ interface LogItem {
   };
 }
 
-class Item extends React.PureComponent<{ item: LogItem }> {
-  render() {
-    const { item } = this.props;
+const Item = ({ item, onPress }) => {
+  const hora = new Date(item.fechaHora);
+  console.log(hora);
+  const ms = hora.getTime();
+  const subsms = 420 * 60000;
+  const horaAjustada = new Date(ms + subsms);
+  console.log(horaAjustada);
 
-    const hora = new Date(item.fechaHora);
-    console.log(hora);
-    const ms = hora.getTime();
-    const subsms = 420 * 60000;
-    const horaAjustada = new Date(ms + subsms);
-    console.log(horaAjustada);
+  const timeAgo = formatDistanceToNow(horaAjustada, {
+    addSuffix: true,
+    locale: es,
+    includeSeconds: false,
+  });
 
-    const timeAgo = formatDistanceToNow(horaAjustada, {
-      addSuffix: true,
-      locale: es,
-      includeSeconds: false,
-    });
-
-    console.log(typeof hora);
-    return (
+  console.log(typeof hora);
+  return (
+    <TouchableOpacity onPress={onPress ? () => onPress(item.id) : undefined}>
       <View style={styles.item}>
         <Text style={styles.title}>{item.nombre}</Text>
         <Text>{timeAgo}</Text>
         {item.areaBitacora && <Text>Área: {item.areaBitacora.nombreArea}</Text>}
       </View>
-    );
-  }
-}
+    </TouchableOpacity>
+  );
+};
 
 const LogsScreen = () => {
   const [data, setData] = useState<LogItem[]>([]);
@@ -64,15 +71,30 @@ const LogsScreen = () => {
   const porRevisar = data.filter((item) => item.estado === "enRevision");
   const revisados = data.filter((item) => item.estado === "revisado");
 
+  const handleItemPress = (itemId) => {
+    console.log(`Clic en el elemento con ID: ${itemId}`);
+    const navigation = useNavigation();
+    navigation.navigate({
+      name: "DisplayLogs",
+      params: {
+        desiredLog: areaBitacora,
+        initialValues: TableInitialValues[destinatedLog],
+        logTitle: text,
+      },
+    } as never);
+  };
+
   return (
-    <Background>
+    <NoScrollBackground>
       <Container>
         <View style={styles.container}>
           <Text style={styles.subtitle}>- Por revisar -</Text>
           <FlatList
             data={porRevisar}
             keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => <Item item={item} />}
+            renderItem={({ item }) => (
+              <Item item={item} onPress={handleItemPress} />
+            )}
           />
           <Text style={styles.subtitle}>- Revisados -</Text>
           <FlatList
@@ -82,7 +104,7 @@ const LogsScreen = () => {
           />
         </View>
       </Container>
-    </Background>
+    </NoScrollBackground>
   );
 };
 
