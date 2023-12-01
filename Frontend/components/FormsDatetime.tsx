@@ -21,7 +21,7 @@ const FormsDatetime = (props) => {
 
   const handleConfirm = (date) => {
     console.warn("A date has been picked: ", date);
-    props.updateJson(props.value, props.id, date);
+    props.updateJson(props.value, props.id, date.toISOString());
     console.log(props.value);
     hideDatePicker();
   };
@@ -32,6 +32,7 @@ const FormsDatetime = (props) => {
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="datetime"
+        themeVariant="light"
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
       />
