@@ -17,7 +17,7 @@ import ExportarBitacoras from "../screens/ExportarBitacora";
 
 const BottomTab = createBottomTabNavigator();
 
-export default function BottomTabNavigator() {
+export default function BottomTabNavigator({route}) {
   const colorScheme = useColorScheme();
 
   // TO CHANGE:
@@ -28,8 +28,12 @@ export default function BottomTabNavigator() {
   // let user = this.props.user
   // user.isAdmin
   let isAdmin: boolean = false;
-  let isAreaSupervisor: boolean = true;
-  let isOpsSupervisor: boolean = false;
+  let isCoordinador: boolean = false;
+  let isSupervisor: boolean = false;
+
+  if (route.params.rol === 1) {isAdmin = true;}
+  else if (route.params.rol === 2) {isCoordinador = true;}
+  else if (route.params.rol === 3) {isSupervisor = true;}
 
   // Function that returns the bottom tab navigator
   return (
@@ -60,7 +64,7 @@ export default function BottomTabNavigator() {
       />
 
       {/* Conditional rendering of Logs screens depending on the user role */}
-      {isAreaSupervisor && (
+      {isCoordinador && (
         <BottomTab.Screen
           name="Logs"
           component={CreateLogsNavigator}

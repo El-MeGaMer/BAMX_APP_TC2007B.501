@@ -14,13 +14,13 @@ import { LogsScreen} from "./BottomTabNavigator"
 import LinkingConfiguration from "./LinkingConfiguration";
 import DisplayLogs from "../components/DisplayLogs";
 
-export default function Navigation({ colorScheme }) {
+export default function Navigation({ colorScheme, userData }) {
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
       theme={colorScheme ===  "dark" ? DefaultTheme : DefaultTheme}
     >
-      <RootNavigator />
+      <RootNavigator userData={userData}/>
     </NavigationContainer>
   );
 }
@@ -29,10 +29,10 @@ export default function Navigation({ colorScheme }) {
 // Read more here: https://reactnavigation.org/docs/modal
 const Stack = createStackNavigator();
 
-function RootNavigator() {
+function RootNavigator({userData}) {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Root" component={BottomTabNavigator} />
+      <Stack.Screen name="Root" component={BottomTabNavigator} initialParams={userData}/>
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
