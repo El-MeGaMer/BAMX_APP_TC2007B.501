@@ -11,7 +11,7 @@ export default function DisplayLogs({ route, navigation, updateFunction}) {
   const { desiredLog, logTitle, logID, nameOfLog, getData } = route.params;
   return (
     <StyledView className="flex-1">
-      {getData? <DisplayLog logRef = {nameOfLog} type={desiredLog} /> :
+      {getData? <DisplayLog logRef = {nameOfLog} type={desiredLog} id = {logID}/> :
       <TwoColLog type={desiredLog} initialValues={TableInitialValues[desiredLog]} title={logTitle} id={logID} logName ={nameOfLog} />
   }
     </StyledView>

@@ -1,4 +1,4 @@
-const URL = "http://192.168.100.51:3000";
+const URL = "http://192.168.1.73:3000";
 
 // Returns all the logs separated by year, week and type
 
