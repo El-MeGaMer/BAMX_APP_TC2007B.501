@@ -32,4 +32,3 @@ app.listen(PORT, HOST, ()=>{
 })
 
 export default app;
->>>>>>>>> Temporary merge branch 2

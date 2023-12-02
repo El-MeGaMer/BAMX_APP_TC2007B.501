@@ -16,9 +16,9 @@ export const updateAlmacen = async (req, res) => {
         const convertedData = {}
         Object.keys(newData).forEach((key) => {
             const value = newData[key]
-            if (value === 1) {
+            if (value === 1 || value === "true") {
                 convertedData[key] = true
-            } else if (value === 0) {
+            } else if (value === 0 || value === "false") {
                 convertedData[key] = false
             } else {
                 convertedData[key] = value // Maintains original values if its not 1 or 0
@@ -90,7 +90,7 @@ export const updateAlmacen = async (req, res) => {
 
             await prisma.bitacoraLimpiezaAlmacenes.update({
                 where: {id: parseInt(idLog)},
-                data: {...convertedData, estado: 'revisado', idUsuarioSupervisor: parseInt(idUser) }
+                data: {estado: 'revisado', idUsuarioSupervisor: parseInt(idUser) }
             })
 
             result = { status: 'success', message: 'La bitacora ha sido aprovada' }
