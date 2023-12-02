@@ -5,6 +5,7 @@ import { Text, View } from "../components/Themed";
 import Container from "../components/Container";
 
 import Background from "../components/Background";
+import LogoutButton from "../components/LogoutButton";
 
 import { styled } from "nativewind";
 
@@ -15,30 +16,9 @@ export default function UserScreen() {
     <StyledView className="flex-1">
       <Background>
         <Container>
-          <Text style={styles.title}>Usuario</Text>
-          <View
-            style={styles.separator}
-            lightColor="#eee"
-            darkColor="rgba(255,255,255,0.1)"
-          />
-          <EditScreenInfo path="/screens/TabOneScreen.tsx" />
+          <LogoutButton></LogoutButton>
         </Container>
       </Background>
     </StyledView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});

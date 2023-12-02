@@ -1,4 +1,9 @@
+// This screen is used to create a new log entry, destinated to
+// users that capture the information
+// role: area_supervisor
+
 import { View, Text } from "../components/Themed";
+import Container from "../components/Container";
 
 import { styled } from "nativewind";
 
@@ -69,7 +74,6 @@ export default function PendingLogScreen() {
                 const bitacora = keys[keys.length - 1];
                 console.log("BITACORA");
                 console.log(bitacora);
-                console.log("ESTADOOOO")
                 console.log(log.estado);
                 console.log(LogsNames[bitacora]);
 
@@ -77,7 +81,7 @@ export default function PendingLogScreen() {
                   <LogRevisionItem
                     text={log["nombre"]}
                     destinatedLog={LogsNames[bitacora]}
-                    id={log["id"]}
+                    id={log.id}
                     logName={bitacora}
                     getType={true}
                     fecha={log["fechaHora"]}
@@ -101,7 +105,7 @@ export default function PendingLogScreen() {
                   <LogRevisionItem
                     text={log["nombre"]}
                     destinatedLog={LogsNames[bitacora]}
-                    id={log["id"]}
+                    id={log.id}
                     logName={bitacora}
                     getType={true}
                     fecha={log["fechaHora"]}

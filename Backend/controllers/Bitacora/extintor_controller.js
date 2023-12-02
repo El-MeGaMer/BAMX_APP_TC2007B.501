@@ -23,6 +23,19 @@ export const updateExtinctor = async (req, res) => {
         //Current date
         const currentDate = new Date()
 
+        const convertedData = {}
+
+        Object.keys(data).forEach((key) => {
+            const value = data[key]
+            if (value === 1 || value === "true") {
+                convertedData[key] = true
+            } else if (value === 0 || value === "false") {
+                convertedData[key] = false
+            } else {
+                convertedData[key] = value // Maintains original values if its not 1 or 0
+            }
+        })
+
         //Extraer valor de estado de bitacora
         const seeBitStatus = await prisma.bitacoraExtintores.findFirst({
             where: { id: Number(idLog)},
@@ -48,7 +61,7 @@ export const updateExtinctor = async (req, res) => {
             //Actualizamos la bitacora
             const update = await prisma.bitacoraExtintores.update({
                 where: {id: Number(idLog)},
-                data: {...data, estado: 'revisado'}
+                data: {...convertedData, estado: 'revisado'}
             })
 
 
