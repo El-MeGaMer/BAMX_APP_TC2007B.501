@@ -9,6 +9,7 @@ import os from 'os'
 const app = express()
 const PORT = 3000
 const interfaces = os.networkInterfaces()
+dotenv.config();
 
 let HOST = ''
 Object.keys(interfaces).forEach((key) => {
