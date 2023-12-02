@@ -1,15 +1,16 @@
 import nodemailer from "nodemailer"
 
 export const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
+    host: "mail.bahermosillo.org.mx",
     port: 465,
     secure: true,
     auth: {
         // TODO: replace `user` and `pass` values from <https://forwardemail.net>
-        user: 'banmxprueba@gmail.com',
-        pass: process.env.MAIL_PASSWORD
+        user: 'bahermos_system@bahermosillo.org.mx',
+        pass: 'bahermos_system'
     }
 });
+
 
 transporter.verify().then(() => {
     console.log('Ready to send emails')
