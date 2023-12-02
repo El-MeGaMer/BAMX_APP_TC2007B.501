@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import express from 'express'
 import router from "./routes/index.js"
 import { sendNotifMail } from './controllers/mails_controller.js'
@@ -7,6 +8,8 @@ import os from 'os'
 const app = express()
 const PORT = 3000
 const interfaces = os.networkInterfaces()
+
+dotenv.config();
 
 let HOST = ''
 Object.keys(interfaces).forEach((key) => {
@@ -29,5 +32,6 @@ initScheduledJobs()
 app.listen(PORT, HOST, ()=>{
     console.log(`Server ready at port ${HOST}:${PORT}`)
 })
+process.env.NODE_TLS_REJECT_UNAUTHORIZED='0'
 
 export default app;
