@@ -3,7 +3,9 @@ import { PrismaClient } from "@prisma/client"
 export const verUser = (req, res) => {
     try{
         const data = req.body
+        const result = {"hola":"hola"}
 
+        res.json(result)
     }
     catch(error){
         if (process.env.NODE_ENV !== 'test') {
