@@ -1,10 +1,8 @@
 import express from 'express'
-import { genOTP, verifyOTP, auth }  from "../controllers/login_controller.js"
+import { verUser }  from "../controllers/login_controller.js"
 
 const router = express.Router();
 
-router.post("/gen_otp", genOTP);
-router.post("/verify_otp", verifyOTP);
-router.post("/auth", auth);
+router.get('/verUser', verUser);
 
 export default router;
