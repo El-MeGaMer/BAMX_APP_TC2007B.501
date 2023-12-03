@@ -44,7 +44,7 @@ export const genOTP = async (req, res) => {
         return;
     }
 
-    const user = await prisma.usuarios.findUnique({
+    const user = await prisma.usuarios.findFirst({
         where: {
             correo: req.body.email
         }
@@ -60,7 +60,7 @@ export const genOTP = async (req, res) => {
     if (user) {
         await prisma.usuarios.update({
             where: {
-                correo: req.body.email
+                id: user.id
             },
             data: {
                 otp: hashedOTP,
@@ -120,7 +120,7 @@ export const verifyOTP = async (req, res) => {
     // Extract OTP from database
     const prisma = new PrismaClient();
 
-    const user = await prisma.usuarios.findUnique({
+    const user = await prisma.usuarios.findFirst({
         where: {
             correo: userEmail
         }
