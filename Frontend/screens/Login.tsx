@@ -31,6 +31,7 @@ function Login() {
   }
 
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("")
 
   return (
     <StyledView className="flex-1" style={{width: "100%",height:"100%", backgroundColor: '#FF9122'}}>
@@ -43,11 +44,18 @@ function Login() {
           Iniciar Sesión
         </StyledText>
           
-          <StyledTextInput
+        <StyledTextInput
             className="bg-white p-3 rounded-xl shadow px-8 pt-4 pb-4 mb-4 w-full max-w-xs mt-3"
             placeholder="Email"
             placeholderTextColor="#A0A0A0"
             onChangeText={(email) => setEmail(email)}
+          />
+
+        <StyledTextInput
+            className="bg-white p-3 rounded-xl shadow px-8 pt-4 pb-4 mb-4 w-full max-w-xs mt-3"
+            placeholder="Contraseña"
+            placeholderTextColor="#A0A0A0"
+            onChangeText={(password) => setPassword(password)}
           />
 
         <StyledTouchableOpacity onPress={forgotEmail}>
@@ -56,6 +64,7 @@ function Login() {
           </StyledText>
         </StyledTouchableOpacity>
         <StyledTouchableOpacity
+          disabled = {!email && !password}
           onPress={onPress}
           className="p-3 rounded-xl shadow px-10 pt-4 pb-4 mb-4 w-full max-w-xs items-center" style={{backgroundColor: '#FB002A'}}
         >
