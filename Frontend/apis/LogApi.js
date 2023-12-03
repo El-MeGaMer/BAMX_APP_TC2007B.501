@@ -33,7 +33,7 @@ export async function CreateIncidente(idUser, area, desc, img) {
 
 // Function to fill Logs for the "Empaque" area
 
-export async function UpdateLogEmpaque(idUser, idLog, body) {
+export async function UpdateLogEmpaque(idLog, idUser, body) {
   const userId = String(idUser);
   const logId = String(idLog);
 
@@ -52,7 +52,7 @@ export async function UpdateLogEmpaque(idUser, idLog, body) {
 
 // Function to fill Logs for the "Almacen" area
 
-export async function UpdateLogAlmacen(idUser, idLog, body) {
+export async function UpdateLogAlmacen(idLog, idUser, body) {
   const userId = String(idUser);
   const logId = String(idLog);
 
@@ -86,7 +86,7 @@ export async function UpdateLogRecibo(idLog, idUser, body) {
     };
     const rawResponse = await fetch(url, options);
     const response = await rawResponse.json();
-    console.log(response);
+    
     return response;
   } catch (error) {
     console.log(error);
@@ -95,18 +95,22 @@ export async function UpdateLogRecibo(idLog, idUser, body) {
 
 // Actualizar Bitacora de Extintores
 export async function updateLogExtintor(idLog, idUser, body) {
-  const url = URL + "/bitacoras/Extintor/" + idLog;
-  const options = {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  };
-  const rawResponse = await fetch(url, options);
-  const response = await rawResponse.json();
-  console.log(JSON.stringify(response));
-}
+  try {
+    const url = URL + "/bitacoras/Extintor/" + idLog;
+    const options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    };
+    const rawResponse = await fetch(url, options);
+    const response = await rawResponse.json();
+    return(response)
+  } catch (error){
+    console.warn(error)
+  }
+  }
 
 // Actualizar Bitacora de Alimento Compartido
 export async function updateLogAlimentoCompartido(idLog, idUser, body) {
@@ -121,7 +125,11 @@ export async function updateLogAlimentoCompartido(idLog, idUser, body) {
   };
   const rawResponse = await fetch(url, options);
   const response = await rawResponse.json();
-  console.log(JSON.stringify(response));
+  console.log("RESPONSE_API_YES");
+    return(response)
+
+  console.log("RESPONSE_API_YES");
+    console.log(body)  
   } catch (error) {
     console.log(error)
   }
@@ -142,6 +150,7 @@ export async function updateLogCribaFV(idLog, idUser, body) {
     const rawResponse = await fetch(url, options);
     const response = await rawResponse.json();
     console.log(JSON.stringify(response));
+    return(response)
   } catch (error) {
     console.log(error);
   }
@@ -149,24 +158,9 @@ export async function updateLogCribaFV(idLog, idUser, body) {
 
 // Actualizar Bitacora de Entrega
 export async function updateLogEntrega(idLog, idUser, body) {
-  const url = URL + "/bitacoras/Entrega/" + idLog + "/" + idUser;
-  const options = {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  };
-  const rawResponse = await fetch(url, options);
-  const response = await rawResponse.json();
-  console.log(JSON.stringify(response));
-}
-
-// Actualizar Bitacora de Temperaturas
-export async function updateLogTemperatura(idLog, idUser, body) {
   try {
-    console.log("tuki");
-    const url = URL + "/bitacoras/Temperatura/" + String(idLog);
+
+    const url = URL + "/bitacoras/Entrega/" + idLog + "/" + idUser;
     const options = {
       method: "PUT",
       headers: {
@@ -177,7 +171,31 @@ export async function updateLogTemperatura(idLog, idUser, body) {
     const rawResponse = await fetch(url, options);
     const response = await rawResponse.json();
     console.log(JSON.stringify(response));
+    console.log("RESPONSE_API_YES");
+    console.log(body)  
+    return(response)
+  } catch (error){
+    console.log(error)
+  }
+}
+
+// Actualizar Bitacora de Temperaturas
+export async function updateLogTemperatura(idLog, idUser, body) {
+  try {
+
+    const url = URL + "/bitacoras/Temperatura/" + idLog;
+    const options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    };
+    const rawResponse = await fetch(url, options);
+    const response = await rawResponse.json();
+    console.log(JSON.stringify(response));
+    return(response)
   } catch (error) {
-    console.log(error);
+    console.warn(error);
   }
 }
