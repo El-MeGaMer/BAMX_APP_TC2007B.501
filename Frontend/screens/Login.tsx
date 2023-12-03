@@ -27,11 +27,11 @@ function Login({ setVerified }) {
   const [errorMessage, setNotification] = useState("");
 
 	// put your ip here if testing
-  const serverIP = "bamxappbeta1-9vnkyt5y.b4a.run" 
+  const serverIP = "192.168.1.64" 
 
   const onPress = () => {
 		// do authentication
-		fetch(`https://${serverIP}/login/gen_otp`, {
+		fetch(`https://${serverIP}:3000/login/gen_otp`, {
 		  method: "POST",
 		  headers: { 
 					"Content-Type": "application/json" 

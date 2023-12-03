@@ -12,10 +12,10 @@ export function useAuth(verified) {
 			let result = await SecureStore.getItemAsync("token");
 
 			// put your ip here if testing
-			const serverIP = "bamxappbeta1-9vnkyt5y.b4a.run" 
+			const serverIP = "192.168.1.64" 
 
 			if (result) {
-				fetch(`https://${serverIP}/login/auth`, {
+				fetch(`https://${serverIP}:3000/login/auth`, {
 					method: "POST",
 					headers: { 
 						"Content-Type": "application/json" 
