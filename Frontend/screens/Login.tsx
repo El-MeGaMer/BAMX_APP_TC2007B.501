@@ -25,6 +25,7 @@ const footer = "../assets/images/footer.png";
 
 function Login({ setVerified }) {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [errorMessage, setNotification] = useState("");
 
   const url = Linking.useURL();
@@ -95,11 +96,17 @@ function Login({ setVerified }) {
         </StyledText>
 		 <StyledText className="text-white font-bold text-md">{ errorMessage }</StyledText>
           
-          <StyledTextInput
+     <StyledTextInput
             className="bg-white p-3 rounded-xl shadow px-8 pt-4 pb-4 mb-4 w-full max-w-xs mt-3"
             placeholder="Email"
             placeholderTextColor="#A0A0A0"
             onChangeText={(email) => setEmail(email)}
+          />
+          <StyledTextInput
+            className="bg-white p-3 rounded-xl shadow px-8 pt-4 pb-4 mb-4 w-full max-w-xs mt-3"
+            placeholder="Contraseña"
+            placeholderTextColor="#A0A0A0"
+            onChangeText={(password) => setPassword(password)}
           />
 
         <StyledTouchableOpacity onPress={forgotEmail}>
@@ -108,6 +115,7 @@ function Login({ setVerified }) {
           </StyledText>
         </StyledTouchableOpacity>
         <StyledTouchableOpacity
+          disabled={!email && !password}
           onPress={onPress}
           className="p-3 rounded-xl shadow px-10 pt-4 pb-4 mb-4 w-full max-w-xs items-center" style={{backgroundColor: '#FB002A'}}
         >
