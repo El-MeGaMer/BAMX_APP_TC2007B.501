@@ -62,6 +62,7 @@ const LogRevisionItem = ({
         {text ? text : "asdsd"}
       </StyledText>
       <StyledText className=" text-lg">{formattedTimeAgo}</StyledText>
+      <StyledText className=" text-lg">{id}</StyledText>
     </StyledTouchableOpacity>
   );
 };

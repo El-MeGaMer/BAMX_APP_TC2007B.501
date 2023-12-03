@@ -72,10 +72,10 @@ export default function PendingLogScreen() {
                 console.log(log);
                 const keys = Object.keys(log);
                 const bitacora = keys[keys.length - 1];
-                console.log("BITACORA");
-                console.log(bitacora);
-                console.log(log.estado);
-                console.log(LogsNames[bitacora]);
+                // console.log("BITACORA");
+                // console.log(log.id);
+                // console.log(log.estado);
+                // console.log(LogsNames[bitacora]);
 
                 return (
                   <LogRevisionItem
@@ -96,10 +96,10 @@ export default function PendingLogScreen() {
                 console.log(log);
                 const keys = Object.keys(log);
                 const bitacora = keys[keys.length - 1];
-                console.log("BITACORA");
-                console.log(bitacora);
-                console.log(log.estado);
-                console.log(LogsNames[bitacora]);
+                // console.log("BITACORA");
+                // console.log(log.id);
+                // console.log(log.estado);
+                // console.log(LogsNames[bitacora]);
 
                 return (
                   <LogRevisionItem

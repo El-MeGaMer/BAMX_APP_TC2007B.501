@@ -22,7 +22,6 @@ const StyledText = styled(Text);
 const DisplayLog = (props, { navigation }) => {
   const [confirmation, setConfirmation] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [form, setForm] = useState(tableJson[props.type]);
 
   const [submissionStatus, setSubmissionStatus] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -32,26 +31,19 @@ const DisplayLog = (props, { navigation }) => {
   const callAPI = async () => {
     try {
       // Gets the function from the LogsConstants file and calls it
-      const response = await GetTableFunctions[props.logRef](1); // TODO: Change the 1 to the actual ID
+      const response = await GetTableFunctions[props.logRef](props.id); // TODO: Change the 1 to the actual ID
       setData(response);
-      console.log(response);
-      console.log(reqData["nombre"]);
       setLoading(false);
     } catch (err) {
-      console.log(err);
+      console.warn("erroe: ", err);
     }
   };
 
   const enviarFormulario = async () => {
-    console.log("envianding");
-    console.log(props.type);
+    console.log("Sending");
     try {
       const response = await LogsUpdateRef[props.logRef](props.id, 1, {});
       setSubmissionStatus(response);
-      console.log("RESPONSE")
-      console.log(props.logRef)
-      console.log(props.id)
-      console.log(response)
     } catch (error) {
       console.error("Error al enviar el incidente:", error);
       setSubmissionStatus({
@@ -69,7 +61,6 @@ const DisplayLog = (props, { navigation }) => {
 
   useEffect(() => {
     callAPI();
-    console.log("reqData");
   }, []);
 
   const tableHead = ["Campo", "Valor"];
@@ -87,7 +78,6 @@ const DisplayLog = (props, { navigation }) => {
     ];
   });
   const logData = tableData;
-  console.log(logData);
 
   if (!loading) {
     return (
