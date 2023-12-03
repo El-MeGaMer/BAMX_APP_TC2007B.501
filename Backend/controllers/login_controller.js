@@ -27,16 +27,8 @@ export const auth = (req, res) => {
 }
 
 export const genOTP = async (req, res) => {
-    // Generate OTP
     try{
-    const OTP = otpGenerator.generate(6,
-        {
-            lowerCaseAlphabets: false,
-            upperCaseAlphabets: false,
-            specialChars: false
-        });
 
-    // Store in database under email and add expiration date of 120s
     const prisma = new PrismaClient();
 
     if (!req.body || !req.body.email || !validator.isEmail(req.body.email)) {
@@ -50,60 +42,16 @@ export const genOTP = async (req, res) => {
         }
     });
 
-    const date = new Date();
-
-    date.setSeconds(date.getSeconds() + 120);
-
-    const salt = bcrypt.genSaltSync(10);
-    const hashedOTP = bcrypt.hashSync(OTP, salt);
-
     if (user) {
-        await prisma.usuarios.update({
-            where: {
-                correo: req.body.email
-            },
-            data: {
-                otp: hashedOTP,
-                expiracion: date
-            }
-        });
+            const token = jwt.sign({ email: req.body.email, rol: user.idRol, id: user.id }, process.env.SECRET, { expiresIn: 100000 });
+            res.status(200).json({ token });
+
     } else {
         res.status(400).json({ error: "Usuario no existe" });
         return;
     }
-
-    // Send email
-
-    // put your ip (with expo port) here if you wish to test. for installed apps maybe 127.0.0.1? or expo link if published
-    const expoIP = "";
-    const emailMessage = `<a href='exp://${expoIP}/?otp=${OTP}&email=${req.body.email}'> Click para iniciar sesion </a>`;
-
-    const transporter = nodemailer.createTransport({
-        host: "mail.bahermosillo.org.mx",
-        port: 465,
-        secure: true,
-        auth: {
-            user: 'bahermos_system@bahermosillo.org.mx',
-            pass: 'bahermos_system'
-        }
-    });
-
-    const mailOptions = {
-        from: "BAMX <bahermos_system@bahermosillo.org.mx>",
-        to: req.body.email,
-        subject: "OTP",
-        html: emailMessage
-    }
-
-    transporter.sendMail(mailOptions, (error) => {
-        if (error) {
-            console.log(error);
-            res.status(400).json({ error: "Error enviando correo. Intente de nuevo." });
-        } else {
-            res.status(200).json({ message: "Success" });
-        }
-    })
 }
+
 catch(error){
     if (process.env.NODE_ENV !== 'test') {
         console.log('Error! Could not add the entry:', error)

@@ -1,4 +1,3 @@
-import * as Linking from "expo-linking";
 import * as SecureStore from 'expo-secure-store';
 import React, { useState } from "react";
 
@@ -27,8 +26,6 @@ function Login({ setVerified }) {
   const [email, setEmail] = useState("");
   const [errorMessage, setNotification] = useState("");
 
-  const url = Linking.useURL();
-
 	// put your ip here if testing
   const serverIP = "" 
 
@@ -42,42 +39,20 @@ function Login({ setVerified }) {
 		  body: JSON.stringify({email})
 		})
 			.then((res) => {
-				if (res.status == 200)
-					setNotification("OTP enviado a su correo");
+				if (res.status == 200) {
+					setNotification("Iniciando Sesión");
+					res.json().then(async (body) => {
+						const token = body.token;
+						await SecureStore.setItemAsync("token", token);
+						setVerified(true);
+					});
+				}
 				else {
 					res.json().then((body) => setNotification(body.error));
 					console.log("Bad request");
 				}
 			});
 	};
-
-  const verifyOTP = (data) => {
-		fetch(`http://${serverIP}:3000/login/verify_otp`, {
-			method: "POST",
-			headers: { 
-				"Content-Type": "application/json" 
-			},
-			body: JSON.stringify({email: data.email, otp: data.otp})
-		})
-			.then((res) => {
-			if (res.status == 200) {
-				res.json().then(async (body) => {
-					const token = body.token;
-					await SecureStore.setItemAsync("token", token);
-					setVerified(true);
-				});
-			}
-		})
-  }
-  
-  if (url)  {
-    const { queryParams } = Linking.parse(url);
-
-	  if (queryParams.otp && queryParams.email) {
-		  verifyOTP(queryParams);
-	  }
-
-  }
 
   const forgotEmail = () =>{
     console.log("Forgot Email Pressed!");
