@@ -27,7 +27,7 @@ function Login({ setVerified }) {
   const [errorMessage, setNotification] = useState("");
 
 	// put your ip here if testing
-  const serverIP = "https://bamxappbeta1-9vnkyt5y.b4a.run/" 
+  const serverIP = "bamxappbeta1-9vnkyt5y.b4a.run" 
 
   const onPress = () => {
 		// do authentication
