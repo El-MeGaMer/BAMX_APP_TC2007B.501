@@ -38,6 +38,11 @@ export const updateAlmacen = async (req, res) => {
 
         if (seeBitStatus.estado == 'noRevisado') {
 
+            await prisma.bitacoraLimpiezaAlmacenes.update({
+                where: {id: parseInt(idLog)},
+                data: {...convertedData, estado: 'enRevision'}
+            })
+
             // Creates notification and update the "Bitacora Empaque" data
             const notification = await prisma.notificaciones.create({
                 data: {
@@ -71,11 +76,6 @@ export const updateAlmacen = async (req, res) => {
             })
     
             await Promise.all(createRelation)
-
-            await prisma.bitacoraLimpiezaAlmacenes.update({
-                where: {id: parseInt(idLog)},
-                data: {...convertedData, estado: 'enRevision'}
-            })
 
             result = { status: 'success', message: 'La bitacora ha sido enviada' }
 

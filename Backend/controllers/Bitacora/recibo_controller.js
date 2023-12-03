@@ -38,6 +38,11 @@ export const updateRecibo = async (req, res) => {
 
         if (seeBitStatus.estado == 'noRevisado') {
 
+            await prisma.bitacoraLimpiezaRecibos.update({
+                where: {id: parseInt(idLog)},
+                data: {...convertedData, estado: 'enRevision'}
+            })
+
             // Creates notification and update the "Bitacora Empaque" data
             const notification = await prisma.notificaciones.create({
                 data: {
@@ -72,11 +77,6 @@ export const updateRecibo = async (req, res) => {
     
             await Promise.all(createRelation)
 
-            await prisma.bitacoraLimpiezaRecibos.update({
-                where: {id: parseInt(idLog)},
-                data: {...convertedData, estado: 'enRevision'}
-            })
-
             result = { status: 'success', message: 'La bitacora ha sido enviada' }
 
             // In order to prevent further changes to the logs itself
@@ -90,7 +90,7 @@ export const updateRecibo = async (req, res) => {
 
             await prisma.bitacoraLimpiezaRecibos.update({
                 where: {id: parseInt(idLog)},
-                data: {...convertedData, estado: 'revisado', idUsuarioSupervisor: parseInt(idUser) }
+                data: { estado: 'revisado', idUsuarioSupervisor: parseInt(idUser) }
             })
 
             result = { status: 'success', message: 'La bitacora ha sido aprovada' }
