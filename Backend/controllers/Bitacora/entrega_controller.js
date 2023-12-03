@@ -108,7 +108,7 @@ export const updateEntrega = async (req, res) => {
 
             const update = await prisma.bitacoraLimpiezaEntregas.update({
                 where: {id: parseInt(idLog)},
-                data: {estado: 'revisado', idUsuarioSupervisor: parseInt(idUser)}
+                data: { estado: 'revisado', idUsuarioSupervisor: parseInt(idUser) }
             })
 
             //res.json(update)

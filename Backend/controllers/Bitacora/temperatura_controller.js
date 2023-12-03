@@ -65,7 +65,7 @@ export const updateTemperaturas = async (req, res) => {
             //Actualizamos la bitacora
             const update = await prisma.bitacoraTemperaturas.update({
                 where: {id: Number(idLog)},
-                data: {...convertedData, estado: 'revisado'}
+                data: {...convertedData, estado: 'enRevision'}
             })
 
 
@@ -152,6 +152,14 @@ export const updateTemperaturas = async (req, res) => {
             
             response = { status: 'success', message: 'La bitacora ha sido enviada' }
 
+        } else if (seeBitStatus.estado == 'enRevision') {
+
+            await prisma.bitacoraTemperaturas.update({
+                where: {id: parseInt(idLog)},
+                data: { estado: 'revisado' }
+            })
+
+            response = { status: 'success', message: 'La bitacora ha sido aprovada' }
         }
 
         res.json(response)
