@@ -28,9 +28,9 @@ export default function BottomTabNavigator() {
   // example
   // let user = this.props.user
   // user.isAdmin
-  let isAdmin: boolean = true;
+  let isAdmin: boolean = false;
   let isAreaSupervisor: boolean = false;
-  let isOpsSupervisor: boolean = false;
+  let isOpsSupervisor: boolean = true;
 
   // Function that returns the bottom tab navigator
   return (
