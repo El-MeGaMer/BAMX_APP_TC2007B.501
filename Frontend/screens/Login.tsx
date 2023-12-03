@@ -31,7 +31,7 @@ function Login({ setVerified }) {
 
   const onPress = () => {
 		// do authentication
-		fetch(`http://${serverIP}/login/gen_otp`, {
+		fetch(`https://${serverIP}/login/gen_otp`, {
 		  method: "POST",
 		  headers: { 
 					"Content-Type": "application/json" 
