@@ -1,4 +1,4 @@
-const URL = "http://192.168.1.73:3000";
+const URL = "https://bamxappbeta1-9vnkyt5y.b4a.run";
 
 // Returns all the logs separated by year, week and type
 
