@@ -68,8 +68,7 @@ export default function PendingLogScreen() {
                 const keys = Object.keys(log);
                 const bitacora = keys[keys.length - 1];
                 console.log("BITACORA");
-                console.log(bitacora);
-                console.log("ESTADOOOO")
+                console.log(log.id);
                 console.log(log.estado);
                 console.log(LogsNames[bitacora]);
 
@@ -77,7 +76,7 @@ export default function PendingLogScreen() {
                   <LogRevisionItem
                     text={log["nombre"]}
                     destinatedLog={LogsNames[bitacora]}
-                    id={log["id"]}
+                    id={log.id}
                     logName={bitacora}
                     getType={true}
                     fecha={log["fechaHora"]}
@@ -92,16 +91,16 @@ export default function PendingLogScreen() {
                 console.log(log);
                 const keys = Object.keys(log);
                 const bitacora = keys[keys.length - 1];
-                console.log("BITACORA");
-                console.log(bitacora);
-                console.log(log.estado);
-                console.log(LogsNames[bitacora]);
+                // console.log("BITACORA");
+                // console.log(bitacora);
+                // console.log(log.estado);
+                // console.log(LogsNames[bitacora]);
 
                 return (
                   <LogRevisionItem
                     text={log["nombre"]}
                     destinatedLog={LogsNames[bitacora]}
-                    id={log["id"]}
+                    id={log.id}
                     logName={bitacora}
                     getType={true}
                     fecha={log["fechaHora"]}
