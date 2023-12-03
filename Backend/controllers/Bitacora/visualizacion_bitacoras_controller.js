@@ -297,7 +297,6 @@ export const getBitacorasExport = async (req, res) => {
 
     try {
         // llamamos la funcion para cada una de las bitacoras
-        const incidentes = bitacotarasExport('area')
         const extintores = bitacotarasExport('areaBitacoraExtintor')
         const alimentosCompartido = bitacotarasExport('areaBitacoraLimpiezaAlimentoCompartido')
         const temperatura = bitacotarasExport('areaBitacoraTemperatura')
@@ -307,7 +306,6 @@ export const getBitacorasExport = async (req, res) => {
         const limpiezaAlmacenes = bitacotarasExport('areaBitacoraLimpiezaAlmacenes')
         const limpiezaEntregas = bitacotarasExport('areaBitacoraLimpiezaEntregas')
 
-        const bitacoraIn = await prisma.bitacoraIncidentes.findMany(incidentes)
         const bitacoraExt = await prisma.bitacoraExtintores.findMany(extintores)
         const bitacoraAliCom = await prisma.bitacoraLimpiezaAlimentoCompartidos.findMany(alimentosCompartido)
         const bitacoraTem = await prisma.bitacoraTemperaturas.findMany(temperatura)
@@ -319,7 +317,6 @@ export const getBitacorasExport = async (req, res) => {
 
         // unimos las bitacoras en un json
         const combinedResult = [
-            ...bitacoraIn,
             ...bitacoraExt,
             ...bitacoraAliCom,
             ...bitacoraTem,

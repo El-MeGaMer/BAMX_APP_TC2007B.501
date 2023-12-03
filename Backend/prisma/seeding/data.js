@@ -75,7 +75,7 @@ for (let i = 0; i < 7; i++) {
 for (let i = 0; i < 7; i++) {
     seedAreasUsuarios.push({
         idUsuario: i + 1,
-        idArea: faker.number.int({ min: 1, max: 7 })
+        idArea: i + 1
     })
 }
 
