@@ -1,5 +1,6 @@
-import dotenv from 'dotenv';
+import dotenv from 'dotenv'
 import express from 'express'
+import bodyParser from 'body-parser'
 import router from "./routes/index.js"
 import { sendNotifMail } from './controllers/mails_controller.js'
 import initScheduledJobs from "./controllers/scheduledActions/cronjobs.js"
@@ -11,18 +12,18 @@ const interfaces = os.networkInterfaces()
 
 dotenv.config();
 
-let HOST = ''
+let HOST = "";
 Object.keys(interfaces).forEach((key) => {
-    interfaces[key].forEach((details) => {
-        if (details.family === 'IPv4' && !details.internal) {
-            HOST = details.address;
-        }
-    });
-})
+  interfaces[key].forEach((details) => {
+    if (details.family === "IPv4" && !details.internal) {
+      HOST = details.address;
+    }
+  });
+});
 
-app.use(express.json())
+app.use(bodyParser.json())
 app.use(
-    express.urlencoded({
+    bodyParser.urlencoded({
         extended: true,
     })
 )
@@ -32,6 +33,5 @@ initScheduledJobs()
 app.listen(PORT, HOST, ()=>{
     console.log(`Server ready at port ${HOST}:${PORT}`)
 })
-process.env.NODE_TLS_REJECT_UNAUTHORIZED='0'
 
 export default app;

@@ -24,7 +24,6 @@
   "dependencies": {
     "@faker-js/faker": "^8.2.0",
     "@prisma/client": "^5.4.2",
-    "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "chai-http": "^4.4.0",
     "date-fns": "^2.30.0",
@@ -34,9 +33,6 @@
     "node-cron": "^3.0.3",
     "nodemailer": "^6.9.7",
     "nodemon": "^3.0.1",
-    "otp-generator": "^4.0.1",
-    "sinon": "^17.0.0",
-    "validate": "^5.2.0",
-    "validator": "^13.11.0"
+    "sinon": "^17.0.0"
   }
 }

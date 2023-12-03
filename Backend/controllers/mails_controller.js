@@ -8,8 +8,12 @@ export const transporter = nodemailer.createTransport({
         // TODO: replace `user` and `pass` values from <https://forwardemail.net>
         user: 'bahermos_system@bahermosillo.org.mx',
         pass: 'bahermos_system'
+    },
+    tls:{
+        rejectUnauthorized: false
     }
 });
+
 
 transporter.verify().then(() => {
     console.log('Ready to send emails')
