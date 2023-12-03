@@ -14,6 +14,8 @@ router.all('*', (req, res) => {
 		status: "Not Found",
 		payload: null
 	})
-})
+});
+
+
 
 export default router

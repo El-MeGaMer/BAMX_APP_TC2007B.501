@@ -9,6 +9,7 @@ import os from 'os'
 const app = express()
 const PORT = 3000
 const interfaces = os.networkInterfaces()
+
 dotenv.config();
 
 let HOST = "";
@@ -32,5 +33,6 @@ initScheduledJobs()
 app.listen(PORT, HOST, ()=>{
     console.log(`Server ready at port ${HOST}:${PORT}`)
 })
+process.env.NODE_TLS_REJECT_UNAUTHORIZED='0'
 
 export default app;
