@@ -44,7 +44,7 @@ export const genOTP = async (req, res) => {
         return;
     }
 
-    const user = await prisma.usuarios.findUnique({
+    const user = await prisma.usuarios.findFirst({
         where: {
             correo: req.body.email
         }
@@ -60,7 +60,7 @@ export const genOTP = async (req, res) => {
     if (user) {
         await prisma.usuarios.update({
             where: {
-                correo: req.body.email
+                id: user.id
             },
             data: {
                 otp: hashedOTP,
@@ -75,9 +75,11 @@ export const genOTP = async (req, res) => {
     // Send email
 
     // put your ip (with expo port) here if you wish to test. for installed apps maybe 127.0.0.1? or expo link if published
-    const expoIP = "";
-    const emailMessage = `<a href='exp://${expoIP}/?otp=${OTP}&email=${req.body.email}'> Click para iniciar sesion </a>`;
+    const expoIP = "blz6qj8.alejandro2002.8081.exp.direct";
+    const emailMessage = `exp://${expoIP}/?otp=${OTP}&email=${req.body.email}`;
+    //const emailMessage = `<a href='exp://${expoIP}/?otp=${OTP}&email=${req.body.email}'> Click para iniciar sesion </a>`;
 
+    console.log(emailMessage)
     const transporter = nodemailer.createTransport({
         host: "mail.bahermosillo.org.mx",
         port: 465,
