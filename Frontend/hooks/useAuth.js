@@ -15,7 +15,7 @@ export function useAuth(verified) {
 			const serverIP = "bamxappbeta1-9vnkyt5y.b4a.run" 
 
 			if (result) {
-				fetch(`http://${serverIP}:3000/login/auth`, {
+				fetch(`http://${serverIP}/login/auth`, {
 					method: "POST",
 					headers: { 
 						"Content-Type": "application/json" 
