@@ -1,9 +1,6 @@
 import { PrismaClient } from "@prisma/client"
-import otpGenerator from "otp-generator"
-import nodemailer from "nodemailer"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
-import bcrypt from "bcrypt"
 import validator from 'validator';
 
 
@@ -36,6 +33,7 @@ export const genOTP = async (req, res) => {
         return;
     }
 
+
     const user = await prisma.usuarios.findUnique({
         where: {
             correo: req.body.email
@@ -52,44 +50,6 @@ export const genOTP = async (req, res) => {
     }
 }
 
-catch(error){
-    if (process.env.NODE_ENV !== 'test') {
-        console.log('Error! Could not add the entry:', error)
-    }
-}
-}
-
-export const verifyOTP = async (req, res) => {
-    try{
-    dotenv.config();
-    const userEmail = req.body.email;
-    const inputOTP = req.body.otp;
-
-    // Extract OTP from database
-    const prisma = new PrismaClient();
-
-    const user = await prisma.usuarios.findUnique({
-        where: {
-            correo: userEmail
-        }
-    });
-
-    if (!user) {
-        res.status(400).json({ error: "User not even registered!" });
-    } else {
-        const OTP = user.otp;
-        const expirationDate = user.expiracion;
-        const currentDate = new Date();
-
-        // Check if OTP is equal to the one in database and has not expired
-        if (!bcrypt.compareSync(inputOTP, OTP) || expirationDate < currentDate) {
-            res.status(400).json({ error: "Invalid OTP" });
-        } else {
-            const token = jwt.sign({ email: userEmail, rol: user.idRol, id: user.id }, process.env.SECRET, { expiresIn: 100000 });
-            res.status(200).json({ token });
-        }
-    }
-}
 catch(error){
     if (process.env.NODE_ENV !== 'test') {
         console.log('Error! Could not add the entry:', error)
