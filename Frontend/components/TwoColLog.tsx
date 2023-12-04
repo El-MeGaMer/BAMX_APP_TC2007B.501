@@ -42,18 +42,14 @@ const TwoColLog = (props, { navigation }) => {
       console.log("Error: ", error)
     }
   };
-
-  console.log(tokenInfo)
+  console.log(tokenInfo.id)
 
   const enviarFormulario = async () => {
     console.log("envianding");
-    console.log(props.type);
     setForm(tableJson[props.type]);
-    console.log(form);
     try {
       const response = await LogsUpdateRef[props.logName](props.id, tokenInfo.id, form);
       setSubmissionStatus(response);
-      console.log(response)
     } catch (error) {
       console.error("Error al enviar el incidente:", error);
       setSubmissionStatus({

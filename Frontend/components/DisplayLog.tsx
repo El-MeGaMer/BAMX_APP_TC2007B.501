@@ -48,8 +48,6 @@ const DisplayLog = (props, { navigation }) => {
     }
   };
 
-  console.log(tokenInfo)
-
   const callAPI = async () => {
     try {
       // Gets the function from the LogsConstants file and calls it

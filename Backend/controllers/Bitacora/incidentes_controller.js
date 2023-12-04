@@ -39,7 +39,7 @@ export const createIncidente = async (req, res) => {
             where: { idRol: 2 }
         })
 
-        const usuarioConMismoId = await prisma.areasUsuario.findFirst({
+        const usuarioConMismoId = await prisma.areasUsuario.findMany({
             where: { idArea: seeArea.id }
         })
 
@@ -63,7 +63,7 @@ export const createIncidente = async (req, res) => {
                 await prisma.notificacionesUsuarios.create({
                 data: {
                     idNotificacion: createNotificacion.id,
-                    idUsuario: usuario.id,
+                    idUsuario: usuario.idUsuario,
                     estado: "noRevisado"
                 }
                 })
