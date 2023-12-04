@@ -4,18 +4,33 @@ import { useEffect, useState } from "react";
 
 import { styled } from "nativewind";
 import { getNotifications } from "../apis/NotificacionesApi";
+import * as SecureStore from 'expo-secure-store';
 
 export const IconI = require("../assets/images/favicon.png");
 
 const StyledView = styled(View);
 
 export default function NotificationScreen() {
-  const [data,setData] = useState([]);
+  const [data, setData] = useState([]);
 
-  async function getNotifs() {
-    const response = await getNotifications(1);
-    setData(response)
-  }
+  const getNotifs = async () => {
+    try {
+      // Obtener el token almacenado desde SecureStore
+      const token = await SecureStore.getItemAsync('token');
+      if (token) {
+
+        const tokenInfo = JSON.parse(token);
+
+        const response = await getNotifications(tokenInfo.id);
+        setData(response);
+      } else {
+        console.log('No se encontró ningún token almacenado.');
+      }
+    } catch (error) {
+      console.error('Error al obtener el token:', error);
+    }
+  };
+  
 
   useEffect(() => {
     getNotifs();

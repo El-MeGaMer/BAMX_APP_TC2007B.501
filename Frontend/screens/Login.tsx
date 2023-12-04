@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import * as SecureStore from 'expo-secure-store';
 
 import {
   StyleSheet,
@@ -39,6 +40,9 @@ function Login({ setLoggedIn, setRole, setId }) {
       async function logIn () {
         const res = await LoginUser(body)
         if (res.status === "success") {
+          const token = JSON.stringify({id: res.id});
+          await SecureStore.setItemAsync("token", token);
+
           setId(res.id)
           setRole(res.rol)
           setLoggedIn(true)
@@ -47,7 +51,6 @@ function Login({ setLoggedIn, setRole, setId }) {
         } else {
           console.log("Request error")
         }
-        console.log(res)
       }
       logIn()
     } else {

@@ -3,10 +3,12 @@ import { View } from "../components/Themed";
 import DropDown from "../components/DropDown";
 import Background from "../components/Background";
 import { styled } from "nativewind";
+import * as SecureStore from 'expo-secure-store';
 
 const StyledView = styled(View);
 
 export default function IncidentScreen() {
+
   return (
     <StyledView className="flex-1">
       <Background>
