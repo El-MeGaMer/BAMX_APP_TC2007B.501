@@ -1,5 +1,5 @@
 
-const URL = "http://localhost:3000"
+const URL = "http://192.168.1.234:3000"
 
 // Create Log for "Incidente" ---------------------------------------
 
