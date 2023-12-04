@@ -1,5 +1,5 @@
 
-const URL = "http://localhost:3000"
+const URL = "https://bamxappbeta1-9vnkyt5y.b4a.run"
 
 // Create Log for "Incidente" ---------------------------------------
 
