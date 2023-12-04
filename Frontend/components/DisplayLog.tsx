@@ -14,6 +14,7 @@ import { GetTableFunctions } from "../constants/LogsConstants";
 import { StyleSheet } from "react-native";
 import { LogsUpdateRef } from "../constants/LogsConstants";
 import ModalConfirm from "./Modal";
+import * as SecureStore from 'expo-secure-store'
 
 const StyledTouchableOpacity = styled(TouchableOpacity);
 const StyledView = styled(View);
@@ -27,6 +28,27 @@ const DisplayLog = (props, { navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const [reqData, setData] = useState([]);
+  const [tokenInfo, setTokenInfo] = useState(null)
+
+  useEffect(() => {
+    obtenerToken();
+  }, []);
+
+  const obtenerToken = async () => {
+    try {
+      const token = await SecureStore.getItemAsync("token");
+      if (token) {
+        const tokenObj = JSON.parse(token);
+        setTokenInfo(tokenObj);
+      } else {
+        console.log('No se encontro ningun token almacenado');
+      }
+    } catch (error) {
+      console.log("Error: ", error)
+    }
+  };
+
+  console.log(tokenInfo)
 
   const callAPI = async () => {
     try {
@@ -42,7 +64,7 @@ const DisplayLog = (props, { navigation }) => {
   const enviarFormulario = async () => {
     console.log("Sending");
     try {
-      const response = await LogsUpdateRef[props.logRef](props.id, 1, {});
+      const response = await LogsUpdateRef[props.logRef](props.id, tokenInfo.id, {});
       setSubmissionStatus(response);
     } catch (error) {
       console.error("Error al enviar el incidente:", error);

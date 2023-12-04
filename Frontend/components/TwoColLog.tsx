@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Row, Rows } from "react-native-table-component";
 import { TableData, tableJson } from "../constants/TableData";
 import Background from "./Background";
@@ -10,6 +10,7 @@ import { LogsUpdateRef } from "../constants/LogsConstants";
 import { StyleSheet } from "react-native";
 import ModalComponent from "./ModalComponent";
 import ModalConfirm from "./Modal";
+import * as SecureStore from 'expo-secure-store'
 
 const StyledTouchableOpacity = styled(TouchableOpacity);
 const StyledView = styled(View);
@@ -22,6 +23,27 @@ const TwoColLog = (props, { navigation }) => {
   const [confirmation, setConfirmation] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [tokenInfo, setTokenInfo] = useState(null)
+
+  useEffect(() => {
+    obtenerToken();
+  }, []);
+
+  const obtenerToken = async () => {
+    try {
+      const token = await SecureStore.getItemAsync("token");
+      if (token) {
+        const tokenObj = JSON.parse(token);
+        setTokenInfo(tokenObj);
+      } else {
+        console.log('No se encontro ningun token almacenado');
+      }
+    } catch (error) {
+      console.log("Error: ", error)
+    }
+  };
+
+  console.log(tokenInfo)
 
   const enviarFormulario = async () => {
     console.log("envianding");
@@ -29,7 +51,7 @@ const TwoColLog = (props, { navigation }) => {
     setForm(tableJson[props.type]);
     console.log(form);
     try {
-      const response = await LogsUpdateRef[props.logName](props.id, 1, form);
+      const response = await LogsUpdateRef[props.logName](props.id, tokenInfo.id, form);
       setSubmissionStatus(response);
       console.log(response)
     } catch (error) {
