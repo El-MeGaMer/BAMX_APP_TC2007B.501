@@ -1,17 +1,32 @@
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient } from "@prisma/client";
 
-export const verUser = (req, res) => {
-    try{
-        const data = req.body
-        const result = {"hola":"hola"}
+const prisma = new PrismaClient();
 
-        res.json(result)
-    }
-    catch(error){
-        if (process.env.NODE_ENV !== 'test') {
-            console.log('Error! Entry not found')
+export const verUser = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        const user = await prisma.usuarios.findFirst({
+            where: {
+                correo: email,
+            },
+        });
+
+        if (user.password !== password || !res) {
+            return res.status(401).json({ status: 'error', message: 'Datos incorrectos' });
         }
-        res.json({ status: 'error', message: 'Hubo un error al mandar la informacion'})
+
+        const rolUser = await prisma.roles.findUnique({
+            where: {
+                id: user.idRol,
+            },
+        });
+
+        return res.status(200).json({ status: 'success', message: 'Usuario autenticado correctamente',  id: user.id, rol: rolUser.nombreRol });
+    } catch (error) {
+        console.error('Error:', error);
+        return res.status(500).json({ status: 'error', message: 'Hubo un error al verificar el usuario' });
     }
-}
+};
+
 
