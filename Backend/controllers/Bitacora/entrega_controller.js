@@ -15,12 +15,23 @@ export const updateEntrega = async (req, res) => {
 
         //Info from route
         const {idLog, idUser} = req.params;
-        const data = req.body;
 
         let response
         
-        //Current date
+        const newData = req.body
         const currentDate = new Date()
+
+        const convertedData = {}
+        Object.keys(newData).forEach((key) => {
+            const value = newData[key]
+            if (value === 1 || value === "true") {
+                convertedData[key] = true
+            } else if (value === 0 || value === "false") {
+                convertedData[key] = false
+            } else {
+                convertedData[key] = value // Maintains original values if its not 1 or 0
+            }
+        })
 
         //Extraer valor de estado de bitacora
         const seeBitStatus = await prisma.bitacoraLimpiezaEntregas.findFirst({
@@ -47,7 +58,7 @@ export const updateEntrega = async (req, res) => {
             //Actualizamos la bitacora
             const update = await prisma.bitacoraLimpiezaEntregas.update({
                 where: {id: parseInt(idLog)},
-                data: {...data, estado: 'enRevision'}
+                data: {...convertedData, estado: 'enRevision'}
             })
 
 
@@ -97,7 +108,7 @@ export const updateEntrega = async (req, res) => {
 
             const update = await prisma.bitacoraLimpiezaEntregas.update({
                 where: {id: parseInt(idLog)},
-                data: {estado: 'revisado', idUsuarioSupervisor: parseInt(idUser)}
+                data: { estado: 'revisado', idUsuarioSupervisor: parseInt(idUser) }
             })
 
             //res.json(update)

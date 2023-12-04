@@ -15,7 +15,7 @@ const StyledPressable = styled(Pressable);
 
 import { useNavigation } from "@react-navigation/native";
 
-const SelectLogButton = ({ text, destinatedLog, id, logName }) => {
+const SelectLogButton = ({ text, destinatedLog, id, logName, getType }) => {
   const navigation = useNavigation();
 
   //
@@ -24,7 +24,7 @@ const SelectLogButton = ({ text, destinatedLog, id, logName }) => {
     console.log(TableInitialValues[destinatedLog])
     navigation.navigate({
       name: "DisplayLogs",
-      params: { desiredLog: destinatedLog, initialValues: TableInitialValues[destinatedLog], logTitle: text, logID: id, nameOfLog: logName, getData: false},
+      params: { desiredLog: destinatedLog, initialValues: TableInitialValues[destinatedLog], logTitle: text, logID: id, nameOfLog: logName, getData: getType},
     } as never);
   };
 

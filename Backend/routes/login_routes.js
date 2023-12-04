@@ -3,6 +3,6 @@ import { verUser }  from "../controllers/login_controller.js"
 
 const router = express.Router();
 
-router.get('/verUser', verUser);
+router.post('/verUser', verUser);
 
 export default router;
