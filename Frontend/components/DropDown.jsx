@@ -6,8 +6,31 @@ import { DB_FILTERS } from '../constants/DB_constants';
 import Container from "./Container";
 import { CreateIncidente } from '../apis/LogApi';
 import ModalConfirm from './Modal';
+import * as SecureStore from 'expo-secure-store';
+
 
 const DropDown = () => {
+    const [tokenInfo, setTokenInfo] = useState(null);
+
+    useEffect(() => {
+        obtenerToken();
+    }, []);
+    
+
+    const obtenerToken = async () => {
+        try {
+            const token = await SecureStore.getItemAsync("token");
+            if (token) {
+            const tokenObj = JSON.parse(token);
+            setTokenInfo(tokenObj);
+            } else {
+            console.log('No se encontró ningún token almacenado.');
+            }
+        } catch (error) {
+            console.error('Error al obtener el token:', error);
+        }
+    };
+
     const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
     const [imageAttachment, setImageAttachment] = useState('');
     const [selectedArea, setSelectedArea] = useState('');
@@ -66,10 +89,9 @@ const DropDown = () => {
     const handleSubmit = async () => {
         if (selectedArea && incidentDescription && imageAttachment !== '') {
             try {
-                const response = await CreateIncidente(1, selectedArea, incidentDescription, imageAttachment);
+                const response = await CreateIncidente(tokenInfo.id, selectedArea, incidentDescription, imageAttachment);
                 setSubmissionStatus(response);
             } catch (error) {
-                console.error('Error al enviar el incidente:', error);
                 setSubmissionStatus({ status: 'error', message: 'Hubo un error al enviar el incidente.' });
             }
         } else {
@@ -79,9 +101,6 @@ const DropDown = () => {
         setSelectedArea('');
         setIncidentDescription('');
         setImageAttachment('');
-        console.log('area: ' + selectedArea);
-        console.log('desc: ' + incidentDescription);
-        console.log('img: ' + imageAttachment);
     };
      
 
