@@ -17,12 +17,17 @@ export default function App() {
   const [Role, setRole] = useState("")
   const [Id, setId] = useState(0)
 
+  const user = {
+    rol: Role,
+    id: Id
+  }
+
   if (!isLoadingComplete) {
     return null;
   } else {
     return (
       <SafeAreaProvider>
-        {LoggedIn && Id != 0 && <Navigation colorScheme={colorScheme} />}
+        {LoggedIn && Id != 0 && <Navigation colorScheme={colorScheme} userData={user} />}
         {!LoggedIn && <Login setLoggedIn={setLoggedIn} setRole={setRole} setId={setId} />}
         <StatusBar />
       </SafeAreaProvider>
