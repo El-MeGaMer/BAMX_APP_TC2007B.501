@@ -18,7 +18,7 @@ import PendingLogScreen from "../screens/PendingLogScreen";
 
 const BottomTab = createBottomTabNavigator();
 
-export default function BottomTabNavigator() {
+export default function BottomTabNavigator({route}) {
   const colorScheme = useColorScheme();
 
   // TO CHANGE:
@@ -28,9 +28,13 @@ export default function BottomTabNavigator() {
   // example
   // let user = this.props.user
   // user.isAdmin
-  let isAdmin: boolean = true;
-  let isAreaSupervisor: boolean = false;
-  let isOpsSupervisor: boolean = false;
+  let isAdmin: boolean = false;
+  let isCoordinador: boolean = false;
+  let isSupervisor: boolean = false;
+
+  if(route.params.rol === "administrador") {isAdmin = true;}
+  else if(route.params.rol === "coordinador") {isCoordinador = true;}
+  else if(route.params.rol === "supervisor") {isSupervisor = true;}
 
   // Function that returns the bottom tab navigator
   return (
@@ -61,7 +65,7 @@ export default function BottomTabNavigator() {
       />
 
       {/* Conditional rendering of Logs screens depending on the user role */}
-      {isAreaSupervisor && (
+      {isCoordinador && (
         <BottomTab.Screen
           name="Logs"
           component={CreateLogsNavigator}
@@ -85,7 +89,7 @@ export default function BottomTabNavigator() {
           }}
         />
       )}
-      {isOpsSupervisor && (
+      {isSupervisor && (
         <BottomTab.Screen
           name="Logs"
           component={ExBitNavigator}
