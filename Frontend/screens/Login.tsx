@@ -40,7 +40,7 @@ function Login({ setLoggedIn, setRole, setId }) {
       async function logIn () {
         const res = await LoginUser(body)
         if (res.status === "success") {
-          const token = JSON.stringify({id: res.id});
+          const token = JSON.stringify({id: res.id, rol: res.rol});
           await SecureStore.setItemAsync("token", token);
 
           setId(res.id)

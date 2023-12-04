@@ -4,18 +4,19 @@ import React from "react";
 import { styled } from "nativewind";
 
 import * as SecureStore from 'expo-secure-store';
+import * as Updates from 'expo-updates';
 
 const StyledTouchableOpacity = styled(TouchableOpacity);
 const StyledText = styled(Text);
 
 import { useNavigation } from "@react-navigation/native";
 
-const LogoutButton = ({ setVerified}) => {
+const LogoutButton = () => {
   const navigation = useNavigation();
   const logout = async () => {
     try {
       await SecureStore.deleteItemAsync('token');
-      navigation.navigate('Login');
+      await Updates.reloadAsync();
       } catch (error) {
       console.error('Error al cerrar sesión:', error.message);
     }

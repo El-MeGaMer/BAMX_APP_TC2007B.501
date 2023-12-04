@@ -24,22 +24,17 @@ export default function App() {
 
   useEffect(() => {
     async function checkLoggedIn() {
-      console.log("use")
-      try {
-        if ( loggedIn === true ) {
-          console.log("verificado")
-          setVerified(true);
-        }
-      } catch (error) {
-        console.error("Error al verificar la autenticación:", error.message);
-      } finally {
-        setLoading(false); 
-      }
+      let result = await SecureStore.getItemAsync("token");
 
+      if (result) {
+        setId(result.id)
+        setRole(result.rol)
+        setLoggedIn(true)
+      }
     }
 
     checkLoggedIn();
-  }, [loggedIn, setVerified]);
+  }, [loggedIn]);
 
   const user = {
     rol: role,
@@ -51,7 +46,7 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        {verified ? (
+        {loggedIn ? (
           <Navigation colorScheme={colorScheme} userData={user} />
         ) : (
           <Login 
