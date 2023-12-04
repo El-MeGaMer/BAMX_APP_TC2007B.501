@@ -6,20 +6,18 @@ import { sendNotifMail } from './controllers/mails_controller.js'
 import initScheduledJobs from "./controllers/scheduledActions/cronjobs.js"
 import os from 'os'
 
-const app = express()
-const PORT = 3000
-const interfaces = os.networkInterfaces()
+const app = express();
+const PORT = 3000;
+const interfaces = os.networkInterfaces();
 
-dotenv.config();
-
-let HOST = ''
+let HOST = "";
 Object.keys(interfaces).forEach((key) => {
-    interfaces[key].forEach((details) => {
-        if (details.family === 'IPv4' && !details.internal) {
-            HOST = details.address;
-        }
-    });
-})
+  interfaces[key].forEach((details) => {
+    if (details.family === "IPv4" && !details.internal) {
+      HOST = details.address;
+    }
+  });
+});
 
 app.use(bodyParser.json())
 app.use(

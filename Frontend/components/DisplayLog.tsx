@@ -12,6 +12,8 @@ import { GetTableData } from "../constants/GetTableData";
 import DisplayBool from "./DisplayBool";
 import { GetTableFunctions } from "../constants/LogsConstants";
 import { StyleSheet } from "react-native";
+import { LogsUpdateRef } from "../constants/LogsConstants";
+import ModalConfirm from "./Modal";
 
 const StyledTouchableOpacity = styled(TouchableOpacity);
 const StyledView = styled(View);
@@ -20,24 +22,45 @@ const StyledText = styled(Text);
 const DisplayLog = (props, { navigation }) => {
   const [confirmation, setConfirmation] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const [submissionStatus, setSubmissionStatus] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const [reqData, setData] = useState([]);
 
   const callAPI = async () => {
     try {
       // Gets the function from the LogsConstants file and calls it
-      const response = await GetTableFunctions[props.logRef](1); // TODO: Change the 1 to the actual ID
+      const response = await GetTableFunctions[props.logRef](props.id); // TODO: Change the 1 to the actual ID
       setData(response);
-      console.log(response);
-      console.log(reqData["nombre"]);
       setLoading(false);
     } catch (err) {
-      console.log(err);
+      console.warn("erroe: ", err);
     }
+  };
+
+  const enviarFormulario = async () => {
+    console.log("Sending");
+    try {
+      const response = await LogsUpdateRef[props.logRef](props.id, 1, {});
+      setSubmissionStatus(response);
+    } catch (error) {
+      console.error("Error al enviar el incidente:", error);
+      setSubmissionStatus({
+        status: "error",
+        message: "Hubo un error al enviar el incidente.",
+      });
+    }
+    setIsModalVisible(true); 
+  };
+
+  const handleHideModal = () => {
+    setIsModalVisible(false);
+    navigation.navigate("OtroComponente");
   };
 
   useEffect(() => {
     callAPI();
-    console.log("reqData");
   }, []);
 
   const tableHead = ["Campo", "Valor"];
@@ -55,7 +78,6 @@ const DisplayLog = (props, { navigation }) => {
     ];
   });
   const logData = tableData;
-  console.log(logData);
 
   if (!loading) {
     return (
@@ -118,6 +140,7 @@ const DisplayLog = (props, { navigation }) => {
                     : " bg-gray-400 p-3 rounded-xl shadow px-8 pt-4 pb-4 mb-4 w-4/5 items-center"
                 }
                 disabled={!confirmation}
+                onPress={enviarFormulario}
               >
                 <View>
                   <StyledText className="text-md text-white">
@@ -128,6 +151,12 @@ const DisplayLog = (props, { navigation }) => {
             </StyledView>
           </StyledView>
         </Container>
+        <ModalConfirm
+          result={submissionStatus}
+          isVisible={isModalVisible}
+          setIsModalVisible={setIsModalVisible}
+          handleHideModal={handleHideModal}
+        />
       </Background>
     );
   }

@@ -22,9 +22,21 @@ export const updateCribaFV = async (req, res) => {
         //Current date
         const currentDate = new Date()
 
-        //Extraer valor de estado de bitacora
+        const convertedData = {}
+
+        Object.keys(data).forEach((key) => {
+            const value = data[key]
+            if (value === 1 || value === "true") {
+                convertedData[key] = true
+            } else if (value === 0 || value === "false") {
+                convertedData[key] = false
+            } else {
+                convertedData[key] = value // Maintains original values if its not 1 or 0
+            }
+        })
+
         const seeBitStatus = await prisma.bitacoraLimpiezaCribasFV.findFirst({
-            where: { id: parseInt(idLog)},
+            where: { id: parseInt(idLog) },
             select:{
                 estado: true
             }
@@ -47,7 +59,7 @@ export const updateCribaFV = async (req, res) => {
             //Actualizamos la bitacora
             const update = await prisma.bitacoraLimpiezaCribasFV.update({
                 where: {id: parseInt(idLog)},
-                data: {...data, estado: 'enRevision'}
+                data: {...convertedData, estado: 'enRevision'}
             })
 
 

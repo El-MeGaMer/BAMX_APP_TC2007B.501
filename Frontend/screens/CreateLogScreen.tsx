@@ -71,8 +71,9 @@ export default function CreateLogScreen() {
                   <SelectLogButton
                     text={log["nombre"]}
                     destinatedLog={LogsNames[bitacora]}
-                    id = {log.id}
+                    id = {log["id"]}
                     logName ={bitacora}
+                    getType = {false}
                   />
                 )
                 }

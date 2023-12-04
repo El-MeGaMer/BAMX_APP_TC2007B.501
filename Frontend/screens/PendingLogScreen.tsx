@@ -1,4 +1,9 @@
+// This screen is used to create a new log entry, destinated to
+// users that capture the information
+// role: area_supervisor
+
 import { View, Text } from "../components/Themed";
+import Container from "../components/Container";
 
 import { styled } from "nativewind";
 
@@ -67,10 +72,10 @@ export default function PendingLogScreen() {
                 console.log(log);
                 const keys = Object.keys(log);
                 const bitacora = keys[keys.length - 1];
-                console.log("BITACORA");
-                console.log(log.id);
-                console.log(log.estado);
-                console.log(LogsNames[bitacora]);
+                // console.log("BITACORA");
+                // console.log(log.id);
+                // console.log(log.estado);
+                // console.log(LogsNames[bitacora]);
 
                 return (
                   <LogRevisionItem
@@ -92,7 +97,7 @@ export default function PendingLogScreen() {
                 const keys = Object.keys(log);
                 const bitacora = keys[keys.length - 1];
                 // console.log("BITACORA");
-                // console.log(bitacora);
+                // console.log(log.id);
                 // console.log(log.estado);
                 // console.log(LogsNames[bitacora]);
 
