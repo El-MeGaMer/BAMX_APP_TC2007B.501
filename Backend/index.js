@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import express from 'express'
+import bodyParser from 'body-parser'
 import router from "./routes/index.js"
 import { sendNotifMail } from './controllers/mails_controller.js'
 import initScheduledJobs from "./controllers/scheduledActions/cronjobs.js"
@@ -20,9 +21,9 @@ Object.keys(interfaces).forEach((key) => {
     });
 })
 
-app.use(express.json())
+app.use(bodyParser.json())
 app.use(
-    express.urlencoded({
+    bodyParser.urlencoded({
         extended: true,
     })
 )
