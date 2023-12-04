@@ -42,7 +42,6 @@ const TwoColLog = (props, { navigation }) => {
       console.log("Error: ", error)
     }
   };
-  console.log(tokenInfo.id)
 
   const enviarFormulario = async () => {
     console.log("envianding");
