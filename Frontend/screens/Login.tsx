@@ -11,6 +11,8 @@ import {
 
 import { styled } from "nativewind";
 
+import { LoginUser } from "../apis/loginApi";
+
 const StyledView = styled(View);
 const StyledText = styled(Text);
 const StyledTextInput = styled(TextInput);
@@ -21,7 +23,7 @@ const backgroundlogo = "../assets/images/Logo.png";
 const footer = "../assets/images/footer.png";
 
 
-function Login({ setVerified }) {
+function Login({ setLoggedIn, setRole, setId }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setNotification] = useState("");
@@ -32,6 +34,29 @@ function Login({ setVerified }) {
   const onPress = () => {
     // do authentication
     console.log("Login Pressed!");
+    if (email !== "" && password !== "") {
+      const body = {
+        email: email,
+        password: password
+      }
+      async function logIn () {
+        const res = await LoginUser(body)
+        if (res.status === "success") {
+          setId(res.id)
+          setRole(res.rol)
+          setLoggedIn(true)
+        } else if (res.status === "error") {
+          console.log(res.message)
+        } else {
+          console.log("Request error")
+        }
+        console.log(res)
+      }
+      logIn()
+    } else {
+      console.log("Campos incompletos!")
+    }
+    
   };
 
   const forgotEmail = () =>{
