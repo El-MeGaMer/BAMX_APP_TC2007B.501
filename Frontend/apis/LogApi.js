@@ -1,5 +1,5 @@
 
-const URL = "https://bamxappbeta1-9vnkyt5y.b4a.run"
+const URL = "http://192.168.1.234:3000"
 
 // Create Log for "Incidente" ---------------------------------------
 

@@ -28,9 +28,6 @@ function Login({ setLoggedIn, setRole, setId }) {
   const [password, setPassword] = useState("");
   const [errorMessage, setNotification] = useState("");
 
-	// put your ip here if testing
-  const serverIP = "" 
-
   const onPress = () => {
     // do authentication
     console.log("Login Pressed!");

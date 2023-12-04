@@ -1,20 +1,24 @@
-import { Text, View, TouchableOpacity, Pressable } from "react-native";
-import React, { Component } from "react";
+import { Text, TouchableOpacity } from "react-native";
+import React from "react";
 
 import { styled } from "nativewind";
 
-import { TableInitialValues } from "../constants/TableInitialValues";
+import * as SecureStore from 'expo-secure-store';
 
-const StyledView = styled(View);
 const StyledTouchableOpacity = styled(TouchableOpacity);
 const StyledText = styled(Text);
-const StyledPressable = styled(Pressable);
 
 import { useNavigation } from "@react-navigation/native";
 
-const LogoutButton = () => {
-  const logout = () => {
-    console.log("Logged Out!");
+const LogoutButton = ({ setVerified}) => {
+  const navigation = useNavigation();
+  const logout = async () => {
+    try {
+      await SecureStore.deleteItemAsync('token');
+      navigation.navigate('Login');
+      } catch (error) {
+      console.error('Error al cerrar sesión:', error.message);
+    }
   };
 
   return (

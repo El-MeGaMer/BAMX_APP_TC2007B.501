@@ -1,25 +1,49 @@
 import "react-native-gesture-handler";
+import * as SecureStore from 'expo-secure-store';
 
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { useLoadedAssets } from "./hooks/useLoadedAssets";
-import Navigation from "./navigation";
 import { useColorScheme } from "react-native";
+import { useState, useEffect } from "react";
+
+import Navigation from "./navigation";
 
 import Login from "./screens/Login";
-import { useState } from "react";
 
 export default function App() {
+  const [verified, setVerified] = useState(false);
+  const [loading, setLoading] = useState(true); 
   const isLoadingComplete = useLoadedAssets();
   const colorScheme = useColorScheme();
-  const [LoggedIn, setLoggedIn] = useState(false)
-  const [Role, setRole] = useState("")
-  const [Id, setId] = useState(0)
+
+  const [role, setRole] = useState('');
+  const [id, setId] = useState('');
+  const [loggedIn, setLoggedIn] = useState('');
+
+  useEffect(() => {
+    async function checkLoggedIn() {
+      console.log("use")
+      try {
+        if ( loggedIn === true ) {
+          console.log("verificado")
+          setVerified(true);
+        }
+      } catch (error) {
+        console.error("Error al verificar la autenticación:", error.message);
+      } finally {
+        setLoading(false); 
+      }
+
+    }
+
+    checkLoggedIn();
+  }, [loggedIn, setVerified]);
 
   const user = {
-    rol: Role,
-    id: Id
+    rol: role,
+    id: id
   }
 
   if (!isLoadingComplete) {
@@ -27,8 +51,15 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        {LoggedIn && Id != 0 && <Navigation colorScheme={colorScheme} userData={user} />}
-        {!LoggedIn && <Login setLoggedIn={setLoggedIn} setRole={setRole} setId={setId} />}
+        {verified ? (
+          <Navigation colorScheme={colorScheme} userData={user} />
+        ) : (
+          <Login 
+            setLoggedIn={setLoggedIn}
+            setRole={setRole}
+            setId={setId} 
+          />
+        )}
         <StatusBar />
       </SafeAreaProvider>
     );
