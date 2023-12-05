@@ -70,7 +70,7 @@ export default function BottomTabNavigator({ route }) {
       />
 
       {/* Conditional rendering of Logs screens depending on the user role */}
-      {isCoordinador && (
+      {isSupervisor && (
         <BottomTab.Screen
           name="Logs"
           component={CreateLogsNavigator}
@@ -82,7 +82,7 @@ export default function BottomTabNavigator({ route }) {
           }}
         />
       )}
-      {isAdmin && (
+      {isCoordinador && (
         <BottomTab.Screen
           name="Logs"
           component={LogsNavigator}
@@ -94,7 +94,7 @@ export default function BottomTabNavigator({ route }) {
           }}
         />
       )}
-      {isSupervisor && (
+      {isAdmin && (
         <BottomTab.Screen
           name="Logs"
           component={ExBitNavigator}
