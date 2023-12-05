@@ -15,11 +15,16 @@ import NotificationScreen from "../screens/NotificationScreen";
 import CreateLogScreen from "../screens/CreateLogScreen";
 import ExportarBitacoras from "../screens/ExportarBitacora";
 import PendingLogScreen from "../screens/PendingLogScreen";
+import * as SecureStore from 'expo-secure-store';
+import { useEffect } from "react";
 
 const BottomTab = createBottomTabNavigator();
 
-export default function BottomTabNavigator({route}) {
+export default function BottomTabNavigator({ route }) {
+  const { userData, setLoggedIn } = route.params;
   const colorScheme = useColorScheme();
+
+  console.log(userData)
 
   // TO CHANGE:
   // Set user role
@@ -32,9 +37,9 @@ export default function BottomTabNavigator({route}) {
   let isCoordinador: boolean = false;
   let isSupervisor: boolean = false;
 
-  if(route.params.rol === "administrador") {isAdmin = true;}
-  else if(route.params.rol === "coordinador") {isCoordinador = true;}
-  else if(route.params.rol === "supervisor") {isSupervisor = true;}
+  if(userData.rol === "administrador") {isAdmin = true;}
+  else if(userData.rol === "coordinador") {isCoordinador = true;}
+  else if(userData.rol === "supervisor") {isSupervisor = true;}
 
   // Function that returns the bottom tab navigator
   return (
@@ -106,6 +111,7 @@ export default function BottomTabNavigator({route}) {
       <BottomTab.Screen
         name="User"
         component={UserNavigator}
+        initialParams={{ setLoggedIn }}
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => (
@@ -353,7 +359,7 @@ function CreateLogsNavigator({ navigation }) {
 
 const UserStack = createStackNavigator();
 
-function UserNavigator({ navigation }) {
+function UserNavigator({ navigation, route }) {
   return (
     <UserStack.Navigator
       screenOptions={{
@@ -385,6 +391,7 @@ function UserNavigator({ navigation }) {
             </TouchableOpacity>
           ),
         }}
+        initialParams={{ setLoggedIn: route.params.setLoggedIn }}
       />
       <UserStack.Screen
         name="NotificationUser"

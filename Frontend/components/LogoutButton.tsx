@@ -9,14 +9,12 @@ import * as Updates from 'expo-updates';
 const StyledTouchableOpacity = styled(TouchableOpacity);
 const StyledText = styled(Text);
 
-import { useNavigation } from "@react-navigation/native";
+const LogoutButton = ({ setLoggedIn }) => {
 
-const LogoutButton = () => {
-  const navigation = useNavigation();
   const logout = async () => {
     try {
       await SecureStore.deleteItemAsync('token');
-      await Updates.reloadAsync();
+      setLoggedIn(false);
       } catch (error) {
       console.error('Error al cerrar sesión:', error.message);
     }

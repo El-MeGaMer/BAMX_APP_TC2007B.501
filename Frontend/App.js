@@ -13,8 +13,6 @@ import Navigation from "./navigation";
 import Login from "./screens/Login";
 
 export default function App() {
-  const [verified, setVerified] = useState(false);
-  const [loading, setLoading] = useState(true); 
   const isLoadingComplete = useLoadedAssets();
   const colorScheme = useColorScheme();
 
@@ -25,11 +23,10 @@ export default function App() {
   useEffect(() => {
     async function checkLoggedIn() {
       let result = await SecureStore.getItemAsync("token");
-
-      if (result) {
+      console.log(result)
+      if (loggedIn === true) {
         setId(result.id)
         setRole(result.rol)
-        setLoggedIn(true)
       }
     }
 
@@ -47,7 +44,7 @@ export default function App() {
     return (
       <SafeAreaProvider>
         {loggedIn ? (
-          <Navigation colorScheme={colorScheme} userData={user} />
+          <Navigation colorScheme={colorScheme} userData={user} setLoggedIn={setLoggedIn}/>
         ) : (
           <Login 
             setLoggedIn={setLoggedIn}
