@@ -92,8 +92,8 @@ export const TableInitialValues = {
     seguro: false,
     etiquetas: false,
     holograma: false,
-    ultimaRevision: 0,
-    proximaRecarga: 0,
-    observaciones: 0,
+    ultimaRevision: "",
+    proximaRecarga: "",
+    observaciones: "",
   },
 };

@@ -9,6 +9,7 @@ import { TableInitialValues } from "./TableInitialValues";
 import { LogsConstants, LogsNames } from "./LogsConstants";
 import FormsText from "../components/FormsText";
 import FormsNumeric from "../components/FormsNumeric";
+import FormsDatetime from "../components/FormsDatetime";
 
 export const tableJson = TableInitialValues;
 
@@ -38,6 +39,15 @@ const inputElement = (area: string, key: string, inputType: string) =>
       id={key}
       updateJson={jsonUpdate}
       type={inputType}
+    />
+  );
+
+  const dateElement = (area: string, key: string) =>
+  (
+    <FormsDatetime
+    value={tableJson[area]}
+    id={key}
+    updateJson={jsonUpdate}
     />
   );
 
@@ -555,18 +565,16 @@ export const TableData = {
       ],
       [
         "Última Revisión",
-        inputElement(
+        dateElement(
           LogsNames.areaBitacoraExtintor,
-          LogsConstants.BITACORA_EXTINTORES.ULTIMA_REVISION,
-          "numeric"
+          LogsConstants.BITACORA_EXTINTORES.ULTIMA_REVISION
         ),
       ],
       [
         "Próxima Recarga",
-        inputElement(
+        dateElement(
           LogsNames.areaBitacoraExtintor,
-          LogsConstants.BITACORA_EXTINTORES.PROXIMA_RECARGA,
-          "numeric"
+          LogsConstants.BITACORA_EXTINTORES.PROXIMA_RECARGA
         ),
       ],
       ["Observaciones"],

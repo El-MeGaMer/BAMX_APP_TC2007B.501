@@ -21,6 +21,19 @@ export const updateAlimentoCompartido = async (req, res) => {
         //Current date
         const currentDate = new Date()
 
+        const convertedData = {}
+
+        Object.keys(data).forEach((key) => {
+            const value = data[key]
+            if (value === 1 || value === "true") {
+                convertedData[key] = true
+            } else if (value === 0 || value === "false") {
+                convertedData[key] = false
+            } else {
+                convertedData[key] = value // Maintains original values if its not 1 or 0
+            }
+        })
+
         //Extraer valor de estado de bitacora
         const seeBitStatus = await prisma.bitacoraLimpiezaAlimentoCompartidos.findFirst({
             where: { id: parseInt(idLog)},
@@ -46,7 +59,7 @@ export const updateAlimentoCompartido = async (req, res) => {
             //Actualizamos la bitacora
             const update = await prisma.bitacoraLimpiezaAlimentoCompartidos.update({
                 where: {id: parseInt(idLog)},
-                data: {...data, estado: 'enRevision'}
+                data: {...convertedData, estado: 'enRevision'}
             })
 
 

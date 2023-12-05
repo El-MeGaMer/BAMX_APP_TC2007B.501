@@ -14,26 +14,36 @@ import UserScreen from "../screens/UserScreen";
 import NotificationScreen from "../screens/NotificationScreen";
 import CreateLogScreen from "../screens/CreateLogScreen";
 import ExportarBitacoras from "../screens/ExportarBitacora";
+import PendingLogScreen from "../screens/PendingLogScreen";
+import * as SecureStore from 'expo-secure-store';
+import { useEffect } from "react";
 
 const BottomTab = createBottomTabNavigator();
 
-export default function BottomTabNavigator() {
+export default function BottomTabNavigator({ route }) {
+  const { userData, setLoggedIn } = route.params;
   const colorScheme = useColorScheme();
 
+  console.log(userData)
+
   // TO CHANGE:
-  // Set user role 
+  // Set user role
   // this needs to be changed to a global variable that will be used in props
   // to determine the role of the user
   // example
   // let user = this.props.user
   // user.isAdmin
   let isAdmin: boolean = false;
-  let isAreaSupervisor: boolean = true;
-  let isOpsSupervisor: boolean = false;
+  let isCoordinador: boolean = false;
+  let isSupervisor: boolean = false;
+
+  if(userData.rol === "administrador") {isAdmin = true;}
+  else if(userData.rol === "coordinador") {isCoordinador = true;}
+  else if(userData.rol === "supervisor") {isSupervisor = true;}
 
   // Function that returns the bottom tab navigator
   return (
-    <BottomTab.Navigator 
+    <BottomTab.Navigator
       initialRouteName="Home"
       screenOptions={{ tabBarActiveTintColor: Colors[colorScheme].tint }}
     >
@@ -60,7 +70,7 @@ export default function BottomTabNavigator() {
       />
 
       {/* Conditional rendering of Logs screens depending on the user role */}
-      {isAreaSupervisor && (
+      {isSupervisor && (
         <BottomTab.Screen
           name="Logs"
           component={CreateLogsNavigator}
@@ -72,7 +82,7 @@ export default function BottomTabNavigator() {
           }}
         />
       )}
-      {isAdmin && (
+      {isCoordinador && (
         <BottomTab.Screen
           name="Logs"
           component={LogsNavigator}
@@ -84,7 +94,7 @@ export default function BottomTabNavigator() {
           }}
         />
       )}
-      {isOpsSupervisor && (
+      {isAdmin && (
         <BottomTab.Screen
           name="Logs"
           component={ExBitNavigator}
@@ -101,6 +111,7 @@ export default function BottomTabNavigator() {
       <BottomTab.Screen
         name="User"
         component={UserNavigator}
+        initialParams={{ setLoggedIn }}
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => (
@@ -124,7 +135,7 @@ function TabBarIcon(props) {
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const HomeStack = createStackNavigator();
 
-function HomeNavigator({navigation}) {
+function HomeNavigator({ navigation }) {
   return (
     <HomeStack.Navigator
       screenOptions={{
@@ -149,7 +160,7 @@ function HomeNavigator({navigation}) {
             <TouchableOpacity
               style={{ marginRight: 15 }}
               onPress={() => {
-                navigation.navigate("NotificationHome")
+                navigation.navigate("NotificationHome");
               }}
             >
               <TabBarIcon name="bell-outline" color="white" />
@@ -166,7 +177,7 @@ function HomeNavigator({navigation}) {
             <TouchableOpacity
               style={{ marginLeft: 15 }}
               onPress={() => {
-                navigation.navigate("HomeScreen")
+                navigation.navigate("HomeScreen");
               }}
             >
               <TabBarIcon name="arrow-left" color="white" />
@@ -180,7 +191,7 @@ function HomeNavigator({navigation}) {
 
 const IncidentStack = createStackNavigator();
 
-function IncidentNavigator({navigation}) {
+function IncidentNavigator({ navigation }) {
   return (
     <IncidentStack.Navigator
       screenOptions={{
@@ -205,7 +216,7 @@ function IncidentNavigator({navigation}) {
             <TouchableOpacity
               style={{ marginRight: 15 }}
               onPress={() => {
-                navigation.navigate("NotificationIncident")
+                navigation.navigate("NotificationIncident");
               }}
             >
               <TabBarIcon name="bell-outline" color="white" />
@@ -222,7 +233,7 @@ function IncidentNavigator({navigation}) {
             <TouchableOpacity
               style={{ marginLeft: 15 }}
               onPress={() => {
-                navigation.navigate("IncidentScreen")
+                navigation.navigate("IncidentScreen");
               }}
             >
               <TabBarIcon name="arrow-left" color="white" />
@@ -236,7 +247,7 @@ function IncidentNavigator({navigation}) {
 
 const LogsStack = createStackNavigator();
 
-function LogsNavigator({navigation}) {
+function LogsNavigator({ navigation }) {
   return (
     <LogsStack.Navigator
       screenOptions={{
@@ -261,7 +272,7 @@ function LogsNavigator({navigation}) {
             <TouchableOpacity
               style={{ marginRight: 15 }}
               onPress={() => {
-                navigation.navigate("NotificationLogs")
+                navigation.navigate("NotificationLogs");
               }}
             >
               <TabBarIcon name="bell-outline" color="white" />
@@ -278,7 +289,7 @@ function LogsNavigator({navigation}) {
             <TouchableOpacity
               style={{ marginLeft: 15 }}
               onPress={() => {
-                navigation.navigate("LogsScreen")
+                navigation.navigate("LogsScreen");
               }}
             >
               <TabBarIcon name="arrow-left" color="white" />
@@ -292,7 +303,7 @@ function LogsNavigator({navigation}) {
 
 const CreateLogStack = createStackNavigator();
 
-function CreateLogsNavigator({navigation}) {
+function CreateLogsNavigator({ navigation }) {
   return (
     <CreateLogStack.Navigator
       screenOptions={{
@@ -317,7 +328,7 @@ function CreateLogsNavigator({navigation}) {
             <TouchableOpacity
               style={{ marginRight: 15 }}
               onPress={() => {
-                navigation.navigate("NotificationCreateLogs")
+                navigation.navigate("NotificationCreateLogs");
               }}
             >
               <TabBarIcon name="bell-outline" color="white" />
@@ -334,7 +345,7 @@ function CreateLogsNavigator({navigation}) {
             <TouchableOpacity
               style={{ marginLeft: 15 }}
               onPress={() => {
-                navigation.navigate("CreateLogScreen")
+                navigation.navigate("CreateLogScreen");
               }}
             >
               <TabBarIcon name="arrow-left" color="white" />
@@ -348,7 +359,7 @@ function CreateLogsNavigator({navigation}) {
 
 const UserStack = createStackNavigator();
 
-function UserNavigator({navigation}) {
+function UserNavigator({ navigation, route }) {
   return (
     <UserStack.Navigator
       screenOptions={{
@@ -373,13 +384,14 @@ function UserNavigator({navigation}) {
             <TouchableOpacity
               style={{ marginRight: 15 }}
               onPress={() => {
-                navigation.navigate("NotificationUser")
+                navigation.navigate("NotificationUser");
               }}
             >
               <TabBarIcon name="bell-outline" color="white" />
             </TouchableOpacity>
           ),
         }}
+        initialParams={{ setLoggedIn: route.params.setLoggedIn }}
       />
       <UserStack.Screen
         name="NotificationUser"
@@ -390,7 +402,7 @@ function UserNavigator({navigation}) {
             <TouchableOpacity
               style={{ marginLeft: 15 }}
               onPress={() => {
-                navigation.navigate("UserScreen")
+                navigation.navigate("UserScreen");
               }}
             >
               <TabBarIcon name="arrow-left" color="white" />

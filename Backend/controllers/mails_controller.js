@@ -7,7 +7,10 @@ export const transporter = nodemailer.createTransport({
     auth: {
         // TODO: replace `user` and `pass` values from <https://forwardemail.net>
         user: 'bahermos_system@bahermosillo.org.mx',
-        pass: process.env.MAIL_PASSWORD
+        pass: 'bahermos_system'
+    },
+    tls:{
+        rejectUnauthorized: false
     }
 });
 
