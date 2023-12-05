@@ -1,4 +1,4 @@
-const URL = "https://bamxapp-0yl3im8t.b4a.run/"
+const URL = "https://bamxapp-0yl3im8t.b4a.run"
 
 // Create Log for "Incidente" ---------------------------------------
 
